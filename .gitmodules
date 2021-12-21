@@ -1,0 +1,12 @@
+[submodule "of_core_darwin"]
+	path = of_core_darwin
+	url = git@github.com:connectedway/of_core_darwin.git
+[submodule "of_core_cheap"]
+	path = of_core_cheap
+	url = git@github.com:connectedway/of_core_cheap.git
+[submodule "of_core_binheap"]
+	path = of_core_binheap
+	url = git@github.com:connectedway/of_core_binheap.git
+[submodule "of_core"]
+	path = of_core
+	url = git@github.com:connectedway/of_core.git
