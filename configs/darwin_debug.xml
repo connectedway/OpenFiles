@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<of_core version="0.0">
+  <devicename>localhost</devicename>
+  <uuid>00000000-0000-0000-0000-000000000000</uuid>
+  <description>Open Files</description>
+  <ip>
+    <autoip>no</autoip>
+    <interfaces>
+      <config>auto</config>
+    </interfaces>
+    <dnslist></dnslist>
+  </ip>
+  <drives></drives>
+</of_core>
+
