@@ -13,3 +13,6 @@
 [submodule "Unity"]
 	path = Unity
 	url = git@github.com:connectedway/Unity.git
+[submodule "of_core_fs_darwin"]
+	path = of_core_fs_darwin
+	url = git@github.com:connectedway/of_core_fs_darwin.git
