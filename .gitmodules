@@ -16,3 +16,6 @@
 [submodule "of_core_fs_darwin"]
 	path = of_core_fs_darwin
 	url = git@github.com:connectedway/of_core_fs_darwin.git
+[submodule "of_core_fs_bookmarks"]
+	path = of_core_fs_bookmarks
+	url = git@github.com:connectedway/of_core_fs_bookmarks
