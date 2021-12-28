@@ -1,0 +1,72 @@
+/* Copyright (c) 2021 Connected Way, LLC. All rights reserved.
+ * Use of this source code is governed by a Creative Commons 
+ * Attribution-NoDerivatives 4.0 International license that can be
+ * found in the LICENSE file.
+ */
+#if !defined(__CONFIG_H__)
+#define __CONFIG_H__
+
+#cmakedefine INCLUDE_PLATFORM_WCHAR
+#if defined(INCLUDE_PLATFORM_WCHAR)
+#include <@PLATFORM_WCHAR@>
+#endif
+
+#cmakedefine INCLUDE_PLATFORM_PROCESS_ID
+#if defined(INCLUDE_PLATFORM_PROCESS_ID)
+#include <@PLATFORM_PROCESS_ID@>
+#endif
+
+#cmakedefine INCLUDE_PLATFORM_SIGNALS
+#if defined(INCLUDE_PLATFORM_SIGNALS)
+#include <@PLATFORM_SIGNALS@>
+#endif
+
+#cmakedefine INIT_ON_LOAD
+#if defined(INIT_ON_LOAD)
+#define OFC_LOAD @OFC_LOAD@
+#define OFC_UNLOAD @OFC_UNLOAD@
+#else
+#define OFC_LOAD
+#define OFC_UNLOAD
+#endif
+
+#cmakedefine OFC_64BIT_INTEGER
+#cmakedefine OFC_64BIT_POINTER
+#cmakedefine OFC_LONGINT_64
+#cmakedefine OFC_PERSIST
+#cmakedefine OFC_PERF_STATS
+#cmakedefine OFC_HANDLE_DEBUG
+#cmakedefine OFC_MESSAGE_DEBUG
+#cmakedefine OFC_APP_DEBUG
+#cmakedefine OFC_HEAP_DEBUG
+#cmakedefine OFC_UNICODE_API
+#cmakedefine BLUE_STACK_TRACE
+#cmakedefine OFC_PRESELECT_PASS
+#define OFC_MAX_HANDLE16 @OFC_MAX_HANDLE16@
+#define OFC_MAX_MAPS @OFC_MAX_MAPS@
+#define OFC_CALL_STACK_SIZE @OFC_CALL_STACK_SIZE@
+#define OFC_TRACE_LEN @OFC_TRACE_LEN@
+#define OFC_MAX_SCHED_WAIT @OFC_MAX_SCHED_WAIT@
+typedef @BLUE_WCHAR@ BLUE_WCHAR;
+typedef @BLUE_PROCESS_ID@ BLUE_PROCESS_ID;
+#define @BLUE_SIGAIO@ BLUE_SIGAIO;
+
+#define OFC_SHARE_VARIANT "@OFC_SHARE_VARIANT@"
+#define OFC_DEFAULT_NETBIOS_MODE @OFC_DEFAULT_NETBIOS_MODE@
+#define OFC_DEFAULT_NAME "@OFC_DEFAULT_NAME@"
+#define OFC_DEFAULT_SCOPE "@OFC_DEFAULT_SCOPE@"
+#define OFC_DEFAULT_DESCR "@OFC_DEFAULT_DESCR@"
+#define OFC_DEFAULT_DOMAIN "@OFC_DEFAULT_DOMAIN@"
+#cmakedefine OFC_DISCOVER_IPV4
+#cmakedefine OFC_DISCOVER_IPV6
+#cmakedefine OFC_FS_DARWIN
+#cmakedefine OFC_FS_BOOKMARKS
+
+#define OFC_TEST_FS_DARWIN_PATH "@OFC_TEST_FS_DARWIN_PATH@"
+
+#if defined(OFC_64BIT_POINTER) && !defined(OFC_64BIT_INTEGER)
+#error Must support 64 bit integers if 64 bit pointers defined
+#endif
+
+#endif
+
