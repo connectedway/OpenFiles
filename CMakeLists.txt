@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.21.1)
 project(openfiles VERSION 1.0.1 DESCRIPTION "OpenFiles Stack")
 
+add_subdirectory(of_core_binheap)
+add_subdirectory(of_core_cheap)
+add_subdirectory(of_core_darwin)
+add_subdirectory(of_core_fs_darwin)
+add_subdirectory(of_core_fs_bookmarks)
 add_subdirectory(of_core)
 
