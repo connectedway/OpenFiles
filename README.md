@@ -27,6 +27,8 @@ Advantages:
 - XML (dom) library
 - Persistent XML style configurations
 - Private C runtime
+- Built in Performance Statistics
+- Build in Heap Checks and Leak Detection
 
 Extensions:
 - Private security libraries
