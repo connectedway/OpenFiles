@@ -3,23 +3,13 @@
 Advantages:
 
 - cmake
-- Multi Platform
--- Windows
--- MacOS
--- iOS
--- Android
--- Linux
--- ThreadX
--- NucleusPlus
+- Multi Platform -- Windows -- MacOS -- iOS -- Android -- Linux -- ThreadX -- NucleusPlus
 - Real Time, Event Driven
 - Full feature Async I/O
 - WaitForMultipleObjects eventing model for all platforms
 - Well defined platform abstraction layer
-- multiple file system handlers
--- platform (windows, posix, rtos, smb)
--- bookmarks
--- mailslots
--- pipes
+- multiple file system handlers -- platform (windows, posix, rtos, smb)
+  -- bookmarks -- mailslots -- pipes
 - Unity test infrastructure
 - IPv4 & IPv6, TCP and DG
 - Platform Heap and Private Heap
@@ -31,6 +21,7 @@ Advantages:
 - Build in Heap Checks and Leak Detection
 
 Extensions:
+
 - Private security libraries
 - SASL Authentication
 - Message Signing
