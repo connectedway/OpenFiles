@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21.1)
-project(openfiles VERSION 1.0.1 DESCRIPTION "OpenFiles Stack")
+project(openfiles VERSION 5.0.1 DESCRIPTION "Open Files Event-Driven Application Framework")
 
 include(configs/default)
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
@@ -15,3 +15,30 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     add_subdirectory(of_core_fs_darwin)
 endif ()
 add_subdirectory(of_core_fs_bookmarks)
+
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+    set(DOXYGEN_GENERATE_HTML YES)
+    set(DOXYGEN_PROJECT_LOGO ${CMAKE_CURRENT_SOURCE_DIR}/doc/connected.png)
+    set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
+    set(DOXYGEN_EXTRACT_ALL YES)
+    set(DOXYGEN_FULL_SIDEBAR YES)
+    set(DOXYGEN_GENERATE_TREEVIEW YES)
+    set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.openfiles)
+    doxygen_add_docs(
+        openfiles
+	${CMAKE_CURRENT_SOURCE_DIR}/doc/openfiles.h
+	${CMAKE_CURRENT_SOURCE_DIR}/doc/config.h
+        of_core
+	)
+    if (CMAKE_BUILD_TYPE STREQUAL "Release")
+        add_custom_target(
+            doc ALL
+            COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM
+            )
+    endif()
+endif()
+

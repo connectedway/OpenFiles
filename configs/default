@@ -13,7 +13,6 @@ option(OFC_STACK_TRACE "Store call stack traces in debug output" ON)
 option(OFC_PRESELECT_PASS "App scheduler should rebuild waitlists" OFF)
 set(OFC_MAX_HANDLE16 "100" CACHE STRING "Max 16-bit handles")
 set(OFC_MAX_MAPS "20" CACHE STRING "Max file system maps")
-set(OFC_CALL_STACK_SIZE "4280" CACHE STRING "Max DCE call stack size")
 set(OFC_TRACE_LEN "1" CACHE STRING "Size of trace buffer (must be at least 1)")
 set(OFC_MAX_SCHED_WAIT "4000" CACHE STRING "Maximum scheduler sleep")
 
@@ -24,10 +23,6 @@ set(PLATFORM_WCHAR "wchar.h" CACHE STRING "Name of system types")
 set(OFC_PROCESS_ID "pid_t" CACHE STRING "Platform type of a process id")
 option(INCLUDE_PLATFORM_PROCESS_ID "Include platform process id" ON)
 set(PLATFORM_PROCESS_ID "sys/types.h" CACHE STRING "Include File Name for Process ID")
-
-set(OFC_SIGAIO "SIGRTMIN" CACHE STRING "Signal Mapping for Async IO Signal")
-option(INCLUDE_PLATFORM_SIGNALS "Include platform signals" ON)
-set(PLATFORM_SIGNALS "signal.h" CACHE STRING "Include File Name for signals")
 
 set(OFC_SHARE_VARIANT "main" CACHE STRING "Variant name of build")
 set(OFC_DEFAULT_NETBIOS_MODE "OFC_CONFIG_BMODE" CACHE STRING "Interface default NetBIOS Mode")
