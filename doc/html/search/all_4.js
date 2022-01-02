@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['dbg_5fentry_0',['DBG_ENTRY',['../group__libc.html#gad81d22e8b5731f8f46d79393d6998b23',1,'libc.h']]],
+  ['dbg_5fexit_1',['DBG_EXIT',['../group__libc.html#ga49c2f13c678ae567342c505c1fffc506',1,'libc.h']]],
+  ['deletefile_2',['DeleteFile',['../struct___o_f_c___f_i_l_e___d_i_s_p_o_s_i_t_i_o_n___i_n_f_o.html#ad1dd15c4de6a6b0e6e5cf68cbfb30b9b',1,'_OFC_FILE_DISPOSITION_INFO']]],
+  ['deletepending_3',['DeletePending',['../struct___o_f_c___f_i_l_e___s_t_a_n_d_a_r_d___i_n_f_o.html#a5712373221702f89c13f837432561983',1,'_OFC_FILE_STANDARD_INFO']]],
+  ['desc_4',['desc',['../struct_o_f_c___f_r_a_m_e_w_o_r_k___m_a_p.html#a85a4836525411aba53e9b1913fc30e18',1,'OFC_FRAMEWORK_MAP']]],
+  ['destroy_5',['destroy',['../struct___o_f_c___a_p_p___t_e_m_p_l_a_t_e.html#ae97122dc3825661e441549345a9b2063',1,'_OFC_APP_TEMPLATE']]],
+  ['destroy_5fafter_5fsend_6',['destroy_after_send',['../struct___o_f_c___m_e_s_s_a_g_e.html#a7e17e338aa3d3941044aa2c183fe2a33',1,'_OFC_MESSAGE']]],
+  ['destroy_5fworkgroups_7',['destroy_workgroups',['../group__path.html#ga8330583ec98c84785c5837ac665af0d6',1,'path.h']]],
+  ['developing_20with_20open_20files_8',['Developing with Open Files',['../developing.html',1,'index']]],
+  ['devicetype_9',['DeviceType',['../struct___o_f_c___f_i_l_e_f_s___d_e_v_i_c_e___i_n_f_o.html#aae331c724a2b9512141f7b6a544a8c2d',1,'_OFC_FILEFS_DEVICE_INFO']]],
+  ['directory_10',['Directory',['../struct___o_f_c___f_i_l_e___s_t_a_n_d_a_r_d___i_n_f_o.html#a6c0b95c4afa873071269033303766b4b',1,'_OFC_FILE_STANDARD_INFO']]],
+  ['document_5ffragment_5fnode_11',['DOCUMENT_FRAGMENT_NODE',['../group__dom.html#gga8828711d7adf06a0e89d59039bab96e0aac88849f3dfadda226c0533e0dc5cfb4',1,'dom.h']]],
+  ['document_5fnode_12',['DOCUMENT_NODE',['../group__dom.html#gga8828711d7adf06a0e89d59039bab96e0aa170f5bd4256511bbbcb5d7946e5637d',1,'dom.h']]],
+  ['document_5ftype_5fnode_13',['DOCUMENT_TYPE_NODE',['../group__dom.html#gga8828711d7adf06a0e89d59039bab96e0a3a922342f537c7003ffe5ffd01b15476',1,'dom.h']]],
+  ['dom_20parser_14',['DOM Parser',['../group__dom.html',1,'']]],
+  ['dom_2eh_15',['dom.h',['../dom_8h.html',1,'']]],
+  ['dom_5fnode_16',['dom_node',['../structdom__node.html',1,'']]],
+  ['dom_5fnode_5ftype_17',['DOM_NODE_TYPE',['../group__dom.html#ga8828711d7adf06a0e89d59039bab96e0',1,'dom.h']]],
+  ['dump_18',['dump',['../struct___o_f_c___a_p_p___t_e_m_p_l_a_t_e.html#a96fe57738302b3c3f69476e09b9025ce',1,'_OFC_APP_TEMPLATE']]],
+  ['dwfileattributes_19',['dwFileAttributes',['../struct___o_f_c___w_i_n32___f_i_n_d___d_a_t_a_w.html#ad8d58df75afb764429565a5917224d46',1,'_OFC_WIN32_FIND_DATAW::dwFileAttributes()'],['../struct___o_f_c___w_i_n32___f_i_n_d___d_a_t_a_a.html#af9fc62ce68ad48278502f55d9f2b83ce',1,'_OFC_WIN32_FIND_DATAA::dwFileAttributes()'],['../struct___o_f_c___w_i_n32___f_i_l_e___a_t_t_r_i_b_u_t_e___d_a_t_a.html#a2d45ebdaf6a8cc2c5ae777b4ca8081de',1,'_OFC_WIN32_FILE_ATTRIBUTE_DATA::dwFileAttributes()']]],
+  ['dwhighdatetime_20',['dwHighDateTime',['../struct___o_f_c___f_i_l_e_t_i_m_e.html#ad8b3f952d0c19281f204432600279455',1,'_OFC_FILETIME']]],
+  ['dwlen_21',['dwLen',['../struct___o_f_c___o_v_e_r_l_a_p_p_e_d.html#a1ca011eb97bd75df96a9397fc0f33f95',1,'_OFC_OVERLAPPED']]],
+  ['dwlowdatetime_22',['dwLowDateTime',['../struct___o_f_c___f_i_l_e_t_i_m_e.html#af325acb1992d477a7a99cb3643c3ea4f',1,'_OFC_FILETIME']]],
+  ['dwreserved0_23',['dwReserved0',['../struct___o_f_c___w_i_n32___f_i_n_d___d_a_t_a_w.html#ab9954bf53bee8870141ca668d476fefd',1,'_OFC_WIN32_FIND_DATAW::dwReserved0()'],['../struct___o_f_c___w_i_n32___f_i_n_d___d_a_t_a_a.html#a01f39796f9b35e56dd842fdf01ef9715',1,'_OFC_WIN32_FIND_DATAA::dwReserved0()']]],
+  ['dwreserved1_24',['dwReserved1',['../struct___o_f_c___w_i_n32___f_i_n_d___d_a_t_a_w.html#a5c78a0c36668151c4f6324d469c51741',1,'_OFC_WIN32_FIND_DATAW::dwReserved1()'],['../struct___o_f_c___w_i_n32___f_i_n_d___d_a_t_a_a.html#aeed938bb7e27adeda4c7683c66808a41',1,'_OFC_WIN32_FIND_DATAA::dwReserved1()']]]
+];

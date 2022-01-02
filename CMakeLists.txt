@@ -30,6 +30,7 @@ if (DOXYGEN_FOUND)
     list(APPEND DOXYGEN_HTML_EXTRA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/doc/connected.ico)
     set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.openfiles)
     set(DOXYGEN_EXAMPLE_PATH ${of_core_SOURCE_DIR}/test)
+    set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc)
     set(DOXYGEN_EXCLUDE_PATTERNS
 	*/file_call.h
 	*/net_internal.h
