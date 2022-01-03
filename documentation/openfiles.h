@@ -1,8 +1,42 @@
 /**
  * \mainpage Open Files Software Framework
  *
- * Open Files is a multi-platform, real-time, event-driven, high performance, 
- * and small footprint subsystem for application development.
+ * Open Files is a lightweight (<256K), multi-platform, real-time, 
+ * event-driven, and high performance, subsystem for application development.
+ *
+ * The main advantages of Open Files are:
+ *
+ * - It is multi-platform.  Open File applications can run on any supported
+ * platform including Windows, MacOS, Android, Linux, iOS, and many RTOSes.
+ * - It supports a real-time, event-driven programming model as well as
+ * traditional thread based models
+ * - It supports multiple file system handlers for platform files as well
+ * as virtual and networked file systems
+ * - It has a well defined platform abstraction layer for easy extensibility
+ * to other platforms.
+ * - It uses the a cmake generated build system.  Meaning it has a cross 
+ * platform build system and has support for leading GUIs
+ * - It has a built in unit test framework based on Unity.
+ * - It supports IPv6 and IPv4.
+ * - Integrated support for parsing and generating DOM documents
+ * - Support for persistent configurations
+ * - Built in performance statistics for core constructs.
+ * - Built in Heap Debugging, Leak Detection, Buffer overruns and more.
+ * - Open Source, with restrictions for attribution and derivatives.
+ *
+ * In addition to the core Open Files facilities, there are extensions
+ * based on Open Files to provide for:
+ *
+ * - Private Security Libraries
+ * - SASL Authentication
+ * - Message Signing
+ * - SMB client and server support
+ * - FUSE file system handlers for Linux, Windows, and MacOS
+ * - Java JNI for Open Files API and SMB
+ * - Android Document Provider
+ * - NetBIOS Name Server and Name Lookup.
+ * - Microsoft lan manager support for Pipes, Mailslots, and DCE
+ * - Kerberos/Active Directory Integration.
  *
  * This document details the structure and APIs available to platform 
  * integrators for initializing, configuring, starting up, and monitoring
@@ -10,17 +44,13 @@
  * by the Open Files stack to interface with the platform specific routines
  * (i.e. the porting layer).
  *
- * The Open Files Documentation leverages the doxygen documentation generation
- * tool.  Doxygen arranges the product documentation in seven or more sections.
- * To make navigation more intuitive, Open Files has added this main page
- * and a collection of subpages that attempt to guide a reader through the
- * APIs and relates the APIs to architectural constructs and workflow 
- * interests.
+ * This is geared towards two audiances: 
+ * - those wishing to integrate an Open Files package to a target system
+ * - those wishing to develop applications that use the functionality
+ *  provided by Open Files.  
  *
- * This document has three target audiances: those wishing to port Open Files
- * to a target platform, those wishing to integrate an Open Files
- * package to a target system, and those wishing to develop applications
- * that use the functionality provided by Open Files.  
+ * A separate document describes how to extend Open Files with additional
+ * platform and file system support.
  *
  * - \subpage introduction
  * Who is Open Files for?  What kind of things can I do with it?  How
@@ -57,8 +87,6 @@
  * A major feature of open files is it's support for asynchronous concurrency
  * model.  To learn more about the async programming model, read here.
  */
-
-
 
 /**
  * \page introduction Introducing Open Files
