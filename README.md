@@ -38,7 +38,7 @@ based on Open Files to provide for:
 - Kerberos/Active Directory Integration.
 
 The documentation for Open Files is can be found at
-[http://www.connectedway.com/openfiles](http://www.connectedway.com/openfiles)(
+http://www.connectedway.com/openfiles
 
 The document will provide an introduction to Open Files and guide the reader
 through downloading, configuring, building, testing, and developing applications
