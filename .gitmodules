@@ -19,3 +19,9 @@
 [submodule "of_core_fs_bookmarks"]
 	path = of_core_fs_bookmarks
 	url = git@github.com:connectedway/of_core_fs_bookmarks
+[submodule "of_core_fs_linux"]
+	path = of_core_fs_linux
+	url = git@github.com:connectedway/of_core_fs_linux.git
+[submodule "of_core_linux"]
+	path = of_core_linux
+	url = git@github.com:connectedway/of_core_linux.git
