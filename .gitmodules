@@ -28,3 +28,6 @@
 [submodule "of_core_windows"]
 	path = of_core_windows
 	url = git@github.com:connectedway/of_core_windows.git
+[submodule "of_core_fs_windows"]
+	path = of_core_fs_windows
+	url = git@github.com:connectedway/of_core_fs_windows.git
