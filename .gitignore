@@ -71,6 +71,7 @@
 # Build output
 cmake-build-debug/
 cmake-build-release/
+build/
 
 # Emacs artifacts
 *~
