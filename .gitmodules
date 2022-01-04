@@ -25,3 +25,6 @@
 [submodule "of_core_linux"]
 	path = of_core_linux
 	url = git@github.com:connectedway/of_core_linux.git
+[submodule "of_core_windows"]
+	path = of_core_windows
+	url = git@github.com:connectedway/of_core_windows.git
