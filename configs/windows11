@@ -16,13 +16,14 @@ set(OFC_MAX_MAPS "20" CACHE STRING "Max file system maps")
 set(OFC_TRACE_LEN "1" CACHE STRING "Size of trace buffer (must be at least 1)")
 set(OFC_MAX_SCHED_WAIT "4000" CACHE STRING "Maximum scheduler sleep")
 
-set(OFC_WCHAR "wchar_t" CACHE STRING "Platform type of a wide character")
-option(INCLUDE_PLATFORM_WCHAR "Include wchar.h" ON)
-set(PLATFORM_WCHAR "wchar.h" CACHE STRING "Name of system types")
+set(OFC_WCHAR "unsigned short" CACHE STRING "Platform type of a wide character")
+option(INCLUDE_PLATFORM_WCHAR "Include wchar.h" OFF)
+set(PLATFORM_WCHAR "windows.h" CACHE STRING "Name of system types")
 
-set(OFC_PROCESS_ID "pid_t" CACHE STRING "Platform type of a process id")
+set(OFC_PROCESS_ID "DWORD" CACHE STRING "Platform type of a process id")
 option(INCLUDE_PLATFORM_PROCESS_ID "Include platform process id" ON)
-set(PLATFORM_PROCESS_ID "sys/types.h" CACHE STRING "Include File Name for Process ID")
+set(PLATFORM_PROCESS_ID "windows.h" CACHE STRING "Include File Name for Process ID")
+
 
 set(OFC_SHARE_VARIANT "main" CACHE STRING "Variant name of build")
 set(OFC_DEFAULT_NETBIOS_MODE "OFC_CONFIG_BMODE" CACHE STRING "Interface default NetBIOS Mode")

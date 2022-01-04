@@ -24,6 +24,10 @@
 .idea/**/gradle.xml
 .idea/**/libraries
 
+# Visual Studio
+.vs/*
+CMakeSettings.json
+
 # Prerequisites
 *.d
 
