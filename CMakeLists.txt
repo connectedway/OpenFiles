@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.21.1)
 project(openfiles VERSION 5.0.1 DESCRIPTION "Multi-Platform Event-Driven Application Framework")
 
-include(configs/default)
+if (NOT DEFINED OPENFILE_CONFIG)
+   set(OPENFILE_CONFIG "configs/default")
+endif()
+
+include(${OPENFILE_CONFIG})
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
 
