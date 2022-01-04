@@ -187,7 +187,8 @@ git submodule update
  * passing the cmake variable OPENFILE_CONFIG to the cmake command as follows:
  *
  * \verbatim
-cmake -DOPENFILE_CONFIG=./configs/acme.build
+mkdir build
+cmake -Bbuild -DOPENFILE_CONFIG=./configs/acme.build
 \endverbatim
  *
  * Default config files provided include:
@@ -216,13 +217,14 @@ cmake -DOPENFILE_CONFIG=./configs/acme.build
  * issuing the following command:
  *
  * \verbatim
-cmake -DOPENFILE_CONFIG=./configs/default .
+mkdir build
+cmake -Bbuild -DOPENFILE_CONFIG=./configs/default .
 \endverbatim
  *
  * To build, simply issue the cmake command with the build argument.
  *
  * \verbatim
-cmake --build .
+cmake --build build
 \endverbatim
  *
  * Output will be written to the source directories.  Expected output includes:
