@@ -88,3 +88,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Doxygen output
+documentation/html
+documentation/openfiles

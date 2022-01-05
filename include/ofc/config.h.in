@@ -61,6 +61,8 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OFC_FS_LINUX
 #cmakedefine OFC_FS_WIN32
 #cmakedefine OFC_FS_BOOKMARKS
+#cmakedefine OFC_MULTI_TCP
+#cmakedefine OFC_MULTI_UDP
 
 #define OFC_TEST_FS_DARWIN_PATH "@OFC_TEST_FS_DARWIN_PATH@"
 #define OFC_TEST_FS_LINUX_PATH "@OFC_TEST_FS_LINUX_PATH@"
