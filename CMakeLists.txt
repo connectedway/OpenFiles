@@ -24,7 +24,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif ()
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_subdirectory(of_core_windows)
-#    add_subdirectory(of_core_fs_windows)
+    add_subdirectory(of_core_fs_windows)
 endif ()
 add_subdirectory(of_core_fs_bookmarks)
 
