@@ -31,3 +31,9 @@
 [submodule "of_core_fs_windows"]
 	path = of_core_fs_windows
 	url = git@github.com:connectedway/of_core_fs_windows.git
+[submodule "of_core_android"]
+	path = of_core_android
+	url = git@github.com:connectedway/of_core_android.git
+[submodule "of_core_fs_android"]
+	path = of_core_fs_android
+	url = git@github.com:connectedway/of_core_fs_android.git

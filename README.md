@@ -44,3 +44,23 @@ The document will provide an introduction to Open Files and guide the reader
 through downloading, configuring, building, testing, and developing applications
 using Open Files.
 
+# Building on Android (Release on ARMv8)
+
+cmake -DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-23 -DCMAKE_SYSTEM_VERSION=23 -DOPENFILE_CONFIG=./configs/android -Bandroid-build
+cmake --build android-build
+
+# Building on Android (Debug in simulator)
+
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake -DANDROID_ABI=x86_64 -DANDROID_PLATFORM=android-23 -DCMAKE_SYSTEM_VERSION=23 -DOPENFILE_CONFIG=./configs/android -Bandroid-build
+cmake --build android-build
+
+run a simulator
+
+adb push android-build/of_core/test/test_* /data/local/tmp
+adb push configs/android_debug.xml /data/local/tmp
+adb shell
+cd /data/local/tmp
+chmod +x test_*
+export OPEN_FILES_HOME=/data/local/tmp/android_debug.xml
+
+
