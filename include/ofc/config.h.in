@@ -64,15 +64,14 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OFC_FS_BOOKMARKS
 #cmakedefine OFC_MULTI_TCP
 #cmakedefine OFC_MULTI_UDP
+#cmakedefine OFC_INCLUDE_JNI
+#cmakedefine OPENFILES_SMB_JNI
 
 #define OFC_TEST_FS_DARWIN_PATH "@OFC_TEST_FS_DARWIN_PATH@"
 #define OFC_TEST_FS_LINUX_PATH "@OFC_TEST_FS_LINUX_PATH@"
 #define OFC_TEST_FS_WINDOWS_PATH "@OFC_TEST_FS_WINDOWS_PATH@"
 #define OFC_TEST_FS_ANDROID_PATH "@OFC_TEST_FS_ANDROID_PATH@"
 
-#if defined(OFC_64BIT_POINTER) && !defined(OFC_64BIT_INTEGER)
-#error Must support 64 bit integers if 64 bit pointers defined
-#endif
 
 #endif
 

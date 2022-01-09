@@ -37,3 +37,9 @@
 [submodule "of_core_fs_android"]
 	path = of_core_fs_android
 	url = git@github.com:connectedway/of_core_fs_android.git
+[submodule "of_core_jni"]
+	path = of_core_jni
+	url = git@github.com:connectedway/of_core_jni.git
+[submodule "of_smb_jni"]
+	path = of_smb_jni
+	url = git@github.com:connectedway/of_smb_jni.git

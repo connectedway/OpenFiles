@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20.0)
 project(openfiles VERSION 5.0.1 DESCRIPTION "Multi-Platform Event-Driven Application Framework")
 
+enable_testing()
+
 if (NOT DEFINED OPENFILE_CONFIG)
    set(OPENFILE_CONFIG "configs/default")
 endif()
@@ -31,6 +33,14 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_subdirectory(of_core_fs_windows)
 endif ()
 add_subdirectory(of_core_fs_bookmarks)
+
+if(${OFC_INCLUDE_JNI} STREQUAL "ON")
+  add_subdirectory(of_core_jni)
+endif()
+
+if(CACHE{OPENFILES_SMB_JNI} STREQUAL "ON")
+   add_subdirectory(of_smb_jni)
+endif()
 
 find_package(Doxygen)
 if (DOXYGEN_FOUND)
