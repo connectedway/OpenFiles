@@ -67,11 +67,20 @@ if (DOXYGEN_FOUND)
 	README.md
 	)
 
+if (OFC_INCLUDE_JNI)
+   set(JNI_FILES
+       of_core_jni/java
+       of_core_jni/documentation/openfiles_jni.h
+       )
+    list(APPEND DOXYGEN_EXAMPLE_PATH ${of_core_jni_SOURCE_DIR}/test)
+endif()
+
     doxygen_add_docs(
         openfiles
 	${CMAKE_CURRENT_SOURCE_DIR}/documentation/openfiles.h
 	${CMAKE_CURRENT_SOURCE_DIR}/documentation/config.h
         of_core
+	${JNI_FILES}
 	)
     if (CMAKE_BUILD_TYPE STREQUAL "Release")
         add_custom_target(

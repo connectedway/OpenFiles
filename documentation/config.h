@@ -429,6 +429,39 @@ OFC_DISCOVER_IPV6;
 OFC_FS_DARWIN;
 /**
  * \brief
+ * Specify whether a windows file system handler should be included.
+ *
+ * Open Files supports multiple file system handlers.  Specifying this
+ * parameter will include the windows file system.
+ *
+ * \param ON Include the windows file system
+ * \param OFF Disable the windows file system
+ */
+OFC_FS_WIN32;
+/**
+ * \brief
+ * Specify whether an android file system handler should be included.
+ *
+ * Open Files supports multiple file system handlers.  Specifying this
+ * parameter will include the android file system.
+ *
+ * \param ON Include the android file system
+ * \param OFF Disable the android file system
+ */
+OFC_FS_ANDROID;
+/**
+ * \brief
+ * Specify whether a Linux file system handler should be included.
+ *
+ * Open Files supports multiple file system handlers.  Specifying this
+ * parameter will include the linux file system.
+ *
+ * \param ON Include the Linux file system
+ * \param OFF Disable the Linux file system
+ */
+OFC_FS_LINUX;
+/**
+ * \brief
  * Specify whether a bookmark file system handler should be included.
  *
  * Open Files supports multiple file system handlers.  Specifying this
@@ -439,6 +472,85 @@ OFC_FS_DARWIN;
  * \param OFF Disable the bookmark file system
  */
 OFC_FS_BOOKMARKS;
+/**
+ * \brief
+ * Specifies the behavior of the native TCP stack with Listens
+ *
+ * Some network stacks do not support listening on a specific network
+ * interface, rather the listen must be issued with the all available
+ * interfaces (INADDR_ANY) address.
+ *
+ * \param ON Listen on All Interfaces
+ * \param OFF Listen only on the INADDR_ANY address
+ */
+OFC_MULTI_TCP;
+/**
+ * \brief
+ * Specifies the behavior of the native UDP stack with broadcasts
+ *
+ * Some network stacks do not receive broadcast packets on specific interfaces.
+ * Rather, to receive broadcasts, you must listen on INDADDR_ANY.
+ *
+ * \param ON Listen for broadcasts on any interface
+ * \param OFF Listen for broadcasts only on the INADDR_ANY address
+ */
+OFC_MULTI_UDP;
+/**
+ * \brief
+ * Build a JNI for the Open Files stack
+ *
+ * Open Files supports a Java interface so that Java applications can
+ * use Open Files features.
+ *
+ * \param ON Build a JNI for Open Files
+ * \param OFF Do not build a JNI for Open Files
+ */
+OFC_INCLUDE_JNI;
+/**
+ * \brief
+ * Build in Optional SMB Support
+ *
+ * Build in the SMB layers for Network File Sharing Features.  This
+ * is current in progress
+ *
+ * \param ON Build in SMB support
+ * \param OFF Do not build in SMB support
+ */
+OPENFILES_SMB;
+/**
+ * \brief
+ * Build in NetBIOS support into Open Files
+ *
+ * Open Files can register and lookup names using NetBIOS.  This is
+ * a legacy feature.  Modern network stacks use Dynamic DNS.
+ *
+ * \param ON Build in NetBIOS support
+ * \param OFF Do not build in NetBIOS support
+ */
+OPENFILES_NETBIOS;
+/**
+ * \brief
+ * Specifies the default netbios mode for an interface.
+ *
+ * This is only used if the Open Files SMB stack and the Open Files 
+ * NetBIOS package are built into the product.  See \ref OPENFILES_SMB and
+ * \ref OPENFILES_NETBIOS.  This parameter will instruct the netbios
+ * stack how to lookup names on an interface.  See \ref OFC_CONFIG_MODE.
+ *
+ * \param MODE default netbios mode for all interfaces
+ */
+OFC_DEFAULT_NETBIOS_MODE;
+/**
+ * \brief
+ * Build a JNI for SMB support
+ *
+ * Open Files supports a Java interface so that Java applications can
+ * use Open Files SMB feature
+ *
+ * \param ON Build a JNI for Open Files SMB
+ * \param OFF Do not build a JNI for Open Files SMB
+ */
+OPENFILES_SMB_JNI;
 /**
  * \brief
  * Specify the test path for the darwin file system test

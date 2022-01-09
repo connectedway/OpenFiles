@@ -14,7 +14,9 @@
     <mapping directory="$PROJECT_DIR$/of_core_fs_linux" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/of_core_fs_linux/src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/of_core_fs_windows" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/of_core_jni" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/of_core_linux" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/of_core_windows" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/of_smb_jni" vcs="Git" />
   </component>
 </project>
