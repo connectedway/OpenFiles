@@ -77,6 +77,7 @@ cmake-build-debug/
 cmake-build-release/
 build/
 android-build/
+out/
 
 # Emacs artifacts
 *~
