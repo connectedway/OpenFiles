@@ -69,9 +69,12 @@
  * or to customize existing configurations.
  *
  * - \subpage building
- * Open Files uses the cmake build system.  We recommend CLion 
- * (https://www.jetbrains.com/clion/) as a multi-target cmake aware IDE but
- * using any properly configured cmake tool for your host system should work.
+ * Open Files uses the cmake build system.  There are three options we recommend:
+ * 1) CLion  * (https://www.jetbrains.com/clion/) as a multi-target cmake aware IDE.  This is a licensed 
+ * product and although nice, the cost isn't for everyone.
+ * 2) Emacs with emacs-c-project plugin.  Hint: This is what we use.  multi-platform, free, and 
+ * although it does not have a pretty IDE, it can do everything any other IDE can. (see \emacs)
+ * 3) Command Line.  For the hard-core, but unlimited.
  *
  * - \subpage testing
  * Open Files is essentially a framework or library that you can link with
@@ -86,6 +89,106 @@
  * - \subpage async
  * A major feature of open files is it's support for asynchronous concurrency
  * model.  To learn more about the async programming model, read here.
+ */
+
+/**
+ * \page emacs Use Emacs as your Open Files IDE
+ *
+ * This assumes you have basic emacs knowledge.  But if you are a newbie, you can read a pretty good
+ * wiki that'll tell you everything you ever wanted to know, including how to use it.  
+ * (https://www.emacswiki.org/).  If you'd rather work within a keyboard centric development environment
+ * (i.e. without a mouse and arrow keys), emacs is most definately for you.
+ *
+ * \section Download Emacs CMake Project Mode
+ * Download the cmake-project.el 
+ * (https://raw.githubusercontent.com/alamaison/emacs-cmake-project/master/cmake-project.el) from the 
+ * github repository https://github.com/alamaison/emacs-cmake-project.  If you have a directory of 
+ * lisp files that get loaded on emacs startup, place it in there.  If you do not, then create a
+ * .emacs directory off of your home directory and place this file in there.
+ *
+ * \section Load CMake Project Mode
+ * If you are not already auto-loading lisp functions on startup, you will want to add this to your
+ * .emacs.d/init.el file:
+ * 
+ * \verbatim
+(defun load-directory (dir)
+      (let ((load-it (lambda (f)
+		       (load-file (concat (file-name-as-directory dir) f)))
+		     ))
+	(mapc load-it (directory-files dir nil "\\.el$"))))
+    (load-directory "~/.emacs")
+\endverbatim
+ *
+ * \section Loading a Project
+ *
+ * All you need to do to load a project, is read in a file in the root of your project tree.  
+ * Two obvious choices are the README.md or the CMakeLists.txt.  CMake commands can be issued while
+ * you are visiting this file.  We will call this file the cmake-home file.
+ *
+ * \section Configuring a Project
+ *
+ * Visit your cmake-home file and issue the cmake-project-configure-project command.  The assumption
+ * is that you will want to provide a minimum of cmake configuration options so you should enter
+ * the following keystrokes
+ *
+ *\verbatim
+C-U M-x cmake-configure-project
+\endverbatim
+ * 
+ * For newbies, C-U is Ctrl-U (simultaneous), M-x is <esc> x (sequential), then type in 
+ * cmake-configure-project.
+ *
+ * Emacs will prompt you for "Configure in directory".  Type in the directory you want the build output
+ * to go in.  A good choice is <project-root>/build.  It will then prompt for Generator.  Generally the
+ * default is fine.  Then since you preceeded the cmake-configure-project with a C-U, it will prompt you
+ * for additional cmake options.  At this point, you'd want to specify:
+ *
+ *\verbatim
+-DCMAKE_BUILD_TYPE=<mode> -DOPENFILE_CONFIG=./configs/<configuration file>
+\endverbatim
+ *
+ * where <mode> is "Debug" or "Release" or some other mode your toolchain supports.  <configuration-file> is
+ * the name of the configuration file for your particular build.  See other open files documentation for
+ * selecting or creating the right configuration file.
+ *
+ * \section Building a project
+ *
+ * This is the easy part.  While in your cmake-home file, simply type:
+ *
+ * \verbatim
+M-x compile
+\endverbatim
+ *
+ * Again, M-x is esc x typed sequentially.  
+ *
+ * This will go through a full build and output will be placed in relevant places within the respective
+ * build directory.
+ *
+ * \section Running Tests
+ *
+ * To run the integrated unit tests, simply start a shell, cd to the build directory and type in
+ * the ctest command.
+ *
+ * To start a shell, visit your cmake-home file, then type:
+ *
+ * \verbatim
+M-x shell
+\endverbatim
+ *
+ * Within the shell window, cd to the build directory, then type in
+ *
+ * \verbatim
+$ ctest
+\endverbatim
+ *
+ * This will run the integrated tests.
+ * 
+ * \section Debugging an app
+ *
+ * Assuming you build a Debug version of open files, you can use emacs' integrated gdb integration.
+ * This doesn't work on all platforms (like MacOS) and may not work on your desired platform so
+ * for the most part, the best way to debug is to run a shell, and run gdb or lldb directly in the 
+ * shell window.  This is left as an exercise for the reader.
  */
 
 /**
