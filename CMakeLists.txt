@@ -38,12 +38,12 @@ if(${OFC_INCLUDE_JNI} STREQUAL "ON")
   add_subdirectory(of_core_jni)
 endif()
 
-if(${OPENFILES_SMB_JNI} STREQUAL "ON")
-   add_subdirectory(of_smb_jni)
-endif()
-
 if(${OF_SMB} STREQUAL "ON")
    add_subdirectory(of_smb)
+endif()
+
+if(${OPENFILES_SMB_JNI} STREQUAL "ON")
+   add_subdirectory(of_smb_jni)
 endif()
 
 find_package(Doxygen)
