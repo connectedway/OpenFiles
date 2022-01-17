@@ -43,3 +43,6 @@
 [submodule "of_smb_jni"]
 	path = of_smb_jni
 	url = git@github.com:connectedway/of_smb_jni.git
+[submodule "of_smb"]
+	path = of_smb
+	url = git@github.com:connectedway/of_smb.git
