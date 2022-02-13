@@ -69,3 +69,11 @@ cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug =DOPENFILES_CONFIG=./config/centos-el8
 cmake --build build
 export OPEN_FILES_HOME=./configs/linux_debug.xml 
 ./build/of_core/test/test_all
+
+building on MacOS
+
+cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug =DOPENFILES_CONFIG=./config/macos-smb
+cmake --build build
+export OPEN_FILES_HOME=./configs/darwin_debug.xml 
+./build/of_core/test/test_all
+

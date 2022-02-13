@@ -46,3 +46,9 @@
 [submodule "of_smb"]
 	path = of_smb
 	url = git@github.com:connectedway/of_smb.git
+[submodule "of_smb_fs"]
+	path = of_smb_fs
+	url = git@github.com:connectedway/of_smb_fs.git
+[submodule "of_smb_client"]
+	path = of_smb_client
+	url = git@github.com:connectedway/of_smb_client.git
