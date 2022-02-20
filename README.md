@@ -72,8 +72,8 @@ export OPEN_FILES_HOME=./configs/linux_debug.xml
 
 building on MacOS
 
-cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug =DOPENFILES_CONFIG=./config/macos-smb
-cmake --build build
+cmake -Bbuild-macos-smb -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/macos-smb
+cmake --build build-macos-smb
 export OPEN_FILES_HOME=./configs/darwin_debug.xml 
 ./build/of_core/test/test_all
 

@@ -52,3 +52,6 @@
 [submodule "of_smb_client"]
 	path = of_smb_client
 	url = git@github.com:connectedway/of_smb_client.git
+[submodule "of_security"]
+	path = of_security
+	url = git@github.com:connectedway/of_security.git
