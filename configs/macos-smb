@@ -53,5 +53,5 @@ if(DEFINED OPENFILES_SMB_JNI)
   option(OF_SMB "Include SMB build" ON)
   option(OFC_INCLUDE_JNI "Build a JNI library" ON)
 endif()
-
+option(OFC_KERBEROS "Include Kerberos Package" ON)
 set(OFC_TEST_FS_DARWIN_PATH "/tmp/openfiles/test/" CACHE STRING "Path to store test files for fs darwin")
