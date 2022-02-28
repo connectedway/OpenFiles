@@ -37,6 +37,13 @@ based on Open Files to provide for:
 - Microsoft lan manager support for Pipes, Mailslots, and DCE
 - Kerberos/Active Directory Integration.
 
+A view of the repository structure is shown below.
+
+The core repositories are
+
+![Core Repositories](./docsumentation/of_core.png)
+
+
 The documentation for Open Files is can be found at
 http://www.connectedway.com/openfiles
 
