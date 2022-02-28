@@ -41,7 +41,7 @@ A view of the repository structure is shown below.
 
 The core repositories are
 
-![Core Repositories](./docsumentation/of_core.png)
+![Core Repositories](./documentation/of_core.png)
 
 
 The documentation for Open Files is can be found at
