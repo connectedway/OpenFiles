@@ -4,7 +4,8 @@ project(openfiles VERSION 5.0.1 DESCRIPTION "Multi-Platform Event-Driven Applica
 enable_testing()
 
 if (NOT DEFINED OPENFILE_CONFIG)
-   set(OPENFILE_CONFIG "configs/default")
+   set(OPENFILE_CONFIG "configs/android-smb")
+   # set(JAVA_HOME "/Library/Java/JavaVirtualMachines/openlogic-openjdk-11.jdk/Contents/Home")
 endif()
 
 include(${OPENFILE_CONFIG})
