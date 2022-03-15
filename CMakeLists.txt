@@ -48,6 +48,7 @@ if(DEFINED OF_SMB)
   if(DEFINED OF_SMB_CLIENT)
     add_subdirectory(of_smb_client)
     add_subdirectory(of_smb_fs)
+    add_subdirectory(of_smb_browser)
   endif()
 endif()
 

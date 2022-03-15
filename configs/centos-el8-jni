@@ -55,3 +55,4 @@ if(DEFINED OPENFILES_SMB_JNI)
 endif()
 
 set(OFC_TEST_FS_LINUX_PATH "/tmp/openfiles/test/" CACHE STRING "Path to store test files for fs linux")
+set(OFC_MAX_IO "32768" CACHE STRING "Maximum IO Buffer Size for Streaming")

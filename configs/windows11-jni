@@ -56,3 +56,4 @@ if(DEFINED OPENFILES_SMB_JNI)
 endif()
 
 set(OFC_TEST_FS_WINDOWS_PATH "/Users/rschm/AppData/Local/Temp/openfiles" CACHE STRING "Path to store test files for fs windows")
+set(OFC_MAX_IO "32768" CACHE STRING "Maximum IO Buffer Size for Streaming")
