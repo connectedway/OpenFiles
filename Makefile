@@ -25,3 +25,18 @@ androidsim-smb-build:
 androidsim-smb-clean:
 	rm -rf build-androidsim-smb
 
+linux-smb: linux-smb-config linux-smb-build
+
+linux-smb-config:
+	cmake -Bbuild-linux-smb -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smb
+
+linux-smb-build:
+	cmake --build build-linux-smb
+
+linux-smb-test:
+	cd build-linux-smb; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+
+linux-smb-clean:
+	rm -rf build-linux-smb
+
+

@@ -78,6 +78,7 @@ cmake-build-release/
 build/
 build-macos-smb/
 android-build/
+build-linux-smb/
 out/
 
 # Emacs artifacts

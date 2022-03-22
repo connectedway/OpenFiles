@@ -71,6 +71,7 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OFC_FS_SMB
 #cmakedefine OF_SMB_CLIENT
 #cmakedefine OFC_KERBEROS
+#cmakedefine OFC_NTLMV2_TARGET_TIMESTAMP
 
 #define OFC_MAX_IO @OFC_MAX_IO@
 #define OFC_TEST_FS_DARWIN_PATH "@OFC_TEST_FS_DARWIN_PATH@"
