@@ -70,6 +70,7 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OF_SMB
 #cmakedefine OFC_FS_SMB
 #cmakedefine OF_SMB_CLIENT
+#cmakedefine OF_SMB_SERVER
 #cmakedefine OFC_KERBEROS
 #cmakedefine OFC_NTLMV2_TARGET_TIMESTAMP
 

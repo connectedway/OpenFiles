@@ -58,3 +58,6 @@
 [submodule "of_smb_browser"]
 	path = of_smb_browser
 	url = git@github.com:connectedway/of_smb_browser.git
+[submodule "of_smb_server"]
+	path = of_smb_server
+	url = git@github.com:connectedway/of_smb_server.git
