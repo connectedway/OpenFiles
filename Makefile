@@ -8,7 +8,7 @@ macos-smb-build:
 	cmake --build build-macos-smb
 
 macos-smb-test:
-	cd build-macos-smb; OPEN_FILES_HOME=./configs/carwin_debug.xml ctest
+	cd build-macos-smb; OPEN_FILES_HOME=./configs/darwin_debug.xml ctest
 
 macos-smb-clean:
 	rm -rf build-macos-smb

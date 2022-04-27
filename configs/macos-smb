@@ -36,7 +36,7 @@ set(OFC_LOAD "__attribute__((constructor))" CACHE STRING "Compiler attribute for
 set(OFC_UNLOAD "__attribute__((destructor))" CACHE STRING "Compile attribute for destructor")
 
 set(OFC_IMPL "darwin" CACHE STRING "Core platform implementation to use")
-set(OFC_HEAP_IMPL "binheap" CACHE STRING "Heap implementation to use")
+set(OFC_HEAP_IMPL "cheap" CACHE STRING "Heap implementation to use")
 option(OFC_DISCOVER_IPV4 "Support IPv4 Addressing" ON)
 option(OFC_DISCOVER_IPV6 "Support IPv6 Addressing" ON)
 option(OFC_FS_DARWIN "Add Open File Darwin File System" ON)

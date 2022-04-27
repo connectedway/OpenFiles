@@ -11,5 +11,31 @@
         <dnslist></dnslist>
     </ip>
     <drives></drives>
+    <smb>
+      <fqdn>openfiles.com</fqdn>
+      <serveruser>rschmitt</serveruser>
+      <serverpass>happy</serverpass>
+      <max_events>5</max_events>
+      <time_period>30000</time_period>
+      <remotes>
+	<remote>
+	  <name>macos</name>
+	  <ip>127.0.0.1</ip>
+	  <port>4445</port>
+	</remote>
+      </remotes>
+      <exports>
+	<export>
+	  <share>blueshare</share>
+	  <comment>test share</comment>
+	  <nativefs>fat</nativefs>
+	  <path>/Users/rschmitt/blueshare/</path>
+	  <exporttype>DISK</exporttype>
+	</export>
+      </exports>
+      <servers>
+	<port>4445</port>
+      </servers>
+    </smb>
 </of_core>
 
