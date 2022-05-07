@@ -61,3 +61,6 @@
 [submodule "of_smb_server"]
 	path = of_smb_server
 	url = git@github.com:connectedway/of_smb_server.git
+[submodule "of_resolver_fs"]
+	path = of_resolver_fs
+	url = git@github.com:connectedway/of_resolver_fs.git
