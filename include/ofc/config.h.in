@@ -69,6 +69,7 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OPENFILES_SMB_JNI
 #cmakedefine OF_SMB
 #cmakedefine OFC_FS_SMB
+#cmakedefine OF_RESOLVER_FS
 #cmakedefine OF_SMB_CLIENT
 #cmakedefine OF_SMB_SERVER
 #cmakedefine OFC_KERBEROS
