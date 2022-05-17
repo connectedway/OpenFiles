@@ -64,3 +64,6 @@
 [submodule "of_resolver_fs"]
 	path = of_resolver_fs
 	url = git@github.com:connectedway/of_resolver_fs.git
+[submodule "of_core_fs_pipe"]
+	path = of_core_fs_pipe
+	url = git@github.com:connectedway.com/of_core_fs_pipe.git

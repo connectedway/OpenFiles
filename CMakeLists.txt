@@ -39,6 +39,10 @@ if(DEFINED OFC_INCLUDE_JNI)
   add_subdirectory(of_core_jni)
 endif()
 
+if(DEFINED OFC_FS_PIPE)
+  add_subdirectory(of_core_fs_pipe)
+endif()
+
 if(DEFINED OF_SMB)
   add_subdirectory(of_smb)
   add_subdirectory(of_security)

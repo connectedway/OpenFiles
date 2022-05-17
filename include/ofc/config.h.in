@@ -59,6 +59,7 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OFC_DISCOVER_IPV4
 #cmakedefine OFC_DISCOVER_IPV6
 #cmakedefine OFC_FS_DARWIN
+#cmakedefine OFC_FS_PIPE
 #cmakedefine OFC_FS_LINUX
 #cmakedefine OFC_FS_WIN32
 #cmakedefine OFC_FS_ANDROID
