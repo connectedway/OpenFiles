@@ -68,6 +68,7 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OFC_MULTI_UDP
 #cmakedefine OFC_INCLUDE_JNI
 #cmakedefine OPENFILES_SMB_JNI
+#cmakedefine OFC_NETMON
 #cmakedefine OF_SMB
 #cmakedefine OFC_FS_SMB
 #cmakedefine OF_RESOLVER_FS
