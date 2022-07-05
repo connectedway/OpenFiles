@@ -12,6 +12,13 @@ include(${OPENFILE_CONFIG})
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
 
+if(ANDROID AND DEFINED OFC_KERBEROS)
+set(KRB5_NDK /Users/rschmitt/git/krb5.of/install-ndk/${CMAKE_ANDROID_ARCH_ABI})
+set(KRB5_INCLUDE_PATH ${KRB5_NDK}/include)
+set(KRB5_LIBRARY_PATH ${KRB5_NDK}/lib)
+set(KRB5_LIBS ${KRB5_LIBRARY_PATH}/libgssapi_krb5.a ${KRB5_LIBRARY_PATH}/libkrb5support.a ${KRB5_LIBRARY_PATH}/libcom_err.a ${KRB5_LIBRARY_PATH}/libkrb5.a ${KRB5_LIBRARY_PATH}/libk5crypto.a)
+endif()
+
 add_subdirectory(of_core)
 include_directories(${of_core_SOURCE_DIR}/include)
 
