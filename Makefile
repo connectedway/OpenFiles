@@ -39,4 +39,19 @@ linux-smb-test:
 linux-smb-clean:
 	rm -rf build-linux-smb
 
+linux-perf: linux-perf-config linux-perf-build
+
+linux-perf-config:
+	cmake -Bbuild-linux-perf -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-perf
+
+linux-perf-build:
+	cmake --build build-linux-perf
+
+linux-perf-test:
+	OPEN_FILES_HOME=./configs/linux_debug.xml \
+            ./build-linux-perf/of_core/test/test_fs_linux
+
+linux-perf-clean:
+	rm -rf build-linux-perf
+
 
