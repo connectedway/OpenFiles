@@ -34,10 +34,28 @@ linux-smb-build:
 	cmake --build build-linux-smb
 
 linux-smb-test:
-	cd build-linux-smb; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+#	cd build-linux-smb; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+	OPEN_FILES_HOME=./configs/linux_debug.xml \
+            ./build-linux-smb/of_smb_fs/test/test_fs_smb
 
 linux-smb-clean:
 	rm -rf build-linux-smb
+
+linux-smbfs: linux-smbfs-config linux-smbfs-build
+
+linux-smbfs-config:
+	cmake -Bbuild-linux-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbfs
+
+linux-smbfs-build:
+	cmake --build build-linux-smbfs
+
+linux-smbfs-test:
+#	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+	OPEN_FILES_HOME=./configs/linux_debug.xml \
+            ./build-linux-smbfs/of_smb_fs/test/test_fs_smb
+
+linux-smbfs-clean:
+	rm -rf build-linux-smbfs
 
 linux-perf: linux-perf-config linux-perf-build
 
