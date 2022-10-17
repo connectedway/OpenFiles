@@ -63,7 +63,7 @@ if(OPENFILES_SMB_JNI AND NOT OFC_INCLUDE_JNI)
   message(FATAL_ERROR "Must specific OFC_INCLUDE_JNI if specifying OPENFILES_SMB_JNI")
 endif()
 
-set(OFC_TEST_FS_LINUX_PATH "/media/smb/" CACHE STRING "Path to store test files for fs linux")
+set(OFC_TEST_FS_LINUX_PATH "/media/pc/" CACHE STRING "Path to store test files for fs linux")
 set(OFC_MAX_IO "65536" CACHE STRING "Maximum IO Buffer Size for Streaming")
 set(OFC_CALL_STACK_SIZE "32768" CACHE STRING "Maximum Buffer To Map for I/O")
 option(OFC_KERBEROS "Include Kerberos Package" OFF)
