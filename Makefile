@@ -13,6 +13,20 @@ macos-smb-test:
 macos-smb-clean:
 	rm -rf build-macos-smb
 
+macos-smbfs: macos-smbfs-config macos-smbfs-build
+
+macos-smbfs-config:
+	cmake -Bbuild-macos-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/macos-smbfs
+
+macos-smbfs-build:
+	cmake --build build-macos-smbfs
+
+macos-smbfs-test:
+	OPEN_FILES_HOME=./configs/darwin_debug.xml \
+            ./build-macos-smbfs/of_smb_fs/test/test_fs_smb
+
+macos-smbfs-clean:
+	rm -rf build-macos-smbfs
 
 androidsim-smb: androidsim-smb-config androidsim-smb-build
 
@@ -34,7 +48,6 @@ linux-smb-build:
 	cmake --build build-linux-smb
 
 linux-smb-test:
-#	cd build-linux-smb; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
 	OPEN_FILES_HOME=./configs/linux_debug.xml \
             ./build-linux-smb/of_smb_fs/test/test_fs_smb
 
