@@ -42,6 +42,9 @@
 #cmakedefine OFC_UNICODE_API
 #cmakedefine OFC_STACK_TRACE
 #cmakedefine OFC_PRESELECT_PASS
+#cmakedefine OF_OPENSSL
+#cmakedefine OF_GNUTLS
+#cmakedefine OF_ENCRYPTION
 #define OFC_MAX_HANDLE16 @OFC_MAX_HANDLE16@
 #define OFC_MAX_MAPS @OFC_MAX_MAPS@
 #define OFC_TRACE_LEN @OFC_TRACE_LEN@
