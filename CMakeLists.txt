@@ -25,6 +25,10 @@ set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.0.7")
 set(OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include)
 set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib)
 set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib)
+
+set(MBEDTLS_ROOT_DIR "/opt/homebrew/Cellar/mbedtls/3.2.1")
+set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
+set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
 endif()
 
 if(ANDROID AND OFC_KERBEROS)
