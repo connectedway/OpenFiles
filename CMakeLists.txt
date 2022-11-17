@@ -12,23 +12,52 @@ include(${OPENFILE_CONFIG})
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
 
+#
+# Tell cmake where openssl and mbedtls are for Android and Darwin.
+# Linux is much more cooperative
+#
 if(ANDROID)
-set(OPENSSL_NDK /Users/rschmitt/git/openssl/install-ndk/${CMAKE_ANDROID_ARCH_ABI})
-set(OPENSSL_ROOT_DIR ${OPENSSL_NDK})
-set(OPENSSL_INCLUDE_DIR ${OPENSSL_NDK}/include)
-set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_NDK}/lib/libcrypto.so)
-set(OPENSSL_SSL_LIBRARY ${OPENSSL_NDK}/lib/libssl.so)
+  set(OPENSSL_NDK /Users/rschmitt/git/openssl/install-ndk/${CMAKE_ANDROID_ARCH_ABI})
+  set(OPENSSL_ROOT_DIR ${OPENSSL_NDK})
+  set(OPENSSL_INCLUDE_DIR ${OPENSSL_NDK}/include)
+  set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_NDK}/lib/libcrypto.so)
+  set(OPENSSL_SSL_LIBRARY ${OPENSSL_NDK}/lib/libssl.so)
+
+  set(MBEDTLS_NDK /Users/rschmitt/git/mbedtls/install-ndk/${CMAKE_ANDROID_ARCH_ABI})
+  set(MBEDTLS_ROOT_DIR ${MBEDTLS_NDK})
+  set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_NDK}/include)
+  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_NDK}/lib/libmbedcrypto.a)
+
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-# set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl@3")
-set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.0.7")
-set(OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include)
-set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib)
-set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib)
+  set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.0.7")
+  set(OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include)
+  set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib)
+  set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib)
 
-set(MBEDTLS_ROOT_DIR "/opt/homebrew/Cellar/mbedtls/3.2.1")
-set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
-set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
+  set(MBEDTLS_ROOT_DIR "/opt/homebrew/Cellar/mbedtls/3.2.1")
+  set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
+  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
+endif()
+#
+# Get the Library Variables all set up
+#
+if(OF_OPENSSL)
+  find_package(OpenSSL)
+  if (OPENSSL_FOUND)
+     list(APPEND crypto_library_list ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
+  endif()
+endif()
+
+if(OF_MBEDTLS)
+  list(APPEND crypto_library_list ${MBEDTLS_CRYPTO_LIBRARY})
+endif()
+
+if(OF_GNUTLS)
+  find_package(GnuTLS)
+  if (GNUTLS_FOUND)
+    list(APPEND ssl_library_list GnuTLS::GnuTLS)
+  endif()
 endif()
 
 if(ANDROID AND OFC_KERBEROS)
