@@ -81,6 +81,7 @@ android-build/
 build-linux-smb/
 build-linux-perf/
 build-linux-smbfs/
+build-macos-smbfs/
 out/
 
 # Emacs artifacts
