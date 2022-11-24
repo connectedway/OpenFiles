@@ -70,7 +70,7 @@ endif()
 add_subdirectory(of_core)
 include_directories(${of_core_SOURCE_DIR}/include)
 
-# add_subdirectory(of_core_binheap)
+add_subdirectory(of_core_binheap)
 add_subdirectory(of_core_cheap)
 
 if(OF_RESOLVER_FS)
