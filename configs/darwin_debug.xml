@@ -10,7 +10,13 @@
         </interfaces>
         <dnslist></dnslist>
     </ip>
-    <drives></drives>
+    <drives>
+      <map>
+        <drive>test</drive>
+        <description>Remote for test_file</description>
+        <path>//rschmitt:happy@127.0.0.1:4445/spiritcloud/</path>
+      </map>
+    </drives>
     <smb>
       <fqdn>openfiles.com</fqdn>
       <serveruser>rschmitt</serveruser>
