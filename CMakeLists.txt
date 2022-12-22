@@ -39,6 +39,12 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
   set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
 endif()
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(MBEDTLS_ROOT_DIR "/usr/local")
+  set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
+  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.a)
+endif()
+
 #
 # Get the Library Variables all set up
 #
@@ -170,3 +176,27 @@ endif()
     endif()
 endif()
 
+set(OF_TARGETS
+  of_smb_shared
+  of_smb_static
+  test_fs_linux
+  test_fs_smb
+  of_core_shared
+  of_core_static
+  test_all
+  test_timer
+  test_event
+  test_perf
+  test_waitq
+  test_thread
+  test_dg
+  test_stream
+  test_path
+  test_iovec
+  test_fs_linux
+)  
+
+install(TARGETS ${OF_TARGETS}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	)

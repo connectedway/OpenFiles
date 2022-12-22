@@ -62,6 +62,9 @@ linux-smbfs-config:
 linux-smbfs-build:
 	cmake --build build-linux-smbfs
 
+linux-smbfs-install:
+	cmake --install build-linux-smbfs
+
 linux-smbfs-test:
 #	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
 	OPEN_FILES_HOME=./configs/linux_debug.xml \
