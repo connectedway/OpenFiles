@@ -40,7 +40,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  set(MBEDTLS_ROOT_DIR "/usr/local")
+  # for linux, pass in MBEDTLS_ROOT_DIR
   set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
   set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.a)
 endif()

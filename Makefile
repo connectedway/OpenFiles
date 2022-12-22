@@ -57,7 +57,7 @@ linux-smb-clean:
 linux-smbfs: linux-smbfs-config linux-smbfs-build
 
 linux-smbfs-config:
-	cmake -Bbuild-linux-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbfs
+	cmake -Bbuild-linux-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbfs -DMBEDTLS_ROOT_DIR=/usr/local
 
 linux-smbfs-build:
 	cmake --build build-linux-smbfs
