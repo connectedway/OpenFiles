@@ -11,9 +11,6 @@ endif()
 include(${OPENFILE_CONFIG})
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
-set_target_properties(openfiles PROPERTIES
-    PUBLIC_HEADERS ofc/config.h
-    )
 
 #
 # Tell cmake where openssl and mbedtls are for Android and Darwin.
@@ -178,10 +175,4 @@ endif()
             )
     endif()
 endif()
-
-install(TARGETS openfiles
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/openfiles
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/openfiles
-        PUBLIC_HEADERS DESTINATION ${CMAKE_INSTALL_INCDIR}/openfiles
-        )
 
