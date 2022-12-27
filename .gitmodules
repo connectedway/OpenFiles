@@ -1,6 +1,6 @@
 [submodule "of_core_darwin"]
 	path = of_core_darwin
-	url = git@github.com:connectedway/of_core_darwin.git
+	url = https://github.com/connectedway/of_core_darwin.git
 [submodule "of_core_cheap"]
 	path = of_core_cheap
 	url = git@github.com:connectedway/of_core_cheap.git
@@ -45,7 +45,7 @@
 	url = git@github.com:connectedway/of_smb_jni.git
 [submodule "of_smb"]
 	path = of_smb
-	url = git@github.com:connectedway/of_smb.git
+	url = ssh://git@github.com/connectedway/of_smb.git
 [submodule "of_smb_fs"]
 	path = of_smb_fs
 	url = git@github.com:connectedway/of_smb_fs.git
