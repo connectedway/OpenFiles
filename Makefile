@@ -77,7 +77,7 @@ linux-smbfs-clean:
 yocto-smbfs: yocto-smbfs-config yocto-smbfs-build
 
 yocto-smbfs-config:
-	cmake -Bbuild-yocto-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/yocto-smbfs -DMBEDTLS_ROOT_DIR=/usr/local
+	cmake -Bbuild-yocto-smbfs -DCMAKE_BUILD_TYPE=Release -DOPENFILE_CONFIG=./configs/yocto-smbfs -DMBEDTLS_ROOT_DIR=/usr/local
 
 yocto-smbfs-build:
 	cmake --build build-yocto-smbfs
