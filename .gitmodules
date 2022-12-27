@@ -3,67 +3,67 @@
 	url = https://github.com/connectedway/of_core_darwin.git
 [submodule "of_core_cheap"]
 	path = of_core_cheap
-	url = git@github.com:connectedway/of_core_cheap.git
+	url = https://github.com/connectedway/of_core_cheap.git
 [submodule "of_core_binheap"]
 	path = of_core_binheap
-	url = git@github.com:connectedway/of_core_binheap.git
+	url = https://github.com/connectedway/of_core_binheap.git
 [submodule "of_core"]
 	path = of_core
-	url = git@github.com:connectedway/of_core.git
+	url = https://github.com/connectedway/of_core.git
 [submodule "Unity"]
 	path = Unity
-	url = git@github.com:connectedway/Unity.git
+	url = https://github.com/connectedway/Unity.git
 [submodule "of_core_fs_darwin"]
 	path = of_core_fs_darwin
-	url = git@github.com:connectedway/of_core_fs_darwin.git
+	url = https://github.com/connectedway/of_core_fs_darwin.git
 [submodule "of_core_fs_bookmarks"]
 	path = of_core_fs_bookmarks
-	url = git@github.com:connectedway/of_core_fs_bookmarks
+	url = https://github.com/connectedway/of_core_fs_bookmarks.git
 [submodule "of_core_fs_linux"]
 	path = of_core_fs_linux
-	url = git@github.com:connectedway/of_core_fs_linux.git
+	url = https://github.com/connectedway/of_core_fs_linux.git
 [submodule "of_core_linux"]
 	path = of_core_linux
-	url = git@github.com:connectedway/of_core_linux.git
+	url = https://github.com/connectedway/of_core_linux.git
 [submodule "of_core_windows"]
 	path = of_core_windows
-	url = git@github.com:connectedway/of_core_windows.git
+	url = https://github.com/connectedway/of_core_windows.git
 [submodule "of_core_fs_windows"]
 	path = of_core_fs_windows
-	url = git@github.com:connectedway/of_core_fs_windows.git
+	url = https://github.com/connectedway/of_core_fs_windows.git
 [submodule "of_core_android"]
 	path = of_core_android
-	url = git@github.com:connectedway/of_core_android.git
+	url = https://github.com/connectedway/of_core_android.git
 [submodule "of_core_fs_android"]
 	path = of_core_fs_android
-	url = git@github.com:connectedway/of_core_fs_android.git
+	url = https://github.com/connectedway/of_core_fs_android.git
 [submodule "of_core_jni"]
 	path = of_core_jni
-	url = git@github.com:connectedway/of_core_jni.git
+	url = https://github.com/connectedway/of_core_jni.git
 [submodule "of_smb_jni"]
 	path = of_smb_jni
-	url = git@github.com:connectedway/of_smb_jni.git
+	url = ssh://git@github.com/connectedway/of_smb_jni.git
 [submodule "of_smb"]
 	path = of_smb
 	url = ssh://git@github.com/connectedway/of_smb.git
 [submodule "of_smb_fs"]
 	path = of_smb_fs
-	url = git@github.com:connectedway/of_smb_fs.git
+	url = ssh://git@github.com/connectedway/of_smb_fs.git
 [submodule "of_smb_client"]
 	path = of_smb_client
-	url = git@github.com:connectedway/of_smb_client.git
+	url = ssh://git@github.com/connectedway/of_smb_client.git
 [submodule "of_security"]
 	path = of_security
-	url = git@github.com:connectedway/of_security.git
+	url = ssh://git@github.com/connectedway/of_security.git
 [submodule "of_smb_browser"]
 	path = of_smb_browser
-	url = git@github.com:connectedway/of_smb_browser.git
+	url = ssh://git@github.com/connectedway/of_smb_browser.git
 [submodule "of_smb_server"]
 	path = of_smb_server
-	url = git@github.com:connectedway/of_smb_server.git
+	url = ssh://git@github.com/connectedway/of_smb_server.git
 [submodule "of_resolver_fs"]
 	path = of_resolver_fs
-	url = git@github.com:connectedway/of_resolver_fs.git
+	url = ssh://git@github.com/connectedway/of_resolver_fs.git
 [submodule "of_core_fs_pipe"]
 	path = of_core_fs_pipe
-	url = git@github.com:connectedway/of_core_fs_pipe.git
+	url = https://github.com/connectedway/of_core_fs_pipe.git
