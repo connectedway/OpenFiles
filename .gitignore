@@ -82,6 +82,7 @@ build-linux-smb/
 build-linux-perf/
 build-linux-smbfs/
 build-macos-smbfs/
+build-yocto-smbfs/
 out/
 
 # Emacs artifacts
@@ -98,5 +99,6 @@ dkms.conf
 
 # Doxygen output
 documentation/html
+documentation/latex
 documentation/openfiles
 documentation/~$openfiles2.0testplan.xlsx
