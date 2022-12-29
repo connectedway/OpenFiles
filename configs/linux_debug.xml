@@ -10,6 +10,12 @@
         </interfaces>
         <dnslist></dnslist>
     </ip>
-    <drives></drives>
+    <drives>
+      <map>
+        <drive>test</drive>
+        <description>Remote for test_file</description>
+        <path>//rschmitt:happy@192.168.1.206/spiritcloud/openfiles</path>
+      </map>
+    </drives>
 </of_core>
 
