@@ -72,12 +72,12 @@ cd /data/local/tmp
 chmod +x test_*
 export OPEN_FILES_HOME=/data/local/tmp/android_debug.xml
 
-building on Linux
+# building on Linux
 
 To find out how to build and deploy Open Files on Linux, please see
 [Here](https://github.com/connectedway/openfiles/blob/main/LINUX.md)
 
-building on MacOS
+# building on MacOS
 
 cmake -Bbuild-macos-smb -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/macos-smb
 cmake --build build-macos-smb
