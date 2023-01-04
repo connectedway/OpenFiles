@@ -65,6 +65,10 @@ linux-smbfs-build:
 linux-smbfs-install:
 	cmake --install build-linux-smbfs
 
+linux-smbfs-uninstall:
+	@xargs rm < build-linux-smbfs/install_manifest.txt 2>@ /dev/null || true
+	@rmdir /usr/local/bin/openfiles 2>@ /dev/null || true
+
 linux-smbfs-test:
 #	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
 	OPEN_FILES_HOME=./configs/linux_debug.xml \
@@ -72,6 +76,47 @@ linux-smbfs-test:
 
 linux-smbfs-clean:
 	rm -rf build-linux-smbfs
+
+
+yocto-smbfs: yocto-smbfs-config yocto-smbfs-build
+
+yocto-smbfs-config:
+	cmake -Bbuild-yocto-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/yocto-smbfs -DMBEDTLS_ROOT_DIR=/usr/local
+
+yocto-smbfs-build:
+	cmake --build build-yocto-smbfs
+
+yocto-smbfs-install:
+	cmake --install build-yocto-smbfs
+
+yocto-smbfs-test:
+#	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+	OPEN_FILES_HOME=./configs/linux_debug.xml \
+            ./build-yocto-smbfs/of_smb_fs/test/test_fs_smb
+
+yocto-smbfs-clean:
+	rm -rf build-yocto-smbfs
+
+linux: linux-config linux-build
+
+linux-config:
+	cmake -Bbuild-linux -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux
+
+linux-build:
+	cmake --build build-linux
+
+linux-install:
+	cmake --install build-linux
+
+linux-uninstall:
+	@xargs rm < build-linux/install_manifest.txt 2>@ /dev/null || true
+	@rmdir /usr/local/bin/openfiles 2>@ /dev/null || true
+
+linux-test:
+	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+
+linux-clean:
+	rm -rf build-linux
 
 
 yocto-smbfs: yocto-smbfs-config yocto-smbfs-build

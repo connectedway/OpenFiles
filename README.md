@@ -74,10 +74,8 @@ export OPEN_FILES_HOME=/data/local/tmp/android_debug.xml
 
 building on Linux
 
-cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug =DOPENFILES_CONFIG=./config/centos-el8
-cmake --build build
-export OPEN_FILES_HOME=./configs/linux_debug.xml 
-./build/of_core/test/test_all
+To find out how to build and deploy Open Files on Linux, please see
+[Here](https://github.com/connectedway/openfiles/blob/main/LINUX.md)
 
 building on MacOS
 
