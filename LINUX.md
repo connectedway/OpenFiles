@@ -52,15 +52,16 @@ Clone the openfiles repository
 
 ```
 $ git clone https://github.com/connectedway/openfiles.git
+$ cd openfiles
 ```
 
 Initialize the core submodules.
 
 ```
 $ git submodule init of_core_cheap of_core_binheap of_core Unity \
-> of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 $ git submodule update of_core_cheap of_core_binheap of_core Unity \
-> of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 ```
 
 If you have registered for the private repos and wish to include the smb
@@ -68,15 +69,13 @@ support, initialize the smb submodules:
 
 ```
 $ git submodule init of_smb of_smb_fs of_smb_client of_security \
-> of_smb_browser
+of_smb_browser
 $ git submodule update of_smb of_smb_fs of_smb_client of_security \
-> of_smb_browser
+of_smb_browser
 ```
 
 NOTE: There is a separate readme if you wish to include the JNI support or
 the smb server support.
-
-To generate an smb build of openfiles on hardknott, issue:
 
 # Building A Linux Deployment of OpenFiles
 
@@ -102,6 +101,12 @@ You can run a Unity orchestrated test of Openfiles by issuing:
 make linux-test
 ```
 
+You can run a Unity orchestrated test of Openfiles with SMB by issuing:
+
+```
+make linux-smbfs-test
+```
+
 # Installing Linux Artifacts
 
 You can install the Linux artifacts into the system directories by
@@ -109,6 +114,13 @@ issuing the following command:
 
 ```
 sudo make linux-install
+```
+
+You can install the Linux SMB artifacts into the system directories by
+issuing the following command:
+
+```
+sudo make linux-smbfs-install
 ```
 
 # Uninstalling the Linux Artifacts
@@ -120,12 +132,25 @@ issuing the following command:
 sudo make linux-uninstall
 ```
 
+You can uninstall the Linux SMB artifacts from the system directories by
+issuing the following command:
+
+```
+sudo make linux-smbfs-uninstall
+```
+
 # Cleaning up the Build Directory
 
 You can clean up all the build artificats by issuing:
 
 ```
 make linux-clean
+```
+
+You can clean up all the build artificats of the SMB build by issuing:
+
+```
+make linux-smbfs-clean
 ```
 
 # Explore the File System

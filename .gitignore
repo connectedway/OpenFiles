@@ -78,6 +78,7 @@ cmake-build-release/
 build/
 build-macos-smb/
 android-build/
+build-linux/
 build-linux-smb/
 build-linux-perf/
 build-linux-smbfs/
