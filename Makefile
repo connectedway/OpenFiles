@@ -66,8 +66,8 @@ linux-smbfs-install:
 	cmake --install build-linux-smbfs
 
 linux-smbfs-uninstall:
-	@xargs rm < build-linux-smbfs/install_manifest.txt 2>@ /dev/null || true
-	@rmdir /usr/local/bin/openfiles 2>@ /dev/null || true
+	@xargs rm < build-linux-smbfs/install_manifest.txt 2> /dev/null || true
+	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
 
 linux-smbfs-test:
 #	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
@@ -109,8 +109,8 @@ linux-install:
 	cmake --install build-linux
 
 linux-uninstall:
-	@xargs rm < build-linux/install_manifest.txt 2>@ /dev/null || true
-	@rmdir /usr/local/bin/openfiles 2>@ /dev/null || true
+	@xargs rm < build-linux/install_manifest.txt 2> /dev/null || true
+	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
 
 linux-test:
 	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
