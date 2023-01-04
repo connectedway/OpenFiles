@@ -32,7 +32,7 @@ set(OFC_DEFAULT_NAME "localhost" CACHE STRING "Default system name")
 set(OFC_DEFAULT_SCOPE "" CACHE STRING "Default system scope")
 set(OFC_DEFAULT_DESCR "Open Files" CACHE STRING "Default system description")
 set(OFC_DEFAULT_DOMAIN "WORKGROUP" CACHE STRING "Default system domain")
-option(INIT_ON_LOAD "Initialize libraries on load" OFF)
+option(INIT_ON_LOAD "Initialize libraries on load" ON)
 set(OFC_LOAD "__attribute__((constructor))" CACHE STRING "Compiler attribute for constructor")
 set(OFC_UNLOAD "__attribute__((destructor))" CACHE STRING "Compile attribute for destructor")
 
