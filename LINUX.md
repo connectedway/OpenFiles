@@ -25,26 +25,100 @@ to learn about support for other platforms.
 
 ## Registering for the Open Files git repos
 
+If you are using only the core openfiles support, you can skip directly to
+(#setting-up-your-linux-workspace)
+
 In order to build the openfiles smb distribution, you will need to be
 registered for the https://github.com/connectedway repos.  If you are only
 building and deploying the core support, you do not need to register.  In
 this case, you can skip directly to [Setting up Your Worspace](#setting-up-your-linux-workspace)
 
-If you already have a public/private keypair you would like to use, you can
-skip the creation step.
+### Getting an account on Github
 
-### Create a public/private key pair
+If you already have a github account, you can skip this step.  Otherwise,
+go to https://github.com and click the `sign up` box near the top right of
+the screen.  It will ask you for your email address and will send you an invite
+by email.  Click the invite, add a password, and you will be all set.
 
-Only do this if you do not already have a public/private key pair that you
-would like to use for git.
+### Generating a public/private key pair
+
+If you already have a public/private key pair that you wish to use on your
+github account, you can skip this step.
 
 You can find out more info [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
 
-### Send the public key to Connected Way.
+If you wish to create a new keypair for accessing the Connected Way repos,
+open a linux command shell and issue the command:
 
-Once we receive your public keys, we will add as deploy keys for Connected
-Way's protected git repos.  A public key will typically have a suffix of
-.pub.  Protect your private key from unauthorized access.
+```
+$ ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+This will ask you for a file name and a password.  The file name is arbitrary.
+You can accept the one it suggests or override with a more friendly name.
+For password, you can leave it blank or provide a password.  One issue with
+providing a password is you will have to type in the password every time you
+use the key which may make automated runs cumbersome.
+
+The keygen utility should place your keys in your `$HOME/.ssh` directory.  If
+it placed them somewhere else, you should move them into your .ssh directory.
+
+### Uploading a public key to your account on Github
+
+If you have previously uploaded a key to github, and you wish to use that
+key for access to Connected Way's repos, you can skip this step.
+
+After you have logged in, click on your account icon near the top right of
+the screen, then click `Settings`.
+
+Then click on "SSH and GPG keys" in the explorer pane on the left of the
+screen.  Click on  `New SSH Key` in the main window.  Upload the contents
+of the public key you are using and give it an arbitrary title.
+
+You can simply `cat` the file to your screen, select the contents, and then
+paste it into the box in the "SSH Keys" screen.  Then select `Add SSH Key`
+
+### Add your private key to your SSH client
+
+If you already have added a github entry to your ssh config file with the key
+you are using as the identity, you can skip this step.
+
+Create or edit a file named `config` in `$HOME/.ssh`.  Add an entry similar
+to:
+
+```
+Host github.com
+     IdentityFile ~/.ssh/<private-key-file-name>
+
+```
+
+If you have multple identities on github and wish to use a specific keypair
+for accessing connected way repos, you could add an entry like:
+
+```
+Host connectedway
+     HostName github.com
+     IdentityFile ~/.ssh/<private-key-file-name>
+```
+
+We don't recommend doing this though.  You will have to change the URLs
+of all the submodules in the the openfiles git repo (you'll see this
+in a following step).
+
+If your network requires a proxy for github access, you will need to add
+additional fields to your config entry.  See your system admin for more
+info.
+
+## Accept an Invite to the Connected Way Repos
+
+You may recieve invites to collaborate on a few connected way repos.  You
+may have accepted those invites prior to setting up your github account or
+your account may have been previously set up.  If you have already accepted
+them, you can skip this step.
+
+Log into your github account and click on the notification icon near the top
+right of your window.  The notification screen will show pending invites.
+Click on each invite, and accept it.
 
 ## Setting up your Linux workspace
 
@@ -73,6 +147,9 @@ of_smb_browser
 $ git submodule update of_smb of_smb_fs of_smb_client of_security \
 of_smb_browser
 ```
+
+If you've been good to puppies, you will successfully have access to the
+private repos.
 
 NOTE: There is a separate readme if you wish to include the JNI support or
 the smb server support.
