@@ -175,6 +175,22 @@ https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x8
 
 This will install cmake version 3.25.1 in /usr/local/bin/cmake.
 
+# Install dependent packages
+
+The SMB build of openfiles requires mbedtls and kerberos.  You can install
+these with:
+
+```
+$ sudo apt install libmbedtls-dev
+```
+
+and
+
+```
+$ sudo apt install krb5-user
+$ sudo apt install libkrb5-dev
+```
+
 # Building A Linux Deployment of OpenFiles
 
 If you wish to build just a core OpenFiles version (i.e. without smb support),
