@@ -154,6 +154,27 @@ private repos.
 NOTE: There is a separate readme if you wish to include the JNI support or
 the smb server support.
 
+# Installing the latest version of Cmake
+
+Before building openfiles, you will need to be running a version of cmake
+that is greater than 3.20.  Openfiles can be built on many platforms and to
+insure our CMakeLists.txt files are compatible, we require cmake to be 3.20
+or above.  You can view your cmake version by typing:
+
+```
+$ cmake --version
+```
+
+To update to 3.25.1, you can visit
+
+https://cmake.org/download/
+
+and download
+
+https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x86_64.sh
+
+This will install cmake version 3.25.1 in /usr/local/bin/cmake.
+
 # Building A Linux Deployment of OpenFiles
 
 If you wish to build just a core OpenFiles version (i.e. without smb support),
