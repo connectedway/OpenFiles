@@ -175,20 +175,109 @@ https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x8
 
 This will install cmake version 3.25.1 in /usr/local/bin/cmake.
 
-# Install dependent packages
+# Install Mbedtls
 
-The SMB build of openfiles requires mbedtls and kerberos.  You can install
-these with:
+Create a workspace for mbedtls
 
 ```
-$ sudo apt install libmbedtls-dev
+$ mkdir mbedtls
+$ cd mbedtls
 ```
 
-and
+Clone Upstream
+
+```
+$ git clone https://github.com/Mbed-TLS/mbedtls
+$ cd mbedtls
+```
+
+Checkout the 3.2.1 tag
+
+```
+$ git checkout mbedtls-3.2.1
+```
+
+Then issue make
+
+```
+$ make
+```
+
+Then issue make install
+
+```
+$ sudo make install
+```
+
+# Install Kerberos
+
+The SMB build of openfiles kerberos.  You can install
+this with:
 
 ```
 $ sudo apt install krb5-user
 $ sudo apt install libkrb5-dev
+```
+
+# Updating a workspace
+
+Periodically, it's a good idea to pull in new upstream changes.  You can
+discuss with Connected Way support when an update is recommended.
+
+To perform the update, cd to the root of your workspace:
+
+```
+$ cd openfiles
+```
+
+Clean the workspace.  If you are working with a core openfiles release rather
+than the SMB release, you can issue the following:
+
+```
+$ make linux-clean
+```
+
+If you are working with an SMB release, you can issue the following:
+
+```
+$ make linux-smbfs-clean
+```
+
+Review the current state of your workspace
+
+```
+$ git status
+```
+
+This will output the branch you are on and any local changes.  There shouldn't
+be a need for local changes.  If there are, discuss them with Connected
+Way support.  If they are needed to your workspace only, Connected Way can
+integrate your changes into a private branch.
+
+The git status may indicate that submodules are modified.  If so, you can
+cd into the submodule and perform a git status from there.
+
+If there are changes you wish to save, you can stash your changes, update the
+repository, and pop the stashed changes.
+
+To pull down the latest repository changes, do a git pull:
+
+```
+$ git pull origin
+```
+
+Now you need to update any submodule that have been updated upstream:
+
+```
+$ git submodule update of_core_cheap of_core_binheap of_core Unity \
+of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+```
+
+If you have access to the SMB repositories, you should update those as well.
+
+```
+$ git submodule update of_smb of_smb_fs of_smb_client of_security \
+of_smb_browser
 ```
 
 # Building A Linux Deployment of OpenFiles
