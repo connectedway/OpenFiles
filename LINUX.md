@@ -200,7 +200,7 @@ $ git checkout mbedtls-3.2.1
 Then issue make
 
 ```
-$ make
+$ SHARED='y' make
 ```
 
 Then issue make install
