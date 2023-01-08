@@ -64,8 +64,10 @@ linux-smbfs-build:
 
 linux-smbfs-install:
 	cmake --install build-linux-smbfs
+	cp configs/linux_debug.xml /etc/openfiles.xml
 
 linux-smbfs-uninstall:
+	rm /etc/openfiles.xml
 	@xargs rm < build-linux-smbfs/install_manifest.txt 2> /dev/null || true
 	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
 
