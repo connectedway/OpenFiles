@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<of_core version="0.0">
+    <devicename>localhost</devicename>
+    <uuid>00000000-0000-0000-0000-000000000000</uuid>
+    <description>Open Files</description>
+    <ip>
+        <autoip>no</autoip>
+        <interfaces>
+            <config>auto | manual </config>
+	    <interface>
+	      <ipaddress>ipv4/ipv6 address</ipaddress>
+	      <bcast>bcast address</bcast>
+	      <mask>network mask</mask>
+	      <mode>BMODE | PMODE | MMODE | HMODE</mode>
+	      <winslist>
+		<wins>ip of wins server</wins>
+	      </winslist>
+	      <master>ip of local master browser</master>
+	    </interface>
+        </interfaces>
+        <dnslist>
+	  <dns>ip of DNS server</dns>
+	</dnslist>
+    </ip>
+    <drives>
+      <map>
+        <drive>test</drive>
+        <description>Remote for test_file</description>
+        <path>//rschmitt:happy@192.168.1.206/spiritcloud/openfiles</path>
+	<thumbnail>yes | no</thumbnail>
+      </map>
+    </drives>
+    <smb>
+      <fqdn>fully qualified domain name</fqdn>
+      <serveruser>username</serveruser>
+      <serverwake>yes | no</serverwake>
+      <serverpass>password</serverpass>
+      <remotes>
+	<remote>
+	  <name>Name of remote</name>
+	  <ip>IP address of remote</ip>
+	  <port>Port of remote</port>
+	</remote>
+      </remotes>
+      <exports>
+	<export>
+	  <share>share name</share>
+	  <comment>share comment</comment>
+	  <nativefs>filesystem name</nativefs>
+	  <path>path to directory</path>
+	  <exporttype>DISK | PRINTER | PIPE | COMM | DEVICE</exporttype>
+	  <encrypted>yes | no</encrypted>
+	</export>
+      </exports>
+      <max_events>max events till force shutdown</max_events>
+      <time_period>ma events within time period</time_period>
+      <servers>
+	<port>port that server listens on</port>
+      </servers>
+    </smb>
+</of_core>
+
