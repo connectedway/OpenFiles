@@ -99,6 +99,34 @@ yocto-smbfs-test:
 yocto-smbfs-clean:
 	rm -rf build-yocto-smbfs
 
+
+
+linux-smbloop: linux-smbloop-config linux-smbloop-build
+
+linux-smbloop-config:
+	cmake -Bbuild-linux-smbloop -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbloop -DMBEDTLS_ROOT_DIR=/usr/local
+
+linux-smbloop-build:
+	cmake --build build-linux-smbloop
+
+linux-smbloop-install:
+	cmake --install build-linux-smbloop
+	cp configs/linux_debug.xml /etc/openfiles.xml
+
+linux-smbloop-uninstall:
+	rm /etc/openfiles.xml
+	@xargs rm < build-linux-smbloop/install_manifest.txt 2> /dev/null || true
+	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
+
+linux-smbloop-test:
+#	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+	OPEN_FILES_HOME=./configs/linux_loop.xml \
+            ./build-linux-smbloop/of_smb_fs/test/test_fs_smb
+
+linux-smbloop-clean:
+	rm -rf build-linux-smbfs
+
+
 linux: linux-config linux-build
 
 linux-config:
