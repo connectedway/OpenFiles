@@ -124,7 +124,7 @@ linux-smbloop-test:
             ./build-linux-smbloop/of_smb_fs/test/test_fs_smb
 
 linux-smbloop-clean:
-	rm -rf build-linux-smbfs
+	rm -rf build-linux-smbloop
 
 
 linux: linux-config linux-build
