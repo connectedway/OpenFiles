@@ -119,7 +119,7 @@ linux-smbloop-build:
 
 linux-smbloop-install:
 	cmake --install build-linux-smbloop
-	cp configs/linux_debug.xml /etc/openfiles.xml
+	cp configs/linux_loop.xml /etc/openfiles.xml
 
 linux-smbloop-uninstall:
 	rm /etc/openfiles.xml
@@ -138,13 +138,13 @@ linux-smbloop-init:
 	git submodule init of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule init of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser
+	of_smb_browser of_smb_server
 
 linux-smbloop-update:
 	git submodule update of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule update of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser
+	of_smb_browser of_smb_server
 
 
 linux: linux-config linux-build
