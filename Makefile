@@ -79,6 +79,17 @@ linux-smbfs-test:
 linux-smbfs-clean:
 	rm -rf build-linux-smbfs
 
+linux-smbfs-init:
+	git submodule init of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule init of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser
+
+linux-smbfs-update:
+	git submodule update of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule update of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser
 
 yocto-smbfs: yocto-smbfs-config yocto-smbfs-build
 
@@ -92,14 +103,11 @@ yocto-smbfs-install:
 	cmake --install build-yocto-smbfs
 
 yocto-smbfs-test:
-#	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
 	OPEN_FILES_HOME=./configs/linux_debug.xml \
             ./build-yocto-smbfs/of_smb_fs/test/test_fs_smb
 
 yocto-smbfs-clean:
 	rm -rf build-yocto-smbfs
-
-
 
 linux-smbloop: linux-smbloop-config linux-smbloop-build
 
@@ -126,6 +134,18 @@ linux-smbloop-test:
 linux-smbloop-clean:
 	rm -rf build-linux-smbloop
 
+linux-smbloop-init:
+	git submodule init of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule init of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser
+
+linux-smbloop-update:
+	git submodule update of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule update of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser
+
 
 linux: linux-config linux-build
 
@@ -143,7 +163,7 @@ linux-uninstall:
 	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
 
 linux-test:
-	cd build-linux-smbfs; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
+	cd build-linux; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
 
 linux-clean:
 	rm -rf build-linux
