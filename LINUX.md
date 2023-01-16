@@ -471,3 +471,270 @@ the smbcp application as an example of integrating OpenFiles into a new
 or existing custom application.  You can find out more
 [Here]((https://github.com/connectedway/smbcp/blob/main/README.md)
 
+# Active Directory Authentication on Linux
+
+Throughout this discussion, we will use Active Directory and Kerberos
+interchangeably.  Active Directory is a Microsoft Brand and an implementation
+of the Kerberos protocol.  MIT Kerberos 5 is the code base used by
+Open Files for Kerberos authentication.
+
+Secure authentication is not really for the weak of heart.  Open Files
+utilizes a total of five protocols involved with authentication:
+
+1. SMBv2/v3 
+2. SPNEGO
+3. GSSAPI
+
+Then either:
+
+4. NTLM
+5. Kerberos
+
+Whether we use NTLM or Kerberos should be negotiated by SPNEGO.  Open Files
+currently makes that decision on the client before negotiating authentication
+and the decision is based on whether we are negotiating within a domain
+and whether a username and password has been provided.  A future version
+of Open Files may delegate this decision to SPNEGO.
+
+We will use NTLM if a a username, or password is
+provided in the file URL.   We will use Kerberos authentication if the
+username or password are not specified.  This rule is somewhat
+arbitrary and is used for simplicity.  This implies that on Linux, Kerberos
+authentication will only be successful if an authentication ticket already
+exists in the credential cache for the user.
+
+Open Files is capable of authenticating with either NTLM or Kerberos and
+regardless of whether credentials are specified in the URL or not.  Discuss
+your particular use case with Connected Way if our default mechanism is
+insufficient.
+
+## Authentication Overview
+
+When using Kerberos for authentication, the following steps should be used:
+
+1. Add domain controller and target SMB server names to DNS
+2. Configure Kerberos on the SMB client for the desired domain
+3. Log into the domain by utilizing the 'kinit' tool
+4. Use file urls in the form //server/share/path.  i.e., no credentials as
+part of the URL.
+5. When session is complete, log out of the domain using 'kdestroy'
+
+When using NTLM for authentication, simply use urls in the form
+//user:password[:domain]@server/share/path.  
+
+## Samba DNS
+
+Active Directory/Kerberos is tightly coupled with DNS.  So to set up Active
+Directory, you need to administer DNS.  There is an excellent
+[article](https://wiki.samba.org/index.php/DNS_Administration).  There
+is no requirement to use samba DNS as your domain system.  We document it
+simply as an example.
+
+DNS manages "zones".  Consider a "zone" as a domain name.  In in
+"spiritcoud.app".
+
+### View configuration
+
+To see what is currently configured, do:
+
+```
+$ samba-tool dns query <ip-address of DNS server> <zone-name> @ ALL -U administrator
+```
+
+where:
+  - ip-address is the address of your samba DNS server.
+  - zone-name is the name of your domain
+
+For example:
+
+```
+$ samba-tool dns query 192.168.1.192 spiritcloud.app @ ALL -U administrator
+```
+
+## Add a New DNS Record
+
+```
+$ samba-tool dns 192.168.1.192 <domain-name> <name> A <IP-Address> -U administrator
+```
+
+For example:
+
+```
+$ samba-tool dns 192.168.1.192 spiritcloud.app openfiles a 192.168.1.206 -U administrator
+```
+
+## Kerberos Configuration
+
+Open Files integrates with a Kerberos library that performs authentication.
+This Kerberos framework configuration requires minimal configuration in
+order to provide the expected functionality.
+
+On Linux, the kerberos configuration file is stored at /etc/krb5.conf.  On
+other platforms, it may be in other locations.
+
+Once the krb5.conf file is updated to support your domain, users will be
+able to authenticate within the domain within Open Files.
+
+### Default Realm
+
+Open Files has been qualified against kerberos configurations that specify
+a default realm and that the default realm references the domain that
+all authentications will be performed within.  To specify this default
+realm, add the domain to the [libdefaults] section of the configuration file.
+In the example below, we are using the domain `SPIRITCLOUD.APP`.
+
+```
+[libdefaults]
+	default_realm = SPIRITCLOUD.APP
+```
+
+### Domain Realm
+
+
+The FQDN of the domain controller for the default realm must also be
+specified..  This is done in the [realms] section of the configuration file.
+Add the following:
+
+```
+[realms]
+	SPIRITCLOUD.APP = {
+		kdc = dc1.spiritcloud.app
+		default_domain = spiritcloud.app
+	}
+```
+
+In this example, the domain is still SPIRITCLOUD.APP.  The kdc
+(kerberos domain controller) is the FQDN to a computer on the network
+that will actually perform (or delegate) the authentication.  This FQDN
+must be a DNS name that is resolved through the DNS subsystem.  In other
+words, the kdc cannot be an IP address.  Further, you must also have your
+domain controller registered in DNS that is being used by the Linux system.
+
+### Reverse Domain Realm
+
+There is one more section in the kerberos configuration file called
+[domain_realm].   The domain_realm section maps server hostnames back to the
+realm.  In other words, it is a reverse mapping.  We have added the following:
+
+```
+[domain_realm]
+	dc1 = SPIRITCLOUD.APP
+```
+
+Use the correct host name and domain name for your configuration.
+
+## Logging into the Domain
+
+Logging into the domain is generally system dependent.  In some systems,
+it is accomplished by some login routine executed by the windowed operating
+system.  Ultimately though, it comes down to creating a credential ticket
+and storing that ticket in the credential cache for the user.
+
+Stripping away the platform friendliness, this can be accomplished using
+the Kerberos `kinit` utility.
+
+To login to the kerberos domain, issue the following command at a shell
+prompt:
+
+```
+$ kinit <username>@<realm>
+```
+
+Where username is the name of the user you wish to log into within the
+desired domain.  In our example, we have added a user "spirit" to the
+domain controller dc1.spiritcloud.app for the domain "SPIRITCLOUD.APP".  So
+we will log in with:
+
+```
+$ kinit spirit@SPIRITCLOUD.APP
+```
+
+It will prompt for a password which we had specified when we created the user
+within the comain controller.
+
+## Verifing Login Status
+
+Typically you don't need to do this, but it's helpful to verify that things
+are progressing as expected.  You can verify the login status by issuing
+the following command:
+
+```
+$ klist
+```
+
+You will see output similar to:
+
+```
+Ticket cache: FILE:/tmp/krb5cc_1000
+Default principal: spirit@SPIRITCLOUD.APP
+
+Valid starting       Expires              Service principal
+01/15/2023 12:45:01  01/15/2023 22:45:01  krbtgt/SPIRITCLOUD.APP@SPIRITCLOUD.APP
+	renew until 01/16/2023 12:44:56
+```
+
+This is telling you that there is a kerberos ticket that can authenticate
+within the SPIRITCLOUD.APP domain and that, in this case, that ticket is good
+for a day.
+
+## Ticket Renewal
+
+At the current time, renewing the kerberos tickets is not within the scope
+of Open Files and is left as an issue for the Open Files deployment to resolve.
+The deployment platform should periodically perform a kinit sequence to
+insure the credentials are current.
+
+If this behavior is undesireable, please discuss your requirements with
+Connected Way.  As mentioned earlier, the Open Files authentication support
+is able to add and renew tickets on it's own, but it needs to have
+the credentials and needs to know that it is authenticating with Kerberos.
+
+## Logging out of the domain
+
+To log out of the domain, simply issue:
+
+```
+$ kdestroy
+```
+
+## SMB Sessions using Kerberos Authentication
+
+SMB Sessions are initialized using information specified in file URLs passed into Open Files APIs.  For reference, a URL is of the form:
+
+```
+[//username:password:domain@server/share/]path.../file
+```
+
+Where the presence of a leading `//` signifies a remote location.  The
+absence of a leading `//` signifies a local location.
+
+With a remote URL, a username, and password are required for NTLM
+authentication.  For Kerberos authentication, using our policy for determining
+whether we are performing Kerberos authentication or not, the username,
+password and domain should be blank.  For example:
+
+```
+$ smbcp //server/share/subdirectory/picture.jpg ./picture.jpg
+```
+
+This will direct the Open Files SMB stack to authenticate with the active
+ticket for default domain.  Note that the server must be a domain name
+from the domain name system and NOT an IP address.
+
+If you are running the CI tests such as test_fs_smb, you will want an
+entry in the /etc/openfiles.xml file such as:
+
+```
+      <map>
+        <drive>test</drive>
+        <description>Remote for test_file</description>
+        <path>//dc1.spiritcloud.app/spiritcloud</path>
+      </map>
+```
+
+Do not be confused by the example above where we use the target destination
+of the domain controller itself.  It doesn't have to be.  It just needs
+to be a host that has been registered within the domain.  Our configuration
+is accessing files on the domain controller itself so we specify the
+FQDN of the domain controller.
+
