@@ -677,6 +677,106 @@ This is telling you that there is a kerberos ticket that can authenticate
 within the SPIRITCLOUD.APP domain and that, in this case, that ticket is good
 for a day.
 
+## Using alternative cache
+
+The previous section used the default cache for storing kerberos tickets.
+Openfiles supports the use of alternative caches.  If you would like to
+use an alternative cache for authenticating file operations, use the following
+syntax in the file URLs:
+
+```
+//[::cache@]server/share/path
+```
+
+The credentials portion of the URL is that portion preceding the ‘@’.  In the
+above example, that would mean `::cache` is the credential.  In a
+credential there are three fields as follows:
+ 
+```
+[username][:[password][:domain]]. 
+```
+
+That looks confusing but basically says all the following are valid:
+ 
+- username:password:domain   
+- username:password
+- username::domain
+- :password:domain
+- ::domain
+ 
+When specifying the credential cache, we use an escaped form of the cache
+syntax as defined in
+https://web.mit.edu/kerberos/krb5-1.12/doc/basic/ccache_def.html
+ 
+That is `TYPE:value`
+ 
+Where TYPE can be:
+ 
+- API
+- DIR
+- FILE
+- KEYRING
+- MEMORY
+- MSLSA
+ 
+The `escaped` form implies replace the `:` with `%3A`.  
+ 
+An example session
+ 
+```
+$ # Using default cache
+$ # start with empty cache
+$ kdestroy -A
+ 
+$ # do copy, should fail
+$ /usr/local/bin/openfiles/smbcp cmake.out //dc1.spiritcloud.app/spiritcloud/cmake.out
+Copying cmake.out to //dc1.spiritcloud.app/spiritcloud/cmake.out: [failed]
+Bad Network Response
+ 
+$ # Add a ticket to the default cache
+$ kinit spirit@SPIRITCLOUD.APP
+$ # do copy using default cache, should succeed
+$ /usr/local/bin/openfiles/smbcp cmake.out //dc1.spiritcloud.app/spiritcloud/cmake.out
+Copying cmake.out to //dc1.spiritcloud.app/spiritcloud/cmake.out: [ok]
+ 
+$ # Remove cache
+$ kdestroy
+ 
+$ # Add a ticket to a file based session cache
+$ kinit -c FILE:/tmp/krbof spirit@SPIRITCLOUD.APP
+ 
+$ # see if we can do a copy using default cache, should fail
+$ /usr/local/bin/openfiles/smbcp cmake.out //dc1.spiritcloud.app/spiritcloud/cmake.out
+Copying cmake.out to //dc1.spiritcloud.app/spiritcloud/cmake.out: [failed]
+Bad Network Response
+ 
+$ # see if we can do a copy using the session cache
+$ /usr/local/bin/openfiles/smbcp cmake.out //::/tmp/krbof@dc1.spiritcloud.app/spiritcloud/cmake.out
+Copying cmake.out to //::FILE%3A/tmp/krbof@dc1.spiritcloud.app/spiritcloud/cmake.out: [ok]
+```
+ 
+Of NOTE: We are using an escaped form ‘FILE%3A/tmp/krbof’, for the cache name.
+The unescaped name of the cache is therefore `FILE:/tmp/krbof`.
+That form is what would be used in kinit and kdestroy.  The colon needs
+to be escaped in the cache name so that it doesn’t is not confused with other
+colons in the syntax of the file name URL.
+
+``` 
+$ # add a ticket to the KEYRING of cache
+$ kinit -c KEYRING:of spirit@SPIRITCLOUD.APP
+$ klist -c KEYRING:of
+Ticket cache: KEYRING:legacy:of:of
+Default principal: spirit@SPIRITCLOUD.APP
+ 
+Valid starting       Expires              Service principal
+01/27/2023 11:15:58  01/27/2023 21:15:58  krbtgt/SPIRITCLOUD.APP@SPIRITCLOUD.APP
+     renew until 01/28/2023 11:15:53
+$
+$ # Let’s do a file copy using the keyring instead of a file cache
+$ /usr/local/bin/openfiles/smbcp cmake.out //::KEYRING%3Aof@dc1.spiritcloud.app/spiritcloud/cmake.out
+Copying cmake.out to //::KEYRING%3Aof@dc1.spiritcloud.app/spiritcloud/cmake.out: [ok]
+``` 
+
 ## Ticket Renewal
 
 At the current time, renewing the kerberos tickets is not within the scope
@@ -697,6 +797,12 @@ To log out of the domain, simply issue:
 $ kdestroy
 ```
 
+or if you are using alternative caches:
+
+```
+$ kdestroy -c <cache-name>
+```
+
 ## SMB Sessions using Kerberos Authentication
 
 SMB Sessions are initialized using information specified in file URLs passed into Open Files APIs.  For reference, a URL is of the form:
@@ -710,16 +816,17 @@ absence of a leading `//` signifies a local location.
 
 With a remote URL, a username, and password are required for NTLM
 authentication.  For Kerberos authentication, using our policy for determining
-whether we are performing Kerberos authentication or not, the username,
-password and domain should be blank.  For example:
+whether we are performing Kerberos authentication or not, the username and
+password should be blank.  For example:
 
 ```
 $ smbcp //server/share/subdirectory/picture.jpg ./picture.jpg
 ```
 
 This will direct the Open Files SMB stack to authenticate with the active
-ticket for default domain.  Note that the server must be a domain name
-from the domain name system and NOT an IP address.
+ticket for default domain using the default credential cache.
+Note that the server must be a domain name from the domain name system and
+NOT an IP address.
 
 If you are running the CI tests such as test_fs_smb, you will want an
 entry in the /etc/openfiles.xml file such as:
