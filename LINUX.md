@@ -751,7 +751,7 @@ Copying cmake.out to //dc1.spiritcloud.app/spiritcloud/cmake.out: [failed]
 Bad Network Response
  
 $ # see if we can do a copy using the session cache
-$ /usr/local/bin/openfiles/smbcp cmake.out //::/tmp/krbof@dc1.spiritcloud.app/spiritcloud/cmake.out
+$ /usr/local/bin/openfiles/smbcp cmake.out //::FILE%3A/tmp/krbof@dc1.spiritcloud.app/spiritcloud/cmake.out
 Copying cmake.out to //::FILE%3A/tmp/krbof@dc1.spiritcloud.app/spiritcloud/cmake.out: [ok]
 ```
  
