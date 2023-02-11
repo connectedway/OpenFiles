@@ -16,7 +16,7 @@ macos-smb-clean:
 macos-smbfs: macos-smbfs-config macos-smbfs-build
 
 macos-smbfs-config:
-	cmake -Bbuild-macos-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/macos-smbfs
+	cmake -Bbuild-macos-smbfs -DCMAKE_BUILD_TYPE=Debug -DCMAKE_APPLE_SILICON_PROCESSOR=arm64 -DOPENFILE_CONFIG=./configs/macos-smbfs
 
 macos-smbfs-build:
 	cmake --build build-macos-smbfs
@@ -27,6 +27,27 @@ macos-smbfs-test:
 
 macos-smbfs-clean:
 	rm -rf build-macos-smbfs
+
+macos-smbfs-install:
+	cmake --install build-macos-smbfs
+	cp configs/darwin_debug.xml /etc/openfiles.xml
+
+macos-smbfs-uninstall:
+	rm /etc/openfiles.xml
+	@xargs rm < build-macos-smbfs/install_manifest.txt 2> /dev/null || true
+	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
+
+macos-smbfs-init:
+	git submodule init of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule init of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser
+
+macos-smbfs-update:
+	git submodule update of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule update of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser
 
 androidsim-smb: androidsim-smb-config androidsim-smb-build
 
