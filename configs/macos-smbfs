@@ -15,6 +15,7 @@ set(OFC_MAX_HANDLE16 "100" CACHE STRING "Max 16-bit handles")
 set(OFC_MAX_MAPS "20" CACHE STRING "Max file system maps")
 set(OFC_TRACE_LEN "1" CACHE STRING "Size of trace buffer (must be at least 1)")
 set(OFC_MAX_SCHED_WAIT "4000" CACHE STRING "Maximum scheduler sleep")
+option(OFC_NTLMV2_TARGET_TIMESTAMP "Populate target timestamp in NTLM" ON)
 
 set(OFC_WCHAR "wchar_t" CACHE STRING "Platform type of a wide character")
 option(INCLUDE_PLATFORM_WCHAR "Include wchar.h" ON)
