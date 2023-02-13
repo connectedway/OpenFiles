@@ -704,11 +704,12 @@ That looks confusing but basically says all the following are valid:
 - :password:domain
 - ::domain
  
+The credential cache is specified in the domain field of the URL.  
 When specifying the credential cache, we use an escaped form of the cache
 syntax as defined in
 https://web.mit.edu/kerberos/krb5-1.12/doc/basic/ccache_def.html
  
-That is `TYPE:value`
+That is an escaped form of `TYPE:value`
  
 Where TYPE can be:
  
@@ -719,9 +720,14 @@ Where TYPE can be:
 - MEMORY
 - MSLSA
  
-The `escaped` form implies replace the `:` with `%3A`.  
- 
-An example session
+The `escaped` form implies replace the `:` with `%3A`.  Therefore, the
+following is a correct syntax specifying a file based credential cache:
+
+```
+//::FILE%3A/tmp/mycache@myserver/myshare/ypath
+```
+
+Below is an example session using default and alternative caches.
  
 ```
 $ # Using default cache
@@ -758,8 +764,10 @@ Copying cmake.out to //::FILE%3A/tmp/krbof@dc1.spiritcloud.app/spiritcloud/cmake
 Of NOTE: We are using an escaped form ‘FILE%3A/tmp/krbof’, for the cache name.
 The unescaped name of the cache is therefore `FILE:/tmp/krbof`.
 That form is what would be used in kinit and kdestroy.  The colon needs
-to be escaped in the cache name so that it doesn’t is not confused with other
+to be escaped in the cache name so that it is not confused with other
 colons in the syntax of the file name URL.
+
+Here is a session using a KEYRING based credential cache:
 
 ``` 
 $ # add a ticket to the KEYRING of cache
@@ -805,7 +813,8 @@ $ kdestroy -c <cache-name>
 
 ## SMB Sessions using Kerberos Authentication
 
-SMB Sessions are initialized using information specified in file URLs passed into Open Files APIs.  For reference, a URL is of the form:
+SMB Sessions are initialized using information specified in file URLs passed
+into Open Files APIs.  For reference, a URL is of the form:
 
 ```
 [//username:password:domain@server/share/]path.../file
@@ -844,4 +853,44 @@ of the domain controller itself.  It doesn't have to be.  It just needs
 to be a host that has been registered within the domain.  Our configuration
 is accessing files on the domain controller itself so we specify the
 FQDN of the domain controller.
+
+# Test Standalone DFS
+
+## Setting up Standalone DFS on SAMBA
+
+You need to create a directory to be the dfs root
+
+```
+# mkdir /srv/dfsroot
+# chmod 755 /srv/dfsroot
+```
+
+Then you need to create links in the dfs root to shares
+
+```
+# ln -sf msdfs:dc1.spiritcloud.app\\spiritcloud spiritdfs
+```
+
+In `smb.conf` in the `global` section add:
+
+```
+[global]
+host msdfs = yes
+```
+
+And in a `dfs` section add the dfs root
+
+```
+[dfs]
+path = /srv/dfsroot
+msdfs root = yes
+```
+
+## Configuring OpenFiles
+
+In `/etc/openfiles.xml` change the <drives><map><path> to:
+
+```
+    <path>//dc1.spiritcloud.app/dfs/spiritdfs/openfiles</path>
+```
 
