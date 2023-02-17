@@ -551,7 +551,7 @@ For example:
 $ samba-tool dns query 192.168.1.192 spiritcloud.app @ ALL -U administrator
 ```
 
-## Add a New DNS Record
+### Add a New DNS Record
 
 ```
 $ samba-tool dns 192.168.1.192 <domain-name> <name> A <IP-Address> -U administrator
@@ -563,7 +563,34 @@ For example:
 $ samba-tool dns 192.168.1.192 spiritcloud.app openfiles a 192.168.1.206 -U administrator
 ```
 
-## Kerberos Configuration
+### Managing Existing DNS server
+
+Listing all zones on the server:
+
+```
+samba-tool dns zonelist 10.211.55.6 -U administrator
+```
+
+Listing Info for a particular zone:
+
+```
+samba-tool dns zoneinfo 10.211.55.6 spiritcloud.app -U administrator
+```
+
+Querying all records for a zone
+
+```
+samba-tool dns query 10.211.55.6 spiritcloud.app @ ALL -U administrator
+```
+
+Updating the zone:
+
+```
+samba-tool dns update 10.211.55.6 spiritcloud.app dc1 A 192.168.1.206 10.211.55.6 -U administrator
+samba-tool dns update 10.211.55.6 spiritcloud.app @ A 192.168.1.206 10.211.55.6 -U administrator
+```
+
+### Kerberos Configuration
 
 Open Files integrates with a Kerberos library that performs authentication.
 This Kerberos framework configuration requires minimal configuration in
@@ -575,7 +602,7 @@ other platforms, it may be in other locations.
 Once the krb5.conf file is updated to support your domain, users will be
 able to authenticate within the domain within Open Files.
 
-### Default Realm
+#### Default Realm
 
 Open Files has been qualified against kerberos configurations that specify
 a default realm and that the default realm references the domain that
@@ -588,7 +615,7 @@ In the example below, we are using the domain `SPIRITCLOUD.APP`.
 	default_realm = SPIRITCLOUD.APP
 ```
 
-### Domain Realm
+#### Domain Realm
 
 
 The FQDN of the domain controller for the default realm must also be
@@ -610,7 +637,7 @@ must be a DNS name that is resolved through the DNS subsystem.  In other
 words, the kdc cannot be an IP address.  Further, you must also have your
 domain controller registered in DNS that is being used by the Linux system.
 
-### Reverse Domain Realm
+#### Reverse Domain Realm
 
 There is one more section in the kerberos configuration file called
 [domain_realm].   The domain_realm section maps server hostnames back to the
@@ -623,7 +650,44 @@ realm.  In other words, it is a reverse mapping.  We have added the following:
 
 Use the correct host name and domain name for your configuration.
 
-## Logging into the Domain
+## Client Configuration
+
+### DNS Setup
+
+For a client to connect to the server domain, the first thing is the
+client must be able to resolve the DNS names of the server.  This is
+platform specific but described here for a Ubuntu client.
+
+In /etc/systemd/resolved.conf specify
+
+```
+[Resolve]
+DNS=192.168.1.192
+FallbackDNS=1.1.1.1
+Domains=spiritcloud.app
+#LLMNR=no
+#MulticastDNS=no
+#DNSSEC=no
+#DNSOverTLS=no
+#Cache=no-negative
+#DNSStubListener=yes
+#ReadEtcHosts=yes
+```
+
+Where the DNS address is the address of the DNS server.  FallbackDNS is
+where you want to fallback to if your host cannot reach the dns server.
+Domains is the search list of domains that you want to use to create a FQDN
+from a unqualified name.  In other words, if the host you are accessing is
+DC1, what must you append to it to get a FQDN.  In the example, DC1 would
+resolve to DC1.spiritcloud.app.
+
+After setting this up, restart the resolver by issuing:
+
+```
+systemctl restart systemd-resolved
+```
+
+### Logging into the Domain
 
 Logging into the domain is generally system dependent.  In some systems,
 it is accomplished by some login routine executed by the windowed operating
@@ -677,7 +741,7 @@ This is telling you that there is a kerberos ticket that can authenticate
 within the SPIRITCLOUD.APP domain and that, in this case, that ticket is good
 for a day.
 
-## Using alternative cache
+### Using alternative cache
 
 The previous section used the default cache for storing kerberos tickets.
 Openfiles supports the use of alternative caches.  If you would like to
@@ -893,4 +957,16 @@ In `/etc/openfiles.xml` change the <drives><map><path> to:
 ```
     <path>//dc1.spiritcloud.app/dfs/spiritdfs/openfiles</path>
 ```
+
+# Test Domain DFS
+
+## Add Bootstrap DC
+
+```
+    <smb>
+      <fqdn>ubuntu.spiritcloud.app</fqdn>
+      <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
+    </smb>
+```
+
 
