@@ -21,6 +21,10 @@ This readme is specific to Linux deployments of Openfiles.  You can view
 [the Main Readme](https://github.com/connectedway/openfiles/blob/main/README.md)
 to learn about support for other platforms.
 
+There is a separate readme for DFS support.  You can view
+[DFS Readme](https://github.com/connectedway/openfiles/blob/main/DFS.md)
+to learn more about DFS support.
+
 # Deploying Openfiles on Linux
 
 ## Registering for the Open Files git repos
@@ -138,14 +142,32 @@ $ git submodule update of_core_cheap of_core_binheap of_core Unity \
 of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 ```
 
+Note: There is a shortcut for manually specifying the submodules
+to initialize and update:
+
+```
+$ make linux-init
+$ make linux-update
+```
+
 If you have registered for the private repos and wish to include the smb
-support, initialize the smb submodules:
+client support, initialize the smb submodules:
 
 ```
 $ git submodule init of_smb of_smb_fs of_smb_client of_security \
 of_smb_browser
 $ git submodule update of_smb of_smb_fs of_smb_client of_security \
 of_smb_browser
+```
+
+Note: There is a shortcut for manually specifying the submodules
+to initialize and update for the smbclient.  The following make
+targets will init and update the core as well as those required
+for the smb client:
+
+```
+$ make linux-smbfs-init
+$ make linux-smbfs-update
 ```
 
 If you've been good to puppies, you will successfully have access to the
@@ -176,6 +198,12 @@ https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x8
 This will install cmake version 3.25.1 in /usr/local/bin/cmake.
 
 # Install Mbedtls
+
+By default, the linux-smbfs build will use openssl.
+If you wish you use MbedTLS instead, you will need to update the
+`openfiles/configs/linux-smbfs` config file, turn off `OF_OPENSSL`,
+and turn on `OF_MBEDTLS`.  You will also need to build and
+install mbedtls for linux.
 
 Create a workspace for mbedtls
 
@@ -211,7 +239,7 @@ $ sudo make install
 
 # Install Kerberos
 
-The SMB build of openfiles kerberos.  You can install
+The linux-smbfs build of openfiles uses kerberos.  You can install
 this with:
 
 ```
@@ -280,6 +308,18 @@ $ git submodule update of_smb of_smb_fs of_smb_client of_security \
 of_smb_browser
 ```
 
+You can use the make shortcut to accomplish the above as well.
+
+```
+$ make linux-update
+```
+
+or:
+
+```
+$ make linux-smbfs-update
+```
+
 # Building A Linux Deployment of OpenFiles
 
 If you wish to build just a core OpenFiles version (i.e. without smb support),
@@ -289,7 +329,7 @@ issue the following command:
 make linux
 ```
 
-If you wish to build a Version of OpenFiles with SMB support, issue the
+If you wish to build a Version of OpenFiles with SMB client support, issue the
 following command:
 
 ```
@@ -551,7 +591,7 @@ For example:
 $ samba-tool dns query 192.168.1.192 spiritcloud.app @ ALL -U administrator
 ```
 
-## Add a New DNS Record
+### Add a New DNS Record
 
 ```
 $ samba-tool dns 192.168.1.192 <domain-name> <name> A <IP-Address> -U administrator
@@ -563,7 +603,34 @@ For example:
 $ samba-tool dns 192.168.1.192 spiritcloud.app openfiles a 192.168.1.206 -U administrator
 ```
 
-## Kerberos Configuration
+### Managing Existing DNS server
+
+Listing all zones on the server:
+
+```
+samba-tool dns zonelist 10.211.55.6 -U administrator
+```
+
+Listing Info for a particular zone:
+
+```
+samba-tool dns zoneinfo 10.211.55.6 spiritcloud.app -U administrator
+```
+
+Querying all records for a zone
+
+```
+samba-tool dns query 10.211.55.6 spiritcloud.app @ ALL -U administrator
+```
+
+Updating the zone:
+
+```
+samba-tool dns update 10.211.55.6 spiritcloud.app dc1 A 192.168.1.206 10.211.55.6 -U administrator
+samba-tool dns update 10.211.55.6 spiritcloud.app @ A 192.168.1.206 10.211.55.6 -U administrator
+```
+
+### Kerberos Configuration
 
 Open Files integrates with a Kerberos library that performs authentication.
 This Kerberos framework configuration requires minimal configuration in
@@ -575,7 +642,7 @@ other platforms, it may be in other locations.
 Once the krb5.conf file is updated to support your domain, users will be
 able to authenticate within the domain within Open Files.
 
-### Default Realm
+#### Default Realm
 
 Open Files has been qualified against kerberos configurations that specify
 a default realm and that the default realm references the domain that
@@ -588,7 +655,7 @@ In the example below, we are using the domain `SPIRITCLOUD.APP`.
 	default_realm = SPIRITCLOUD.APP
 ```
 
-### Domain Realm
+#### Domain Realm
 
 
 The FQDN of the domain controller for the default realm must also be
@@ -610,7 +677,7 @@ must be a DNS name that is resolved through the DNS subsystem.  In other
 words, the kdc cannot be an IP address.  Further, you must also have your
 domain controller registered in DNS that is being used by the Linux system.
 
-### Reverse Domain Realm
+#### Reverse Domain Realm
 
 There is one more section in the kerberos configuration file called
 [domain_realm].   The domain_realm section maps server hostnames back to the
@@ -623,7 +690,44 @@ realm.  In other words, it is a reverse mapping.  We have added the following:
 
 Use the correct host name and domain name for your configuration.
 
-## Logging into the Domain
+## Client Configuration
+
+### DNS Setup
+
+For a client to connect to the server domain, the first thing is the
+client must be able to resolve the DNS names of the server.  This is
+platform specific but described here for a Ubuntu client.
+
+In /etc/systemd/resolved.conf specify
+
+```
+[Resolve]
+DNS=192.168.1.192
+FallbackDNS=1.1.1.1
+Domains=spiritcloud.app
+#LLMNR=no
+#MulticastDNS=no
+#DNSSEC=no
+#DNSOverTLS=no
+#Cache=no-negative
+#DNSStubListener=yes
+#ReadEtcHosts=yes
+```
+
+Where the DNS address is the address of the DNS server.  FallbackDNS is
+where you want to fallback to if your host cannot reach the dns server.
+Domains is the search list of domains that you want to use to create a FQDN
+from a unqualified name.  In other words, if the host you are accessing is
+DC1, what must you append to it to get a FQDN.  In the example, DC1 would
+resolve to DC1.spiritcloud.app.
+
+After setting this up, restart the resolver by issuing:
+
+```
+systemctl restart systemd-resolved
+```
+
+### Logging into the Domain
 
 Logging into the domain is generally system dependent.  In some systems,
 it is accomplished by some login routine executed by the windowed operating
@@ -704,11 +808,12 @@ That looks confusing but basically says all the following are valid:
 - :password:domain
 - ::domain
  
+The credential cache is specified in the domain field of the URL.  
 When specifying the credential cache, we use an escaped form of the cache
 syntax as defined in
 https://web.mit.edu/kerberos/krb5-1.12/doc/basic/ccache_def.html
  
-That is `TYPE:value`
+That is an escaped form of `TYPE:value`
  
 Where TYPE can be:
  
@@ -719,9 +824,14 @@ Where TYPE can be:
 - MEMORY
 - MSLSA
  
-The `escaped` form implies replace the `:` with `%3A`.  
- 
-An example session
+The `escaped` form implies replace the `:` with `%3A`.  Therefore, the
+following is a correct syntax specifying a file based credential cache:
+
+```
+//::FILE%3A/tmp/mycache@myserver/myshare/ypath
+```
+
+Below is an example session using default and alternative caches.
  
 ```
 $ # Using default cache
@@ -758,8 +868,10 @@ Copying cmake.out to //::FILE%3A/tmp/krbof@dc1.spiritcloud.app/spiritcloud/cmake
 Of NOTE: We are using an escaped form ‘FILE%3A/tmp/krbof’, for the cache name.
 The unescaped name of the cache is therefore `FILE:/tmp/krbof`.
 That form is what would be used in kinit and kdestroy.  The colon needs
-to be escaped in the cache name so that it doesn’t is not confused with other
+to be escaped in the cache name so that it is not confused with other
 colons in the syntax of the file name URL.
+
+Here is a session using a KEYRING based credential cache:
 
 ``` 
 $ # add a ticket to the KEYRING of cache
@@ -805,7 +917,8 @@ $ kdestroy -c <cache-name>
 
 ## SMB Sessions using Kerberos Authentication
 
-SMB Sessions are initialized using information specified in file URLs passed into Open Files APIs.  For reference, a URL is of the form:
+SMB Sessions are initialized using information specified in file URLs passed
+into Open Files APIs.  For reference, a URL is of the form:
 
 ```
 [//username:password:domain@server/share/]path.../file

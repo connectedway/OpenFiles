@@ -14,8 +14,12 @@
       <map>
         <drive>test</drive>
         <description>Remote for test_file</description>
-        <path>//rschmitt:happy@192.168.1.206/spiritcloud/openfiles</path>
+        <path>//SPIRITCLOUD/dfs/spiritdfs/openfiles</path>
       </map>
     </drives>
+    <smb>
+      <fqdn>ubuntu</fqdn>
+      <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
+    </smb>
 </of_core>
 
