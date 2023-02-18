@@ -183,6 +183,14 @@ linux-uninstall:
 	@xargs rm < build-linux/install_manifest.txt 2> /dev/null || true
 	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
 
+linux-init:
+	git submodule init of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+
+linux-update:
+	git submodule update of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+
 linux-test:
 	cd build-linux; OPEN_FILES_HOME=./configs/linux_debug.xml ctest
 

@@ -21,6 +21,10 @@ This readme is specific to Linux deployments of Openfiles.  You can view
 [the Main Readme](https://github.com/connectedway/openfiles/blob/main/README.md)
 to learn about support for other platforms.
 
+There is a separate readme for DFS support.  You can view
+[DFS Readme](https://github.com/connectedway/openfiles/blob/main/DFS.md)
+to learn more about DFS support.
+
 # Deploying Openfiles on Linux
 
 ## Registering for the Open Files git repos
@@ -138,14 +142,32 @@ $ git submodule update of_core_cheap of_core_binheap of_core Unity \
 of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 ```
 
+Note: There is a shortcut for manually specifying the submodules
+to initialize and update:
+
+```
+$ make linux-init
+$ make linux-update
+```
+
 If you have registered for the private repos and wish to include the smb
-support, initialize the smb submodules:
+client support, initialize the smb submodules:
 
 ```
 $ git submodule init of_smb of_smb_fs of_smb_client of_security \
 of_smb_browser
 $ git submodule update of_smb of_smb_fs of_smb_client of_security \
 of_smb_browser
+```
+
+Note: There is a shortcut for manually specifying the submodules
+to initialize and update for the smbclient.  The following make
+targets will init and update the core as well as those required
+for the smb client:
+
+```
+$ make linux-smbfs-init
+$ make linux-smbfs-update
 ```
 
 If you've been good to puppies, you will successfully have access to the
@@ -176,6 +198,12 @@ https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x8
 This will install cmake version 3.25.1 in /usr/local/bin/cmake.
 
 # Install Mbedtls
+
+By default, the linux-smbfs build will use openssl.
+If you wish you use MbedTLS instead, you will need to update the
+`openfiles/configs/linux-smbfs` config file, turn off `OF_OPENSSL`,
+and turn on `OF_MBEDTLS`.  You will also need to build and
+install mbedtls for linux.
 
 Create a workspace for mbedtls
 
@@ -211,7 +239,7 @@ $ sudo make install
 
 # Install Kerberos
 
-The SMB build of openfiles kerberos.  You can install
+The linux-smbfs build of openfiles uses kerberos.  You can install
 this with:
 
 ```
@@ -280,6 +308,18 @@ $ git submodule update of_smb of_smb_fs of_smb_client of_security \
 of_smb_browser
 ```
 
+You can use the make shortcut to accomplish the above as well.
+
+```
+$ make linux-update
+```
+
+or:
+
+```
+$ make linux-smbfs-update
+```
+
 # Building A Linux Deployment of OpenFiles
 
 If you wish to build just a core OpenFiles version (i.e. without smb support),
@@ -289,7 +329,7 @@ issue the following command:
 make linux
 ```
 
-If you wish to build a Version of OpenFiles with SMB support, issue the
+If you wish to build a Version of OpenFiles with SMB client support, issue the
 following command:
 
 ```
@@ -917,152 +957,4 @@ of the domain controller itself.  It doesn't have to be.  It just needs
 to be a host that has been registered within the domain.  Our configuration
 is accessing files on the domain controller itself so we specify the
 FQDN of the domain controller.
-
-# Testing DFS
-
-## Set up DFS on SAMBA
-
-You need to create a directory to be the dfs root
-
-```
-# mkdir /srv/dfsroot
-# chmod 755 /srv/dfsroot
-```
-
-Then you need to create links in the dfs root to shares
-
-```
-# ln -sf msdfs:dc1.spiritcloud.app\\spiritcloud spiritdfs
-```
-
-In `smb.conf` in the `global` section add:
-
-```
-[global]
-host msdfs = yes
-```
-
-And in a `dfs` section add the dfs root
-
-```
-[dfs]
-path = /srv/dfsroot
-msdfs root = yes
-```
-
-## Configuring OpenFiles for DFS
-
-### Compile Time Configuration
-
-Openfiles support for DFS is configured via the config file:
-
-```
-of_smb/configs/default
-```
-
-Relevant options are:
-
-- `SMB_SUPPORT_DFS`: Turn out support for DFS in the OpenFiles SMB Client.
-Default is ON.
-- `DFS_SUPPORT_GET_DFS_REFERRAL_EX`: Turns on support for the
-GET_DFS_REFERRAL_EX packet.  It is not clear whether this is
-supported anymore.  Enabling this will cause DFS to fail.  It
-is included for future compatability.  Default is OFF.
-- `DFS_SUPPORT_SYSVOL`: Support for SYSVOL referrals.  This is used
-to communicate to DCs that have a SYSVOL or NETLOGON share.  We
-have not tested this capability and so we recommend not enabling
-it.  Default is OFF.
-
-### Runtime Configuration
-
-Runtime configuration is performed through the `/etc/openfiles.xml` file.
-
-#### Path Variable
-
-If you will be running the test_fs_smb test utility, you should update
-the path variable to refer to a dfs target.  
-
-A path variable is typically `//<server>/<share>/<path>`.  When using
-dfs, the server refers to either a server or a domain, share refers to
-a dfs root.  The first directory in path refers to a dfs link.
-Remaining directories in path refer to paths relative to the dfs link.
-
-Example path variables:
-```
-    (1) <path>//rschmitt:happy@10.211.55.7/spiritcloud/openfiles</path>
-    (2) <path>//SPIRITCLOUD/dfs/spiritdfs/openfiles</path>
-    (3) <path>//dc1.spiritcloud.app/dfs/spiritdfs/openfiles</path>
-    (4) <path>//DC1/dfs/spiritdfs/openfiles</path>
-    (5) <path>//dc1.spiritcloud.app/spiritcloud/openfiles<path>
-    (6) <path>//DC1/spiritcloud/openfiles</path>
-```
-
-For `(1)`, This is a non-DFS, non-domain path which specifies a username, and password
-using a server at a specified IP address, a share called `spiritcloud`, and path called
-`openfiles`.  Authentication is through NTLMSSP.
-
-For `(2)`, This is a domain based DFS path using the domain `SPIRITCLOUD`
-the root `dfs`, the link `spiritdfs`, and path called `openfiles`
-
-For `(3)`, This is a non-domain based DFS using a domain controller
-at `dc1.spiritcloud.app`, a root of `dfs`, a link of `spiritdfs` and a
-path of `openfiles`.
-
-for `(4)`, This is a non-domain based DFS using a domain controller
-of `DC1` (get's extended into a fqdn using the DNS search suffix), a root
-of `dfs`, a link of `spiritdfs` and a path of `openfiles`.
-
-for `(5)`, This is a non-dfs, non-domain path which does not
-specify a username or password implying that authentication is performed
-through the domain.  the server is `dc1.spiritcloud.app`, the
-share is `spiritcloud` and the path is `openfiles`.
-
-for `(6)', it is similar to (5), but the server is specified as `DC1`
-which gets extended into a fqdn using the DNS search suffix.
-
-#### Bootstrap DC
-
-The bootstrap DC informs the OpenFiles DFS stack which DC to contact to
-optain information about the Domain.  It is required for domain based
-DFS.
-
-It is specified in the OpenFiles.xml file as follows:
-
-```
-    <smb>
-      <fqdn>ubuntu.spiritcloud.app</fqdn>
-      <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
-    </smb>
-```
-
-The bootstrap_dc should be a FQDN to the DC, or can be a shortened
-name which extended into a FQDN by the DNS search suffix.
-
-## Running the OpenFiles File Test
-
-The openfiles file test utility `test_fs_smb` can be run from a
-shell as follows:
-
-```
-$ ./build-linux-smbfs/of_smb_fs/test/test_fs_smb
-```
-
-You should see output similar to:
-
-```
- ./build-linux-smbfs/of_smb_fs/test/test_fs_smb 
-Unity test run 1 of 1
-1692058530 Starting File Test with //SPIRITCLOUD:445/dfs/spiritdfs/openfiles
-
-<snip>
-
-1692073162 File Test Succeeded
-
-.
-
------------------------
-1 Tests 0 Failures 0 Ignored 
-OK
-Total Allocated Memory 1336, Max Allocated Memory 1409935
-```
 
