@@ -175,6 +175,76 @@ You must then restart your samba server:
 $ sudo systemctl restart samba-ad-dc
 ```
 
+# DFS Syslog Entries
+
+It can be helpful to view the `/var/log/syslog` file for entries related
+to DFS event.  This are described here.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: DFS Referral Expiration for <path>
+```
+You will see this when a root or link referral cache entry has expired.
+The DFS client will refresh the entry.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: Referral Entry Too Big
+```
+You will see this after receiving a DFS root or link referral response
+and the response is misformed.  The referral entry will be ignored.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: Bad Referral response version
+```
+You will see this after receiving a DFS root or link referral response
+and the referral entry version is something other than 1 through 4.
+The referral response will be ignored.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: Bad Version in domain referral response
+```
+You will see this after receiving a Domain Referral Response but the version is
+not version 3 or 4.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: Bad Version in dc referral response
+```
+You will see this after receiving a DC Referral Response but the version is
+not version 3 or 4.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: Unknown referral type
+```
+This would be an internal error where we have passed an unknown
+referral type to a utility routine.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: Could not close DFS IPC File
+```
+This is an unexpected error and would occur if our file handle to the
+IPC file used for referral requests cannot be closed.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: Can't open IPC file
+```
+This occurs if we are unable to establish a file session with
+a remote domain controller, or DFS root node.  We will be
+unable to obtain referral information from that node.  If
+other targets are listed in the root or link referral entry
+those targets will be tried.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: link referral lookup failed
+```
+This would be an internal error indicating that when we attempt
+to send a link referral request, there is no referral entry.  This
+should not happen.
+
+```
+Feb 18 16:53:06 ubuntu openfiles[115313]: DFS Domain Cache Expiration
+```
+This occurs after the bootstrap_dc timer has expired.  The DFS client
+will send a domain referral request to the bootstrap dc.
+
 # Running the OpenFiles File Test
 
 The assumption here is that the openfiles tests will be
@@ -264,29 +334,29 @@ Wireshark notes:
 9. Verify a negotiate, setup, treeconnect and create of
    the srvsvc pipe
 10. verify a root referral request to the DC
-   1. Verify that the filename is of the form \\<dc>\\<root>
+    1. Verify that the filename is of the form `\<dc>\<root>`
 11. verify the root referral response
-   1. Note that the root referral NODE entry may
-   be the same as that used in the root request.  This
-   happens if the root is hosted by the domain controller.
+    1. Note that the root referral NODE entry may
+    be the same as that used in the root request.  This
+    happens if the root is hosted by the domain controller.
 12. If the root referral returned a NODE signifying that
-   the root is hosted by a different node than the DC, you
-   should see a connection, negotiate, and setup to the root
-   node.  If the root is hosted by the DC, you will reuse the
-   same session.
+    the root is hosted by a different node than the DC, you
+    should see a connection, negotiate, and setup to the root
+    node.  If the root is hosted by the DC, you will reuse the
+    same session.
 13. verify a tree connect to the root note dfs root share.
 14. note an attempt to open the directory you wish to copy the
-   file into
+    file into
 15. note a PATH_NOT_COVERED response
 16. Verify a link referral request to the root node
-   1. Filename will be the full path to the target file on
-   the root node
+    1. Filename will be the full path to the target file on
+    the root node
 17. Verify the link referral response
-   1. the consumed field will indicate how many of the bytes
-   of the filename used in the request should be substituted
-   2. The NODE field will contain a path that should replace
-   the characters in the requested filename that have been
-   identified to be substituted.  For example:
+    1. the consumed field will indicate how many of the bytes
+    of the filename used in the request should be substituted
+    2. The NODE field will contain a path that should replace
+    the characters in the requested filename that have been
+    identified to be substituted.  For example:
 ```   
    Requested File Name: \DC1\dfs\spiritdfs\openfiles\spiritcloud.png
    consumed: 36 (NOTE: this is number of bytes so actual consumed
@@ -397,14 +467,13 @@ a table similar to the following:
 |  Ticket State  |  Bootstrap_dc  |  Target Path  | Result   |
 |----------------|----------------|---------------|----------|
 | ticket-state   | bootstrap-dc   | target-path   | result   |
-|----------------|----------------|---------------|----------|
 
 Where:
-- ticket-state is one of
+- `ticket-state` is one of
     - no ticket
     - expired
     - active
-- bootstrap-dc is the DNS name of the initial DC
+- `bootstrap-dc` is the DNS name of the initial DC
 to perform the domain referral on.  Typically it
 will be one of the following:
     - DC1: The DNS host name of the DC.  The DNS
@@ -412,7 +481,7 @@ will be one of the following:
     the FQDN of the DC
     - dc1.spiritcloud.app: The FQDN of the DC.
     - empty: No bootstrap DC set.
-- target-path: The URL to the directory to run
+- `target-path`: The URL to the directory to run
 the DFS tests against.  In our testing, the
 target path will be one of:
     - `//rschmitt:happy@10.211.55.7/spiritcloud/openfiles`:
@@ -429,7 +498,7 @@ target path will be one of:
     Domain Access to DC Root Target Path (DNS).
     - `//dc1.spiritcloud.app/spiritcloud/openfiles`:
     Domain Access to Non-DFS Path
-- result: The expected result of the test.  Will be one of:
+- `result`: The expected result of the test.  Will be one of:
     - Success
     - Long Failure
     - Path Not Found
@@ -726,7 +795,7 @@ When a DFS referral entry expires, the DFS client should obtain a new referral e
 but preserve any target_hint from the ole entry (the preferred target in the set of targets)
 in the new entry.
 
-To test this, we have provided a DFS_MAX_TTL value in the compile time configuration
+To test this, we have provided a `DFS_MAX_TTL` value in the compile time configuration
 of OpenFiles.  Setting this value to 1 second and running the test_fs_smb test should
 cause the referral entry to expire between some of the subtests.  For instance, assuming
 a Create of a file, Read of a file, or Copy of a file take longer than 1 second, the
@@ -735,7 +804,7 @@ subtest is executed.
 
 Procedure:
 
-1. Set the DFS_MAX_TTL value in the configuration setings
+1. Set the `DFS_MAX_TTL` value in the configuration setings
 as follows:
 
 ```
@@ -777,5 +846,5 @@ Feb 18 16:48:00 ubuntu openfiles[112686]: message repeated 2 times: [ DFS Referr
 
 This implies a total of three expirations occurred during the test.
 
-When run with a DFS_MAX_TTL of 86400, you will notice no expirations following the start tag.
+When run with a `DFS_MAX_TTL` of 86400, you will notice no expirations following the start tag.
 
