@@ -39,9 +39,9 @@ it.  Default is OFF.
 - `DFS_MAX_REFERRAL_VERSION`: Maximum Referal Version (Level) Supported.
 OpenFiles supports versions 1 through 4.  NOTE: Domain referrals are only
 supported in levels 3 and 4.  Default is 4.
-- 'DFS_BOOTSTRAP_DC_TIMEOUT`: Number of seconds between Domain Cache Refresh.
+- `DFS_BOOTSTRAP_DC_TIMEOUT`: Number of seconds between Domain Cache Refresh.
 Default is 10.
-- 'DFS_MAX_TTL`: The max number of seconds to allow a referral entry to
+- `DFS_MAX_TTL`: The max number of seconds to allow a referral entry to
 be valid regardless of what the server reports.
 Servers typically report a value on the order of 10 minutes.
 The max is mostly used so we can test short referral entry
@@ -93,7 +93,7 @@ specify a username or password implying that authentication is performed
 through the domain.  the server is `dc1.spiritcloud.app`, the
 share is `spiritcloud` and the path is `openfiles`.
 
-for `(6)', it is similar to (5), but the server is specified as `DC1`
+for `(6)`, it is similar to `(5)`, but the server is specified as `DC1`
 which gets extended into a fqdn using the DNS search suffix.
 
 ### Bootstrap DC
@@ -111,8 +111,8 @@ It is specified in the OpenFiles.xml file as follows:
     </smb>
 ```
 
-The bootstrap_dc should be a FQDN to the DC, or can be a shortened
-name which extended into a FQDN by the DNS search suffix.
+The bootstrap_dc should be a FQDN to the DC, or it can be a shortened
+name which will be extended into a FQDN by the DNS search suffix.
 
 # Configuring DFS on a Samba Server
 
@@ -222,7 +222,7 @@ To run smbcp, you must first build and install openfiles.  The procedures
 are outlined in
 [the Linux Readme](https://github.com/connectedway/openfiles/blob/main/LINUX.md).
 You then must build and install the smbcp application.  Those procedures are
-[Here]((https://github.com/connectedway/smbcp/blob/main/README.md)
+[Here](https://github.com/connectedway/smbcp/blob/main/README.md)
 
 NOTE: Installation will overwrite /etc/openfiles.xml.  Be sure to configure the
 path and bootstrap dc variables after installation.
@@ -264,7 +264,7 @@ Wireshark notes:
 9. Verify a negotiate, setup, treeconnect and create of
    the srvsvc pipe
 10. verify a root referral request to the DC
-   1. Verify that the filename is of the form \<dc>\<root>
+   1. Verify that the filename is of the form \\<dc>\\<root>
 11. verify the root referral response
    1. Note that the root referral NODE entry may
    be the same as that used in the root request.  This
@@ -287,7 +287,6 @@ Wireshark notes:
    2. The NODE field will contain a path that should replace
    the characters in the requested filename that have been
    identified to be substituted.  For example:
-
 ```   
    Requested File Name: \DC1\dfs\spiritdfs\openfiles\spiritcloud.png
    consumed: 36 (NOTE: this is number of bytes so actual consumed
@@ -397,22 +396,23 @@ a table similar to the following:
 
 |  Ticket State  |  Bootstrap_dc  |  Target Path  | Result   |
 |----------------|----------------|---------------|----------|
-| <ticket state> | <bootstrap-dc> | <target-path> | <result> |
+| ticket-state   | bootstrap-dc   | target-path   | result   |
+|----------------|----------------|---------------|----------|
 
 Where:
-- <ticket state> is one of
+- ticket-state is one of
     - no ticket
     - expired
     - active
-- <bootstrap-dc> is the DNS name of the initial DC
+- bootstrap-dc is the DNS name of the initial DC
 to perform the domain referral on.  Typically it
 will be one of the following:
     - DC1: The DNS host name of the DC.  The DNS
     search path will be appended to this to form
     the FQDN of the DC
     - dc1.spiritcloud.app: The FQDN of the DC.
-    - <empty>: No bootstrap DC set.
-- <target path>: The URL to the directory to run
+    - empty: No bootstrap DC set.
+- target-path: The URL to the directory to run
 the DFS tests against.  In our testing, the
 target path will be one of:
     - `//rschmitt:happy@10.211.55.7/spiritcloud/openfiles`:
@@ -429,7 +429,7 @@ target path will be one of:
     Domain Access to DC Root Target Path (DNS).
     - `//dc1.spiritcloud.app/spiritcloud/openfiles`:
     Domain Access to Non-DFS Path
-- <result>: The expected result of the test.  Will be one of:
+- result: The expected result of the test.  Will be one of:
     - Success
     - Long Failure
     - Path Not Found
@@ -456,7 +456,7 @@ Procedure:
 1. Turn off DFS support in configuration file
 
 In `of_smb/configs/default` relative to the base of the
-openfiles workspace, set SMB_SUPPORT_DFS as follows:
+openfiles workspace, set `SMB_SUPPORT_DFS` as follows:
 
 ```
 option(SMB_SUPPORT_DFS "Add Support for DFS" OFF)
@@ -470,7 +470,6 @@ Result:
 |  Ticket State  |  Bootstrap_dc  |  Target Path  | Result   |
 |----------------|----------------|---------------|----------|
 | no ticket      | empty          | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-|----------------|---------------------|-----------------------------------------------|---------------|
 
 ### DFS Turned ON, DFS Path
 
@@ -496,7 +495,7 @@ set(DFS_BOOTSTRAP_DC_TIMEOUT "10" CACHE STRING "Refresh Interval for Bootstrap D
 3. Login, Logout or Expire the Kerberos Ticket as follows:
     - No Ticket: `$ kdestroy`
     - Expired Ticket: `$ kinit spirit@SPIRITCLOUD.APP -l 1m`
-    - Acive Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
+    - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
 3. Iteratively step through the following table updating the `<path>` and
 `<bootstrap_dc>` variables in `/etc/openfiles.xml` according to the
 values specified in the table.
@@ -509,67 +508,50 @@ Result:
 | no ticket      | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
 | no ticket      | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
 | no ticket      | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | no ticket      | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | no ticket      | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | no ticket      | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | no ticket      | DC1                 | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
 | no ticket      | dc1.spiritcloud.app | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
 | no ticket      | empty               | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | no ticket      | DC1                 | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
 | no ticket      | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
 | no ticket      | empty               | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | no ticket      | DC1                 | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
 | no ticket      | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
 | no ticket      | empty               | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-|----------------|---------------------|-----------------------------------------------|---------------|
-|----------------|---------------------|-----------------------------------------------|---------------|
 | expired        | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
 | expired        | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
 | expired        | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | expired        | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | expired        | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | expired        | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | expired        | DC1                 | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
 | expired        | dc1.spiritcloud.app | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
 | expired        | empty               | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | expired        | DC1                 | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
 | expired        | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
 | expired        | empty               | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | expired        | DC1                 | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
 | expired        | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
 | expired        | empty               | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-|----------------|---------------------|-----------------------------------------------|---------------|
-|----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
 | active         | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
 | active         | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | active         | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | active         | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
 | active         | dc1.spiritcloud.app | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
 | active         | empty               | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
 | active         | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
 | active         | empty               | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
 | active         | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
 | active         | empty               | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-|----------------|---------------------|-----------------------------------------------|---------------|
 
-(1) File server not found because we can't resolve SPIRITCLOUD to a target host
+`(1)` File server not found because we can't resolve SPIRITCLOUD to a target host
 
 ### DFS Turned ON, Non-DFS Path
 
@@ -586,13 +568,10 @@ Result:
 |----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //DC1/spiritcloud/openfiles                   | Success       |
 | active         | dc1.spiritcloud.app | //DC1/spiritcloud/openfiles                   | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //dc1.spiritcloud.app/spiritcloud/openfiles   | Success       |
 | active         | dc1.spiritcloud.app | //dc1.spiritcloud.app/spiritcloud/openfiles   | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | active         | empty               | //DC1/spiritcloud/openfiles                   | Success       |
 | active         | empty               | //dc1.spiritcloud.app/spiritcloud/openfiles   | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 
 ### DFS Turned ON, Using EX request
 
@@ -616,7 +595,7 @@ set(DFS_BOOTSTRAP_DC_TIMEOUT "10" CACHE STRING "Refresh Interval for Bootstrap D
 
 2. Clean, Configure, and Build OpenFiles
 3. Login to the domain
-    - Acive Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
+    - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
 3. updating the `<path>` and `<bootstrap_dc>` variables in
 `/etc/openfiles.xml` according to the values specified in the table.
 3. Run
@@ -626,9 +605,8 @@ Result:
 |  Ticket State  |     Bootstrap_dc    |  Target Path                                  | Result        |
 |----------------|---------------------|-----------------------------------------------|---------------|
 | active         | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Not Same Device (2) |
-|----------------|---------------------|-----------------------------------------------|---------------|
 
-(2) This occurs if GET_DFS_REFERRAL_EX isn't supported, so the referral request fails.  We're unable to resolve
+`(2)` This occurs if GET_DFS_REFERRAL_EX isn't supported, so the referral request fails.  We're unable to resolve
 the referral so we fail with the last error we've received, which is not same device.  We could fall back and use
 GET_DFS_REFERRAL but until we can verify that there are servers out there that support it, we recommend setting
 DFS_SUPPORT_GET_DFS_REFERRAL_EX to OFF
@@ -655,7 +633,7 @@ set(DFS_BOOTSTRAP_DC_TIMEOUT "10" CACHE STRING "Refresh Interval for Bootstrap D
 Where: <referral-level> is a value between 1 and 4.
 2. Clean, Configure, and Build OpenFiles
 3. Login to the domain
-    - Acive Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
+    - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
 3. updating the `<path>` and `<bootstrap_dc>` variables in
 `/etc/openfiles.xml` according to the values specified in the table.
 3. Run
@@ -672,13 +650,11 @@ Results:
 | 1              | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (3) |
 | 2              | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (3) |
 | 3              | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 | 1              | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | 2              | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | 3              | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 
-(3) File Server not found because since we are running with version 1 of referrals, we cannot
+`(3)` File Server not found because since we are running with version 1 of referrals, we cannot
 resolve the domain name
 
 ### Verifying DFS through IPv4 and IPv6
@@ -708,7 +684,7 @@ set(DFS_BOOTSTRAP_DC_TIMEOUT "10" CACHE STRING "Refresh Interval for Bootstrap D
 ```
 2. Clean, Configure, and Build OpenFiles
 3. Login to the domain
-    - Acive Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
+    - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
 4. updating the `<path>` and `<bootstrap_dc>` variables in
 `/etc/openfiles.xml` to the value in the following table
 5. Set the value of the Linux configuration value for IPv6
@@ -736,7 +712,6 @@ Results:
 |----------------|---------------------|-----------------------------------------------|---------------|
 | ipv4           | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
 | ipv6           | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 
 When finished, don't forget to revert the sysctl setting to allow both
 IPv4 and IPv6:
@@ -774,7 +749,7 @@ set(DFS_MAX_TTL "<ttl>" CACHE STRING "Max TTL for a Referral Entry")
 Where <ttl> is 1 or 86400
 2. Clean, Configure, and Build OpenFiles
 3. Login to the domain
-    - Acive Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
+    - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
 3. updating the `<path>` and `<bootstrap_dc>` variables in
 `/etc/openfiles.xml` according to the values specified in the table.
 4. Write a TAG to the syslog
@@ -789,7 +764,6 @@ Results:
 |----------------|---------------------|-----------------------------------------------|---------------|
 | 1              | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
 | 86400          | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
-|----------------|---------------------|-----------------------------------------------|---------------|
 
 Syslog Notes:
 
