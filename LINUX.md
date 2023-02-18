@@ -918,9 +918,9 @@ to be a host that has been registered within the domain.  Our configuration
 is accessing files on the domain controller itself so we specify the
 FQDN of the domain controller.
 
-# Test Standalone DFS
+# Testing DFS
 
-## Setting up Standalone DFS on SAMBA
+## Set up DFS on SAMBA
 
 You need to create a directory to be the dfs root
 
@@ -950,17 +950,83 @@ path = /srv/dfsroot
 msdfs root = yes
 ```
 
-## Configuring OpenFiles
+## Configuring OpenFiles for DFS
 
-In `/etc/openfiles.xml` change the <drives><map><path> to:
+### Compile Time Configuration
+
+Openfiles support for DFS is configured via the config file:
 
 ```
-    <path>//dc1.spiritcloud.app/dfs/spiritdfs/openfiles</path>
+of_smb/configs/default
 ```
 
-# Test Domain DFS
+Relevant options are:
 
-## Add Bootstrap DC
+- `SMB_SUPPORT_DFS`: Turn out support for DFS in the OpenFiles SMB Client.
+Default is ON.
+- `DFS_SUPPORT_GET_DFS_REFERRAL_EX`: Turns on support for the
+GET_DFS_REFERRAL_EX packet.  It is not clear whether this is
+supported anymore.  Enabling this will cause DFS to fail.  It
+is included for future compatability.  Default is OFF.
+- `DFS_SUPPORT_SYSVOL`: Support for SYSVOL referrals.  This is used
+to communicate to DCs that have a SYSVOL or NETLOGON share.  We
+have not tested this capability and so we recommend not enabling
+it.  Default is OFF.
+
+### Runtime Configuration
+
+Runtime configuration is performed through the `/etc/openfiles.xml` file.
+
+#### Path Variable
+
+If you will be running the test_fs_smb test utility, you should update
+the path variable to refer to a dfs target.  
+
+A path variable is typically `//<server>/<share>/<path>`.  When using
+dfs, the server refers to either a server or a domain, share refers to
+a dfs root.  The first directory in path refers to a dfs link.
+Remaining directories in path refer to paths relative to the dfs link.
+
+Example path variables:
+```
+    (1) <path>//rschmitt:happy@10.211.55.7/spiritcloud/openfiles</path>
+    (2) <path>//SPIRITCLOUD/dfs/spiritdfs/openfiles</path>
+    (3) <path>//dc1.spiritcloud.app/dfs/spiritdfs/openfiles</path>
+    (4) <path>//DC1/dfs/spiritdfs/openfiles</path>
+    (5) <path>//dc1.spiritcloud.app/spiritcloud/openfiles<path>
+    (6) <path>//DC1/spiritcloud/openfiles</path>
+```
+
+For `(1)`, This is a non-DFS, non-domain path which specifies a username, and password
+using a server at a specified IP address, a share called `spiritcloud`, and path called
+`openfiles`.  Authentication is through NTLMSSP.
+
+For `(2)`, This is a domain based DFS path using the domain `SPIRITCLOUD`
+the root `dfs`, the link `spiritdfs`, and path called `openfiles`
+
+For `(3)`, This is a non-domain based DFS using a domain controller
+at `dc1.spiritcloud.app`, a root of `dfs`, a link of `spiritdfs` and a
+path of `openfiles`.
+
+for `(4)`, This is a non-domain based DFS using a domain controller
+of `DC1` (get's extended into a fqdn using the DNS search suffix), a root
+of `dfs`, a link of `spiritdfs` and a path of `openfiles`.
+
+for `(5)`, This is a non-dfs, non-domain path which does not
+specify a username or password implying that authentication is performed
+through the domain.  the server is `dc1.spiritcloud.app`, the
+share is `spiritcloud` and the path is `openfiles`.
+
+for `(6)', it is similar to (5), but the server is specified as `DC1`
+which gets extended into a fqdn using the DNS search suffix.
+
+#### Bootstrap DC
+
+The bootstrap DC informs the OpenFiles DFS stack which DC to contact to
+optain information about the Domain.  It is required for domain based
+DFS.
+
+It is specified in the OpenFiles.xml file as follows:
 
 ```
     <smb>
@@ -969,4 +1035,34 @@ In `/etc/openfiles.xml` change the <drives><map><path> to:
     </smb>
 ```
 
+The bootstrap_dc should be a FQDN to the DC, or can be a shortened
+name which extended into a FQDN by the DNS search suffix.
+
+## Running the OpenFiles File Test
+
+The openfiles file test utility `test_fs_smb` can be run from a
+shell as follows:
+
+```
+$ ./build-linux-smbfs/of_smb_fs/test/test_fs_smb
+```
+
+You should see output similar to:
+
+```
+ ./build-linux-smbfs/of_smb_fs/test/test_fs_smb 
+Unity test run 1 of 1
+1692058530 Starting File Test with //SPIRITCLOUD:445/dfs/spiritdfs/openfiles
+
+<snip>
+
+1692073162 File Test Succeeded
+
+.
+
+-----------------------
+1 Tests 0 Failures 0 Ignored 
+OK
+Total Allocated Memory 1336, Max Allocated Memory 1409935
+```
 
