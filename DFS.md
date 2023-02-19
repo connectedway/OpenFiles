@@ -49,11 +49,16 @@ expiration times.  Default is 86400 seconds, or 1 day.
 
 ## Runtime Configuration
 
-Runtime configuration of installed deployments of OpenFiles
+Runtime configuration can be accomplished either through an API
+or persistently.  
+
+### Persistent Runtime Configuration
+
+Persistent Runtime configuration of installed deployments of OpenFiles
 is performed through the `/etc/openfiles.xml` file.  Local
 deployments will use their own runtime configuration files.
 
-### Path Variable
+#### Path Variable
 
 If you will be running the test_fs_smb test utility, you should update
 the path variable to refer to a dfs target.  
@@ -96,7 +101,7 @@ share is `spiritcloud` and the path is `openfiles`.
 for `(6)`, it is similar to `(5)`, but the server is specified as `DC1`
 which gets extended into a fqdn using the DNS search suffix.
 
-### Bootstrap DC
+#### Bootstrap DC
 
 The bootstrap DC informs the OpenFiles DFS stack which DC to contact to
 optain information about the Domain.  It is required for domain based
@@ -113,6 +118,39 @@ It is specified in the OpenFiles.xml file as follows:
 
 The bootstrap_dc should be a FQDN to the DC, or it can be a shortened
 name which will be extended into a FQDN by the DNS search suffix.
+
+### Dynamic Runtime Configuration
+
+If persistent configuration is not being used,
+an API can be used to set the bootstrap_dc.  This can be called
+anytime before for first DFS access.
+
+It is unfortunate that although kerberos provides APIs to obtain
+the default realm, there is no API to return the domain controllers
+associated with that realm.  The consideration here is that the
+application controlling the Open Files deployment will need to
+configure the kerberos `/etc/krb5.conf` file with the default realm
+and realm domain controllers.  That application should also configure
+the persistent openfiles configuration, or provide the domain
+controller to openfiles through the following API.
+
+```
+OFC_VOID of_smb_set_bootstrap_dc(OFC_LPCTSTR bootstrap_dc);
+```
+Where:
+
+- bootstrap_dc is a pointer to a wide character string
+denoting the FQDN or DNS name of the domain controller
+to be used as the root of the DFS namespace.
+
+An example usage:
+
+```
+  #include <ofc/types.h>
+  #include <of_smb/framework.h>
+
+  of_smb_set_bootstrap_dc(TSTR("dc1.spiritcloud.app"));
+```
 
 # Configuring DFS on a Samba Server
 
@@ -847,4 +885,33 @@ Feb 18 16:48:00 ubuntu openfiles[112686]: message repeated 2 times: [ DFS Referr
 This implies a total of three expirations occurred during the test.
 
 When run with a `DFS_MAX_TTL` of 86400, you will notice no expirations following the start tag.
+
+### Testing of Ephemeral DFS Configuration
+
+Open Files supports ephemeral DFS configuration.  By ephemeral, we mean that the
+DFS features do not rely on a persistent configuration loaded from an xml
+configuration file.  In order for a domain namespace to be resolved, a
+bootstrap domain controller must be configured.  APIs are provide for this
+purpose.
+
+To test this capability, we will use the smbcp tool.  Perform the following steps:
+
+1. Modify `configs/linux-smbfs` and set the OFC_PERSIST variable to OFF.
+```
+option(OFC_PERSIST "Build in persistent configuration support" OFF)
+```
+2. Rebuild Open Files
+```
+$ make linux-smbfs-clean
+$ make linux-smbfs
+$ sudo make linux-smbfs-install
+```
+3. Make sure you have pulled, built, and installed the latest
+smbcp utility.
+4. Issue the smbcp command using the `-dc` option:
+```
+./smbcp -dc dc1.spiritcloud.app ./spiritcloud.png //SPIRITCLOUD/dfs/spiritdfs/openfiles/spiritcloud.png
+Copying ./spiritcloud.png to //SPIRITCLOUD/dfs/spiritdfs/openfiles/spiritcloud.png: [ok]
+Total Allocated Memory 1192, Max Allocated Memory 141490
+```
 
