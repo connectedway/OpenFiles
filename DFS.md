@@ -26,7 +26,7 @@ of_smb/configs/default
 
 Relevant options are:
 
-- `SMB_SUPPORT_DFS`: Turn out support for DFS in the OpenFiles SMB Client.
+- `SMB_SUPPORT_DFS`: Turn on support for DFS in the OpenFiles SMB Client.
 Default is ON.
 - `DFS_SUPPORT_GET_DFS_REFERRAL_EX`: Turns on support for the
 GET_DFS_REFERRAL_EX packet.  It is not clear whether this is
@@ -421,7 +421,7 @@ $ md5sum spiritcloud.png spiritcloud2.png
 
 # DFS QA Test Plan and Results
 
-OpenFiles DFS has supports both standalone and domain based DFS.  This
+OpenFiles DFS supports both standalone and domain based DFS.  This
 results in a large number of scenarios to test.  They are documented
 here.
 
@@ -737,7 +737,7 @@ option(DFS_SUPPORT_SYSVOL "DFS Stack supports SYSVOL requests" OFF)
 set(DFS_MAX_REFERRAL_VERSION <referral-level> CACHE STRING "Max Referall Version to Support")
 set(DFS_BOOTSTRAP_DC_TIMEOUT "10" CACHE STRING "Refresh Interval for Bootstrap DC")
 ```
-Where: <referral-level> is a value between 1 and 4.
+Where: `<referral-level>` is a value between 1 and 4.
 2. Clean, Configure, and Build OpenFiles
 3. Login to the domain
     - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
@@ -745,7 +745,7 @@ Where: <referral-level> is a value between 1 and 4.
 `/etc/openfiles.xml` according to the values specified in the table.
 3. Run
 
-Note that all the previous tests were against version 4.  So version 4 not retested.  We are also
+Note that all the previous tests were against version 4.  So version 4 is not retested.  We are also
 only interested in the logged in case, so rather than show Ticket State,
 we are showing Referral Level.
 
@@ -830,7 +830,7 @@ $ sudo sysctl -w net.ipv6.conf.all.disable_ipv6=0
 ### Test DFS Referral Level Expiration
 
 When a DFS referral entry expires, the DFS client should obtain a new referral entry
-but preserve any target_hint from the ole entry (the preferred target in the set of targets)
+but preserve any target_hint from the old entry (the preferred target in the set of targets)
 in the new entry.
 
 To test this, we have provided a `DFS_MAX_TTL` value in the compile time configuration
@@ -853,7 +853,7 @@ set(DFS_MAX_REFERRAL_VERSION <referral-level> CACHE STRING "Max Referall Version
 set(DFS_BOOTSTRAP_DC_TIMEOUT "10" CACHE STRING "Refresh Interval for Bootstrap DC")
 set(DFS_MAX_TTL "<ttl>" CACHE STRING "Max TTL for a Referral Entry")
 ```
-Where <ttl> is 1 or 86400
+Where `<ttl>` is 1 or 86400
 2. Clean, Configure, and Build OpenFiles
 3. Login to the domain
     - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
