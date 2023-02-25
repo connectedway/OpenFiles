@@ -630,7 +630,29 @@ samba-tool dns update 10.211.55.6 spiritcloud.app dc1 A 192.168.1.206 10.211.55.
 samba-tool dns update 10.211.55.6 spiritcloud.app @ A 192.168.1.206 10.211.55.6 -U administrator
 ```
 
-### Kerberos Configuration
+Creating the reverse zone
+
+```
+samba-tool dns zonecreate 192.168.1.192 1.168.192.in-addr.arpa -U administrator
+```
+
+Adding PTR recors to reverse zone
+
+```
+samba-tool dns add 192.168.1.192 1.168.192.in-addr.arpa 158 PTR ubuntu.spiritcloud.app -U administrator
+samba-tool dns add 192.168.1.192 1.168.192.in-addr.arpa 192 PTR dc1.spiritcloud.app -U administrator
+```
+
+### Troubleshooting the DNS server
+
+If it appears that the dns server is not responding to queries:
+
+```
+$ sudo systemctl stop systemd-resolved
+$ sudo systemctl disable systemd-resolved
+```
+
+## Kerberos Configuration
 
 Open Files integrates with a Kerberos library that performs authentication.
 This Kerberos framework configuration requires minimal configuration in
@@ -642,7 +664,7 @@ other platforms, it may be in other locations.
 Once the krb5.conf file is updated to support your domain, users will be
 able to authenticate within the domain within Open Files.
 
-#### Default Realm
+### Default Realm
 
 Open Files has been qualified against kerberos configurations that specify
 a default realm and that the default realm references the domain that
@@ -655,7 +677,7 @@ In the example below, we are using the domain `SPIRITCLOUD.APP`.
 	default_realm = SPIRITCLOUD.APP
 ```
 
-#### Domain Realm
+### Domain Realm
 
 
 The FQDN of the domain controller for the default realm must also be
@@ -677,7 +699,7 @@ must be a DNS name that is resolved through the DNS subsystem.  In other
 words, the kdc cannot be an IP address.  Further, you must also have your
 domain controller registered in DNS that is being used by the Linux system.
 
-#### Reverse Domain Realm
+### Reverse Domain Realm
 
 There is one more section in the kerberos configuration file called
 [domain_realm].   The domain_realm section maps server hostnames back to the
@@ -689,6 +711,12 @@ realm.  In other words, it is a reverse mapping.  We have added the following:
 ```
 
 Use the correct host name and domain name for your configuration.
+
+## Adding a domain member
+
+```
+samba-tool domain join spiritcloud.app MEMBER -U administrator
+```
 
 ## Client Configuration
 
