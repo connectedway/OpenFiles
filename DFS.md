@@ -70,7 +70,7 @@ Remaining directories in path refer to paths relative to the dfs link.
 
 Example path variables:
 ```
-    (1) <path>//rschmitt:happy@10.211.55.7/spiritcloud/openfiles</path>
+    (1) <path>//rschmitt:happy@192.168.1.192/spiritcloud/openfiles</path>
     (2) <path>//SPIRITCLOUD/dfs/spiritdfs/openfiles</path>
     (3) <path>//dc1.spiritcloud.app/dfs/spiritdfs/openfiles</path>
     (4) <path>//DC1/dfs/spiritdfs/openfiles</path>
@@ -490,6 +490,11 @@ This section details the various tests performed on the
 Open Files DFS Feature along with the results of the
 tests.
 
+NOTE: for clarity, we sometimes show IP addresses in various tables.
+The address 192.168.1.158 is for the domain member with a FQDN of
+ubuntu.spiritcloud.app.  The address 192.168.1.192 is for the domain
+controller with a FQDN of dc1.spiritcloud.app.
+
 All tests involve the following steps:
 
 - Configure Compile Time Settings (optional)
@@ -522,11 +527,11 @@ will be one of the following:
 - `target-path`: The URL to the directory to run
 the DFS tests against.  In our testing, the
 target path will be one of:
-    - `//rschmitt:happy@10.211.55.7/spiritcloud/openfiles`:
+    - `//rschmitt:happy@192.168.1.158/spiritcloud/openfiles`:
     Non-domain access to non-DFS Path.
-    - `//rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles`:
+    - `//rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles`:
     Non-domain access to DFS Path.
-    - `//10.211.55.6/dfs/spiritdfs/openfiles`:
+    - `//192.168.1.192/dfs/spiritdfs/openfiles`:
     Domain Access to non-FQDN DFS Path.
     - `//SPIRITCLOUD/dfs/spiritdfs/openfiles`:
     Domain Access to Domain Based DFS Path.
@@ -576,7 +581,7 @@ Result:
 
 |  Ticket State  |  Bootstrap_dc  |  Target Path  | Result   |
 |----------------|----------------|---------------|----------|
-| no ticket      | empty          | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
+| no ticket      | empty          | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
 
 ### DFS Turned ON, DFS Path
 
@@ -618,47 +623,140 @@ Result:
 | no ticket      | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | no ticket      | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | no ticket      | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
-| no ticket      | DC1                 | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| no ticket      | dc1.spiritcloud.app | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| no ticket      | empty               | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| no ticket      | DC1                 | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| no ticket      | empty               | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| no ticket      | DC1                 | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-| no ticket      | empty               | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-| expired        | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
+| no ticket      | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| no ticket      | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| no ticket      | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found (1) |
+| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found (1) |
+| no ticket      | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found (1)|
+| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| no ticket      | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+
+| expired        | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (2) |
+| expired        | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (2) |
+| expired        | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (2) |
 | expired        | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | expired        | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | expired        | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
-| expired        | DC1                 | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | dc1.spiritcloud.app | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | empty               | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | DC1                 | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| expired        | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| expired        | empty               | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| expired        | DC1                 | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-| expired        | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-| expired        | empty               | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
+| expired        | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| expired        | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| expired        | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| expired        | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| expired        | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| expired        | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| expired        | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
 | active         | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
 | active         | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
-| active         | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
+| active         | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (3) |
 | active         | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | active         | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | active         | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
-| active         | DC1                 | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| active         | dc1.spiritcloud.app | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| active         | empty               | //10.211.55.6/dfs/spiritdfs/openfiles         | Logon Failure |
-| active         | DC1                 | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| active         | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| active         | empty               | //rschmitt:happy@10.211.55.7/dfs/spiritdfs/openfiles | Path Not Found |
-| active         | DC1                 | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-| active         | dc1.spiritcloud.app | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
-| active         | empty               | //rschmitt:happy@10.211.55.7/spiritcloud/openfiles | Success |
+| active         | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure (4) |
+| active         | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure (4) |
+| active         | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure (4) |
+| active         | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| active         | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| active         | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| active         | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
 
-`(1)` File server not found because we can't resolve SPIRITCLOUD to a target host
+`(1)` Path not found because we are accessing the domain member directly with a bad share
+`(2)` File server not found because we can't resolve SPIRITCLOUD to a target host.  NOTE:
+This is different than in previous delivery.  It had been Logon Failure because we were
+unable to log into the domain to obtain the DC of the domain.  We no longer pass error
+from domain or dc referrals up to the application.  We pass the error from the resulting
+transaction, which in these cases is an attept to open the fileserver named SPIRITCLOUD.
+There isn't one.
+`(3)` File server not found because we can't resolve SPIRITCLOUD to a target host
+`(4)` Attempting to use an IP address as a kerberos destination will fail with a
+logon failure.
+
+### DFS Turned ON, DFS Path on Domain Member
+
+This test verifies that the Open Files SMB client can
+access remote dfs standalone and domain resident files that are
+stored on a domain member rather than the domain controller itself.
+
+Procedure:
+
+Use the procedure from the previous test
+
+NOTE: the dfs root `ubuntu` is specified as resident on the server `ubuntu.spiritcloud.app` with share
+`spiritcloud`.  For the NTLM authentication cases, the user on the domain controller is also registered
+on the domain member and have the same password.
+
+This server is at IP address `192.168.1.158`
+
+Result:
+
+|  Ticket State  |     Bootstrap_dc    |  Target Path                                  | Result        |
+|----------------|---------------------|-----------------------------------------------|---------------|
+| no ticket      | DC1                 | //SPIRITCLOUD/dfs/ubuntu                      | Logon Failure |
+| no ticket      | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/ubuntu                      | Logon Failure |
+| no ticket      | empty               | //SPIRITCLOUD/dfs/ubuntu                      | Logon Failure |
+| no ticket      | DC1                 | //dc1.spiritcloud.app/dfs/ubuntu              | Logon Failure |
+| no ticket      | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/ubuntu              | Logon Failure |
+| no ticket      | empty               | //dc1.spiritcloud.app/dfs/ubuntu              | Logon Failure |
+| no ticket      | DC1                 | //192.168.1.192/dfs/ubuntu                    | Logon Failure |
+| no ticket      | dc1.spiritcloud.app | //192.168.1.192/dfs/ubuntu                    | Logon Failure |
+| no ticket      | empty               | //192.168.1.192/dfs/ubuntu                    | Logon Failure |
+| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/dfs/ubuntu     | Path Not Found (1) |
+| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/ubuntu     | Path Not Found (1) |
+| no ticket      | empty               | //rschmitt:happy@192.168.1.158/dfs/ubuntu     | Path Not Found (1) |
+| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| no ticket      | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| expired        | DC1                 | //SPIRITCLOUD/dfs/ubuntu                      | File Server Not Found (2) |
+| expired        | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/ubuntu                      | File Server Not Found (2) |
+| expired        | empty               | //SPIRITCLOUD/dfs/ubuntu                      | File Server Not Found (2) |
+| expired        | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
+| expired        | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
+| expired        | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
+| expired        | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| expired        | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| expired        | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| expired        | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| expired        | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| expired        | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles   | Success |
+| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles   | Success |
+| expired        | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles   | Success |
+| active         | DC1                 | //SPIRITCLOUD/dfs/ubuntu                               | Success       |
+| active         | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/ubuntu                               | Success       |
+| active         | empty               | //SPIRITCLOUD/dfs/ubuntu                               | File Server Not Found (3) |
+| active         | DC1                 | //dc1.spiritcloud.app/dfs/ubuntu                       | Success       |
+| active         | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/ubuntu                       | Success       |
+| active         | empty               | //dc1.spiritcloud.app/dfs/ubuntu                       | Success       |
+| active         | DC1                 | //192.168.1.158/dfs/spiritdfs/openfiles         | Logon Failure (4) |
+| active         | dc1.spiritcloud.app | //192.168.1.158/dfs/spiritdfs/openfiles         | Logon Failure (4) |
+| active         | empty               | //192.168.1.158/dfs/spiritdfs/openfiles         | Logon Failure (4) |
+| active         | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| active         | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| active         | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| active         | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| active         | DC1                 | //ubuntu/spiritcloud/openfiles | Success |
+| active         | dc1.spiritcloud.app | //ubuntu/spiritcloud/openfiles | Success |
+| active         | empty               | //ubuntu/spiritcloud/openfiles | Success |
+| active         | DC1                 | //ubuntu.spiritcloud.app/spiritcloud/openfiles | Success |
+| active         | dc1.spiritcloud.app | //ubuntu.spiritcloud.app/spiritcloud/openfiles | Success |
+| active         | empty               | //ubuntu.spiritcloud.app/spiritcloud/openfiles | Success |
+
+`(1)` Path not found because we are accessing the domain member directly with a bad share
+`(2)` File server not found because we can't resolve SPIRITCLOUD to a target host.  NOTE:
+This is different than in previous delivery.  It had been Logon Failure because we were
+unable to log into the domain to obtain the DC of the domain.  We no longer pass error
+from domain or dc referrals up to the application.  We pass the error from the resulting
+transaction, which in these cases is an attept to open the fileserver named SPIRITCLOUD.
+There isn't one.
+`(3)` File server not found because we can't resolve SPIRITCLOUD to a target host
+`(4)` Attempting to use an IP address as a kerberos destination will fail with a
+logon failure.
 
 ### DFS Turned ON, Non-DFS Path
 
