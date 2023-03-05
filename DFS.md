@@ -490,11 +490,6 @@ This section details the various tests performed on the
 Open Files DFS Feature along with the results of the
 tests.
 
-NOTE: for clarity, we sometimes show IP addresses in various tables.
-The address 192.168.1.158 is for the domain member with a FQDN of
-ubuntu.spiritcloud.app.  The address 192.168.1.192 is for the domain
-controller with a FQDN of dc1.spiritcloud.app.
-
 All tests involve the following steps:
 
 - Configure Compile Time Settings (optional)
@@ -527,11 +522,11 @@ will be one of the following:
 - `target-path`: The URL to the directory to run
 the DFS tests against.  In our testing, the
 target path will be one of:
-    - `//rschmitt:happy@192.168.1.158/spiritcloud/openfiles`:
+    - `//rschmitt:happy@192.168.1.192/spiritcloud/openfiles`:
     Non-domain access to non-DFS Path.
-    - `//rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles`:
+    - `//rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles`:
     Non-domain access to DFS Path.
-    - `//192.168.1.192/dfs/spiritdfs/openfiles`:
+    - `//192.168.1.158/dfs/spiritdfs/openfiles`:
     Domain Access to non-FQDN DFS Path.
     - `//SPIRITCLOUD/dfs/spiritdfs/openfiles`:
     Domain Access to Domain Based DFS Path.
@@ -550,6 +545,9 @@ target path will be one of:
     
 NOTE: Domain Access to DC Root Target Paths (both FQDN and DNS)
 is equivalent to Standalone DFS.
+
+NOTE: Whenever a password is shown, we will show it as happy.  The
+actual password is not published.
 
 All tests are run using the following command issued from the
 openfiles workspace directory:
@@ -581,7 +579,7 @@ Result:
 
 |  Ticket State  |  Bootstrap_dc  |  Target Path  | Result   |
 |----------------|----------------|---------------|----------|
-| no ticket      | empty          | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| no ticket      | empty          | //rschmitt:happy@192.168.1.192/spiritcloud/openfiles | Success |
 
 ### DFS Turned ON, DFS Path
 
@@ -617,25 +615,24 @@ Result:
 
 |  Ticket State  |     Bootstrap_dc    |  Target Path                                  | Result        |
 |----------------|---------------------|-----------------------------------------------|---------------|
-| no ticket      | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
-| no ticket      | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
-| no ticket      | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Logon Failure |
+| no ticket      | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
+| no ticket      | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
+| no ticket      | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
 | no ticket      | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | no ticket      | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | no ticket      | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | no ticket      | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
 | no ticket      | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
 | no ticket      | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
-| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found (1) |
-| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found (1) |
-| no ticket      | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found (1)|
-| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| no ticket      | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-
-| expired        | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (2) |
-| expired        | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (2) |
-| expired        | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (2) |
+| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| no ticket      | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
+| no ticket      | DC1                 | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
+| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
+| no ticket      | empty               | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
+| expired        | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
+| expired        | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
+| expired        | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
 | expired        | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | expired        | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
 | expired        | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
@@ -645,118 +642,27 @@ Result:
 | expired        | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
 | expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
 | expired        | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| expired        | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| expired        | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| expired        | DC1                 | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
+| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
+| expired        | empty               | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
 | active         | DC1                 | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
 | active         | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | Success       |
-| active         | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (3) |
+| active         | empty               | //SPIRITCLOUD/dfs/spiritdfs/openfiles         | File Server Not Found (1) |
 | active         | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | active         | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
 | active         | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Success       |
-| active         | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure (4) |
-| active         | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure (4) |
-| active         | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure (4) |
+| active         | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| active         | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
+| active         | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
 | active         | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
 | active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
 | active         | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| active         | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| active         | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
+| active         | DC1                 | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
+| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
+| active         | empty               | //rschmitt:happy@192.168.1.192/dfs/spiritdfs/openfiles | Success |
 
-`(1)` Path not found because we are accessing the domain member directly with a bad share
-`(2)` File server not found because we can't resolve SPIRITCLOUD to a target host.  NOTE:
-This is different than in previous delivery.  It had been Logon Failure because we were
-unable to log into the domain to obtain the DC of the domain.  We no longer pass error
-from domain or dc referrals up to the application.  We pass the error from the resulting
-transaction, which in these cases is an attept to open the fileserver named SPIRITCLOUD.
-There isn't one.
-`(3)` File server not found because we can't resolve SPIRITCLOUD to a target host
-`(4)` Attempting to use an IP address as a kerberos destination will fail with a
-logon failure.
-
-### DFS Turned ON, DFS Path on Domain Member
-
-This test verifies that the Open Files SMB client can
-access remote dfs standalone and domain resident files that are
-stored on a domain member rather than the domain controller itself.
-
-Procedure:
-
-Use the procedure from the previous test
-
-NOTE: the dfs root `ubuntu` is specified as resident on the server `ubuntu.spiritcloud.app` with share
-`spiritcloud`.  For the NTLM authentication cases, the user on the domain controller is also registered
-on the domain member and have the same password.
-
-This server is at IP address `192.168.1.158`
-
-Result:
-
-|  Ticket State  |     Bootstrap_dc    |  Target Path                                  | Result        |
-|----------------|---------------------|-----------------------------------------------|---------------|
-| no ticket      | DC1                 | //SPIRITCLOUD/dfs/ubuntu                      | Logon Failure |
-| no ticket      | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/ubuntu                      | Logon Failure |
-| no ticket      | empty               | //SPIRITCLOUD/dfs/ubuntu                      | Logon Failure |
-| no ticket      | DC1                 | //dc1.spiritcloud.app/dfs/ubuntu              | Logon Failure |
-| no ticket      | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/ubuntu              | Logon Failure |
-| no ticket      | empty               | //dc1.spiritcloud.app/dfs/ubuntu              | Logon Failure |
-| no ticket      | DC1                 | //192.168.1.192/dfs/ubuntu                    | Logon Failure |
-| no ticket      | dc1.spiritcloud.app | //192.168.1.192/dfs/ubuntu                    | Logon Failure |
-| no ticket      | empty               | //192.168.1.192/dfs/ubuntu                    | Logon Failure |
-| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/dfs/ubuntu     | Path Not Found (1) |
-| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/ubuntu     | Path Not Found (1) |
-| no ticket      | empty               | //rschmitt:happy@192.168.1.158/dfs/ubuntu     | Path Not Found (1) |
-| no ticket      | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| no ticket      | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| no ticket      | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| expired        | DC1                 | //SPIRITCLOUD/dfs/ubuntu                      | File Server Not Found (2) |
-| expired        | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/ubuntu                      | File Server Not Found (2) |
-| expired        | empty               | //SPIRITCLOUD/dfs/ubuntu                      | File Server Not Found (2) |
-| expired        | DC1                 | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
-| expired        | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
-| expired        | empty               | //dc1.spiritcloud.app/dfs/spiritdfs/openfiles | Logon Failure |
-| expired        | DC1                 | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | dc1.spiritcloud.app | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | empty               | //192.168.1.192/dfs/spiritdfs/openfiles         | Logon Failure |
-| expired        | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| expired        | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| expired        | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles   | Success |
-| expired        | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles   | Success |
-| expired        | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles   | Success |
-| active         | DC1                 | //SPIRITCLOUD/dfs/ubuntu                               | Success       |
-| active         | dc1.spiritcloud.app | //SPIRITCLOUD/dfs/ubuntu                               | Success       |
-| active         | empty               | //SPIRITCLOUD/dfs/ubuntu                               | File Server Not Found (3) |
-| active         | DC1                 | //dc1.spiritcloud.app/dfs/ubuntu                       | Success       |
-| active         | dc1.spiritcloud.app | //dc1.spiritcloud.app/dfs/ubuntu                       | Success       |
-| active         | empty               | //dc1.spiritcloud.app/dfs/ubuntu                       | Success       |
-| active         | DC1                 | //192.168.1.158/dfs/spiritdfs/openfiles         | Logon Failure (4) |
-| active         | dc1.spiritcloud.app | //192.168.1.158/dfs/spiritdfs/openfiles         | Logon Failure (4) |
-| active         | empty               | //192.168.1.158/dfs/spiritdfs/openfiles         | Logon Failure (4) |
-| active         | DC1                 | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| active         | empty               | //rschmitt:happy@192.168.1.158/dfs/spiritdfs/openfiles | Path Not Found |
-| active         | DC1                 | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| active         | dc1.spiritcloud.app | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| active         | empty               | //rschmitt:happy@192.168.1.158/spiritcloud/openfiles | Success |
-| active         | DC1                 | //ubuntu/spiritcloud/openfiles | Success |
-| active         | dc1.spiritcloud.app | //ubuntu/spiritcloud/openfiles | Success |
-| active         | empty               | //ubuntu/spiritcloud/openfiles | Success |
-| active         | DC1                 | //ubuntu.spiritcloud.app/spiritcloud/openfiles | Success |
-| active         | dc1.spiritcloud.app | //ubuntu.spiritcloud.app/spiritcloud/openfiles | Success |
-| active         | empty               | //ubuntu.spiritcloud.app/spiritcloud/openfiles | Success |
-
-`(1)` Path not found because we are accessing the domain member directly with a bad share
-`(2)` File server not found because we can't resolve SPIRITCLOUD to a target host.  NOTE:
-This is different than in previous delivery.  It had been Logon Failure because we were
-unable to log into the domain to obtain the DC of the domain.  We no longer pass error
-from domain or dc referrals up to the application.  We pass the error from the resulting
-transaction, which in these cases is an attept to open the fileserver named SPIRITCLOUD.
-There isn't one.
-`(3)` File server not found because we can't resolve SPIRITCLOUD to a target host
-`(4)` Attempting to use an IP address as a kerberos destination will fail with a
-logon failure.
+`(1)` File server not found because we can't resolve SPIRITCLOUD to a target host.  If we were able to
+login to the DC, we would have been able to resolve the HOST.
 
 ### DFS Turned ON, Non-DFS Path
 
@@ -1012,4 +918,221 @@ smbcp utility.
 Copying ./spiritcloud.png to //SPIRITCLOUD/dfs/spiritdfs/openfiles/spiritcloud.png: [ok]
 Total Allocated Memory 1192, Max Allocated Memory 141490
 ```
+
+### Test Link Referrals Across Servers
+
+This test verifies that the Open Files SMB client can access a DFS root that
+refers to a root on another server.  This reproduces an issue we had with
+link referrals that were not in the cache.  The path we use here is:
+
+```
+//SPIRITCLOUD/dfs/offroot/spirit/openfiles
+```
+
+`//SPIRITCLOUD` is the domain.  It will resolve to the domain controller
+`dc1.spiritcloud.app`.
+
+`dfs` is the dfs root.
+
+`offroot` is a link to `ubuntu.spiritcloud.app` root `dfs`
+
+`spirit` is a link to `ubuntu.spiritcloud.app/spiritcloud`
+
+Procedure:
+
+1. Turn On DFS support in configuration file
+
+In `of_smb/configs/default` relative to the base of the
+openfiles workspace, set DFS variables as follows:
+
+```
+option(SMB_SUPPORT_DFS "Add Support for DFS" ON)
+option(DFS_SUPPORT_GET_DFS_REFERRAL_EX "v3 Servers support the GET_DFS_REFERREL_EX" OFF)
+option(DFS_SUPPORT_SYSVOL "DFS Stack supports SYSVOL requests" OFF)
+set(DFS_MAX_REFERRAL_VERSION "4" CACHE STRING "Max Referall Version to Support")
+set(DFS_BOOTSTRAP_DC_TIMEOUT "10" CACHE STRING "Refresh Interval for Bootstrap DC")
+```
+
+2. Clean, Configure, and Build OpenFiles
+3. Login, Logout or Expire the Kerberos Ticket as follows:
+    - Active Ticket: `$ kinit spirit@SPIRITCLOUD.APP`
+3. Configure the openfiles.xml file according to the following table
+4. Run
+
+Result:
+
+|  Ticket State  |     Bootstrap_dc    |  Target Path                                  | Result        |
+|----------------|---------------------|-----------------------------------------------|---------------|
+| active         | DC1                 | //SPIRITCLOUD/dfs/offroot/spirit/openfiles    | Success       |
+
+Validate that we have the following output in syslog.  View /var/log/syslog and verify that
+the following two log messages are present.  This indicates that the previous code path that
+resulted in a failed lookup has been resolved.
+
+```
+Mar  5 10:32:49 ubuntu openfiles[715212]: DFS: Attempting transform on not same device, miss //ubuntu.spiritcloud.app:445/dfs/spirit/openfiles
+Mar  5 10:32:49 ubuntu openfiles[715212]: link referral lookup with no entry
+```
+
+# Configuration
+
+## AC-DC Server
+
+### Samba (smb.conf)
+
+```
+# Global parameters
+[global]
+	dns forwarder = 1.1.1.1
+	netbios name = DC1
+	realm = SPIRITCLOUD.APP
+	server role = active directory domain controller
+	workgroup = SPIRITCLOUD
+	host msdfs = yes
+	log level = 2 auth:5 winbind:5
+
+[sysvol]
+	path = /var/lib/samba/sysvol
+	read only = No
+
+[netlogon]
+	path = /var/lib/samba/sysvol/spiritcloud.app/scripts
+	read only = No
+
+[spiritcloud]
+	path = /srv/spiritcloud
+	read only = No
+	writeable = yes
+	valid users = SPIRITCLOUD\spirit, rschmitt, administrator
+
+[dfs]
+	path = /srv/dfsroot
+	msdfs root = yes
+	valid users = SPIRITCLOUD\spirit, rschmitt, administrator
+```
+
+### Links
+
+```
+./offroot -> msdfs:ubuntu.spiritcloud.app\dfs
+./spiritdfs -> msdfs:dc1.spiritcloud.app\spiritcloud
+./ubuntu -> msdfs:ubuntu.spiritcloud.app\spiritcloud
+```
+
+### Samba Database
+
+To backup a samba database, execute the following command:
+
+```
+sudo samba-tool domain backup online --targetdir=<output-dir> --server=<DC-server> -UAdministrator
+```
+
+For DC server, type in IP address of the DC.  This command will output a tar bz2 file in the target
+dir.  To untar it, simply type
+
+```
+cd <output-dir>
+tar -xjvf <filename>
+```
+
+## Domain Member
+
+### Samba Configuration
+
+```
+[global]
+
+	security = ADS
+	workgroup = SPIRITCLOUD
+	realm = SPIRITCLOUD.APP
+	host msdfs = yes
+
+	server string = %h server (Samba, Ubuntu)
+	log file = /var/log/samba/log.%m
+	max log size = 1000
+	logging = file
+
+	panic action = /usr/share/samba/panic-action %d
+
+	server role = member server
+	obey pam restrictions = yes
+	unix password sync = yes
+	passwd program = /usr/bin/passwd %u
+	passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+
+	pam password change = yes
+	map to guest = bad user
+
+	idmap config * : backend = tdb
+	idmap config * : range = 10000-199999
+	idmap config SPIRITCLOUD: backend = sss
+	idmap config SPIRITCLOUD: range = 200000-2147483647
+	template shell = /bin/bash
+
+	usershare allow guests = yes
+	kerberos method = secrets and keytab
+	template homedir = /home/%U@%D
+	template shell = /bin/bash
+	security = ads
+	winbind use default domain = no
+	winbind refresh tickets = yes
+	winbind offline logon = yes
+	winbind enum groups = no
+	winbind enum users = no
+
+[printers]
+   comment = All Printers
+   browseable = no
+   path = /var/spool/samba
+   printable = yes
+   guest ok = no
+   read only = yes
+   create mask = 0700
+
+[print$]
+   comment = Printer Drivers
+   path = /var/lib/samba/printers
+   browseable = yes
+   read only = yes
+   guest ok = no
+
+[spiritcloud]
+    comment = SpiritCloud
+    path = /home/rschmitt/spiritcloud
+    read only = no
+    browsable = yes
+    valid users = SPIRITCLOUD\spirit rschmitt administrator
+
+[dfs]
+    comment = Member DFS
+    path = /srv/dfsroot
+    msdfs root = yes
+    valid users = SPIRITCLOUD\spirit rschmitt administrator
+```
+
+### Kerberos Configuration
+
+```
+[libdefaults]
+	default_realm = SPIRITCLOUD.APP
+	dns_lookup_realm = false
+	dns_lookup_kdc = true
+
+	kdc_timesync = 1
+	ccache_type = 4
+	forwardable = true
+	proxiable = true
+
+	fcc-mit-ticketflags = true
+
+[realms]
+	SPIRITCLOUD.APP = {
+		kdc = dc1.spiritcloud.app
+		default_domain = spiritcloud.app
+	}
+
+[domain_realm]
+	dc1 = SPIRITCLOUD.APP
+```
+
 
