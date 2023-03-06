@@ -754,7 +754,7 @@ $ kinit spirit@SPIRITCLOUD.APP
 ```
 
 It will prompt for a password which we had specified when we created the user
-within the comain controller.
+within the domain controller.
 
 ## Verifing Login Status
 
