@@ -42,6 +42,7 @@
 #cmakedefine OFC_UNICODE_API
 #cmakedefine OFC_STACK_TRACE
 #cmakedefine OFC_PRESELECT_PASS
+#cmakedefine OF_GCOV
 #cmakedefine OF_OPENSSL
 #cmakedefine OF_GNUTLS
 #cmakedefine OF_MBEDTLS

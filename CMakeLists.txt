@@ -45,6 +45,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.so)
 endif()
 
+if(OF_COV)
+  set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
+endif()
+
 #
 # Get the Library Variables all set up
 #
