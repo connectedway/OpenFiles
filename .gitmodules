@@ -67,3 +67,6 @@
 [submodule "of_core_fs_pipe"]
 	path = of_core_fs_pipe
 	url = https://github.com/connectedway/of_core_fs_pipe.git
+[submodule "of_netbios"]
+	path = of_netbios
+	url = git@github.com:connectedway/of_netbios.git

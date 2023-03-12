@@ -68,11 +68,13 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OFC_FS_WIN32
 #cmakedefine OFC_FS_ANDROID
 #cmakedefine OFC_FS_BOOKMARKS
+#cmakedefine OFC_LOOPBACK
 #cmakedefine OFC_MULTI_TCP
 #cmakedefine OFC_MULTI_UDP
 #cmakedefine OFC_INCLUDE_JNI
 #cmakedefine OPENFILES_SMB_JNI
 #cmakedefine OFC_NETMON
+#cmakedefine OF_NETBIOS
 #cmakedefine OF_SMB
 #cmakedefine OFC_FS_SMB
 #cmakedefine OF_RESOLVER_FS

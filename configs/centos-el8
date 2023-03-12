@@ -27,6 +27,7 @@ set(PLATFORM_PROCESS_ID "sys/types.h" CACHE STRING "Include File Name for Proces
 set(OFC_SHARE_VARIANT "main" CACHE STRING "Variant name of build")
 set(OFC_DEFAULT_NETBIOS_MODE "OFC_CONFIG_BMODE" CACHE STRING "Interface default NetBIOS Mode")
 
+option(OF_NETBIOS "Include Netbios" OFF)
 set(OFC_DEFAULT_NAME "localhost" CACHE STRING "Default system name")
 set(OFC_DEFAULT_SCOPE "" CACHE STRING "Default system scope")
 set(OFC_DEFAULT_DESCR "Open Files" CACHE STRING "Default system description")
