@@ -41,13 +41,13 @@ macos-smbfs-init:
 	git submodule init of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule init of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser
+	of_smb_browser of_netbios
 
 macos-smbfs-update:
 	git submodule update of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule update of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser
+	of_smb_browser of_netbios
 
 androidsim-smb: androidsim-smb-config androidsim-smb-build
 
@@ -104,13 +104,13 @@ linux-smbfs-init:
 	git submodule init of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule init of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser
+	of_smb_browser of_netbios
 
 linux-smbfs-update:
 	git submodule update of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule update of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser
+	of_smb_browser of_netbios
 
 yocto-smbfs: yocto-smbfs-config yocto-smbfs-build
 
@@ -159,13 +159,13 @@ linux-smbloop-init:
 	git submodule init of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule init of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser of_smb_server
+	of_smb_browser of_smb_server of_netbios
 
 linux-smbloop-update:
 	git submodule update of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule update of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser of_smb_server
+	of_smb_browser of_smb_server of_netbios
 
 
 linux: linux-config linux-build
