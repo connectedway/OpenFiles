@@ -1025,6 +1025,16 @@ instead:
 
 take one that works:
 
+adcli --preset-computer --domain=SPIRITCLOUD.APP pixel6.spiritcloud.app -V cifs
+
+or brief
+
+adcli preset-computer pixel6.spiritcloud.app
+
+then
+
+samba-tool add computer doesn't seem to work.  
+
 samba-tool spn add cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP Administrator
 samba-tool domain exportkeytab cifs.keytab --principal cifs/ubuntu@SPIRITCLOUD.APP
 
@@ -1105,3 +1115,25 @@ so, we give a popup that says, logout user?
 
 When we log out a user, we need to shutdown the server.
 
+We can DNS query (type PTR, Class IN, "QM" question:
+_smb._tcp.local
+Returns (UBUNTU, openfile, DC1, "Richard's MacBook Air", and "Pixel 6 Pro")
+
+TO dO
+
+We need a server app.
+
+Need to verify if the keytab works on other machines
+
+See if error message is correct if we're not logged in when server comes up
+
+See if we can acquire multiple servers
+
+Need to add the actual SASL piece
+
+Need a better way to share keytabs.  Would be better if we simply entered a
+password.
+
+Need to double check the way we do core load.
+
+Need to figure out why test_smbpersist hangs on shutdown of a test.
