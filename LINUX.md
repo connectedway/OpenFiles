@@ -1137,3 +1137,46 @@ password.
 Need to double check the way we do core load.
 
 Need to figure out why test_smbpersist hangs on shutdown of a test.
+
+Something to try.
+
+$ samba-tool dns 192.168.1.192 spiritcloud.app openfiles a 192.168.1.206 -U administrator
+samba-tool dns add 192.168.1.192 1.168.192.in-addr.arpa 158 PTR ubuntu.spiritcloud.app -U administrator
+adcli preset-computer pixel6.spiritcloud.app
+
+Just use kadmin.local
+
+Add a principal:
+add_principal cifs/pixel6@SPIRITCLOUD.APP
+
+ktadd -k pixel6.keytab cifs/pixel6@SPIRITCLOUD.APP
+
+samba-tool computer add test1 --service-principal-name=cifs/TEST1 --service-principal-name=cifs/test1.spiritcloud.app --service-principal-name=host/TEST1 --service-principal-name=host/test1.spiritcloud.app
+
+libedit -e vim -H /var/lib/samba/private/sam.ldb '(samaccountname=test1$)'
+add dNSHostName=test1
+
+*** Latest
+
+$ samba-tool dns 192.168.1.192 spiritcloud.app test1 a 192.168.1.161 -U administrator
+$ samba-tool dns add 192.168.1.192 1.168.192.in-addr.arpa 161 PTR test1.spiritcloud.app -U administrator
+$ samba-tool spn add cifs/test1.spiritcloud.app@SPIRITCLOUD.APP Spirit
+$ adcli preset-computer test1.spiritcloud.app
+$ samba-tool domain exportkeytab test1.keytab --principal cifs/test1.spiritcloud.app@SPIRITCLOUD.APP
+
+The adcli above can be done with a password:
+
+$ adcli preset-computer test1.spiritcloud.app --one-time-password=happygolucky
+
+on member
+
+copy over the keytab, or if a password was used, do the following:
+
+$ ktutil
+ktutil:  add_entry -password -p cifs/test1.spiritcloud.app@SPIRITCLOUD.APP -k 1 -e aes128-cts-hmac-sha1-96
+Password for cifs/test1.spiritcloud.app@SPIRITCLOUD.APP: happygolucky
+ktutil:  write_kt test1.keytab
+
+NOTE: May not need a keytab at all.  Also NOTE: we are not logged in.
+
+Need to test with sasl
