@@ -176,6 +176,17 @@ private repos.
 NOTE: There is a separate readme if you wish to include the JNI support or
 the smb server support.
 
+# Installl build esentials
+
+If not previously installed, you will need to install a C development
+environment.
+
+```
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install build-essential
+```
+
 # Installing the latest version of Cmake
 
 Before building openfiles, you will need to be running a version of cmake
@@ -196,6 +207,12 @@ and download
 https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x86_64.sh
 
 This will install cmake version 3.25.1 in /usr/local/bin/cmake.
+
+On Ubuntu 22.04, you could also execute:
+
+```
+$ sudo snap install cmake --classic
+```
 
 # Install Mbedtls
 
@@ -245,6 +262,13 @@ this with:
 ```
 $ sudo apt install krb5-user
 $ sudo apt install libkrb5-dev
+```
+
+# Install openssl Development
+
+```
+$ sudo apt install openssl
+$ sudo apt install libssl-dev
 ```
 
 # Updating a workspace
