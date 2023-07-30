@@ -1,4 +1,174 @@
 
+git-url: \
+	git-url.of_core_darwin \
+	git-url.of_core_cheap \
+	git-url.of_core_binheap \
+	git-url.of_core \
+	git-url.Unity \
+	git-url.of_core_fs_darwin \
+	git-url.of_core_fs_bookmarks \
+	git-url.of_core_fs_linux \
+	git-url.of_core_linux \
+	git-url.of_core_windows \
+	git-url.of_core_fs_windows \
+	git-url.of_core_android \
+	git-url.of_core_fs_android \
+	git-url.of_core_jni \
+	git-url.of_smb_jni \
+	git-url.of_smb \
+	git-url.of_smb_fs \
+	git-url.of_smb_client \
+	git-url.of_security \
+	git-url.of_smb_browser \
+	git-url.of_smb_server \
+	git-url.of_resolver_fs \
+	git-url.of_core_fs_pipe \
+	git-url.of_netbios
+
+git-url.of_core_darwin:
+	cd of_core_darwin; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_darwin.git; \
+	cd ..
+
+git-url.of_core_cheap:
+	cd of_core_cheap; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_cheap.git; \
+	cd ..
+
+git-url.of_core_binheap:
+	cd of_core_binheap; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_binheap.git; \
+	cd ..
+
+git-url.of_core:
+	cd of_core; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core.git; \
+	cd ..
+
+git-url.Unity:
+	cd Unity; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/Unity.git; \
+	cd ..
+
+git-url.of_core_fs_darwin:
+	cd of_core_fs_darwin; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_fs_darwin.git; \
+	cd ..
+
+git-url.of_core_fs_bookmarks:
+	cd of_core_fs_bookmarks; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_fs_bookmarks.git; \
+	cd ..
+
+git-url.of_core_fs_linux:
+	cd of_core_fs_linux; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_fs_linux.git; \
+	cd ..
+
+git-url.of_core_linux:
+	cd of_core_linux; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_linux.git; \
+	cd ..
+
+git-url.of_core_windows:
+	cd of_core_windows; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_windows.git; \
+	cd ..
+
+git-url.of_core_fs_windows:
+	cd of_core_fs_windows; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_fs_windows.git; \
+	cd ..
+
+git-url.of_core_android:
+	cd of_core_android; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_android.git; \
+	cd ..
+
+git-url.of_core_fs_android:
+	cd of_core_fs_android; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_fs_android.git; \
+	cd ..
+
+git-url.of_core_jni:
+	cd of_core_jni; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_jni.git; \
+	cd ..
+
+git-url.of_smb_jni:
+	cd of_smb_jni; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_smb_jni.git; \
+	cd ..
+
+git-url.of_smb:
+	cd of_smb; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_smb.git; \
+	cd ..
+
+git-url.of_smb_fs:
+	cd of_smb_fs; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_smb_fs.git; \
+	cd ..
+
+git-url.of_smb_client:
+	cd of_smb_client; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_smb_client.git; \
+	cd ..
+
+git-url.of_security:
+	cd of_security; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_security.git; \
+	cd ..
+
+git-url.of_smb_browser:
+	cd of_smb_browser; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_smb_browser.git; \
+	cd ..
+
+git-url.of_smb_server:
+	cd of_smb_server; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_smb_server.git; \
+	cd ..
+
+git-url.of_resolver_fs:
+	cd of_resolver_fs; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_resolver_fs.git; \
+	cd ..
+
+git-url.of_core_fs_pipe:
+	cd of_core_fs_pipe; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_core_fs_pipe.git; \
+	cd ..
+
+git-url.of_netbios:
+	cd of_netbios; \
+	git remote set-url origin \
+		ssh://git@github.com/connectedway/of_netbios.git; \
+	cd ..
+
 macos-smb: macos-smb-config macos-smb-build
 
 macos-smb-config:
