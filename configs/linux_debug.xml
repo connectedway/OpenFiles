@@ -20,6 +20,9 @@
     <smb>
       <fqdn>ubuntu</fqdn>
       <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
+      <servers>
+	<port>4445</port>
+      </servers>
     </smb>
 </of_core>
 

@@ -75,6 +75,11 @@ linux-smb-test:
 linux-smb-clean:
 	rm -rf build-linux-smb
 
+linux-smb-install:
+	cmake --install build-linux-smb
+	ldconfig /usr/local/lib
+	cp configs/linux_debug.xml /etc/openfiles.xml
+
 linux-smbfs: linux-smbfs-config linux-smbfs-build
 
 linux-smbfs-config:
@@ -85,6 +90,7 @@ linux-smbfs-build:
 
 linux-smbfs-install:
 	cmake --install build-linux-smbfs
+	ldconfig /usr/local/lib
 	cp configs/linux_debug.xml /etc/openfiles.xml
 
 linux-smbfs-uninstall:
@@ -140,6 +146,7 @@ linux-smbloop-build:
 
 linux-smbloop-install:
 	cmake --install build-linux-smbloop
+	ldconfig /usr/local/lib
 	cp configs/linux_loop.xml /etc/openfiles.xml
 
 linux-smbloop-uninstall:
@@ -178,6 +185,7 @@ linux-build:
 
 linux-install:
 	cmake --install build-linux
+	ldconfig /usr/local/lib
 
 linux-uninstall:
 	@xargs rm < build-linux/install_manifest.txt 2> /dev/null || true
