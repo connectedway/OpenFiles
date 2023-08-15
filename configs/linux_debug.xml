@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <of_core version="0.0">
-    <devicename>localhost</devicename>
+    <devicename>ubuntu</devicename>
     <uuid>00000000-0000-0000-0000-000000000000</uuid>
     <description>Open Files</description>
     <ip>
@@ -18,8 +18,9 @@
       </map>
     </drives>
     <smb>
-      <fqdn>ubuntu</fqdn>
+      <fqdn>ubuntu.spiritcloud.app</fqdn>
       <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
+      <keytab>/home/rschmitt/cifs.keytab</keytab>
       <servers>
 	<port>4445</port>
       </servers>
