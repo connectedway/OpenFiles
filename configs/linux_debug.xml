@@ -21,9 +21,20 @@
       <fqdn>ubuntu.spiritcloud.app</fqdn>
       <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
       <keytab>/home/rschmitt/cifs.keytab</keytab>
+      <serveruser>rich</serveruser>
+      <serverpass>rich</serverpass>
       <servers>
 	<port>4445</port>
       </servers>
+      <exports>
+	<export>
+	  <share>spiritcloud</share>
+	  <comment>test share</comment>
+	  <nativefs>fat</nativefs>
+	  <path>/home/rschmitt/spiritcloud/</path>
+	  <exporttype>DISK</exporttype>
+	</export>
+      </exports>
     </smb>
 </of_core>
 
