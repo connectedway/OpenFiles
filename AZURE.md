@@ -153,3 +153,159 @@ Some Tests:
 - /spiritstore1/root/scans/users/userc
 - /spiritstore1/root/scans/users/userd
 - /spiritstore1/root/data
+
+
+# Non-Azure test configuration
+
+In my laptop there is a VM manager called Parallels.  There are two
+VMs in it: ubuntu and DC.
+
+DC is the domain controller
+Ubuntu is the linux client/server
+
+Username/Passwords of DC:
+    rschmitt/happy
+
+Username/Passwords of Ubuntu:
+    rschmitt/happy
+
+Active Directory Accounts/Passwords
+
+Administrator@SPIRITCLOUD.APP
+    Hamilton50Texas
+
+Spirit@SPIRITCLOUD.APP
+    Corpus100Christi
+
+Not sure if this is obsolete or not but I'm assuming the following is
+for NTLM authentication of the Ubuntu SAMBA client:
+
+Username: rschmitt
+Password: Summer10Sun
+
+If need to change ad-dc password, log into dc and type:
+samba-tool user setpassword <user>
+It will prompt for password and confirm
+
+To get started.  First:
+
+Make sure kerbero server at 192.168.1.192 is up and running.  May need
+to restart samba-ad-dc:
+
+```
+systemctl restart samba-ad-dc
+```
+
+Log in to active directory from host
+
+```
+kinit spirit@SPIRITCLOUD.APP
+```
+
+Password for now is Corpus100Christi
+
+First make sure that client is working
+
+```
+smbcp ./cmake.out //dc1.spiritcloud.app/spiritcloud/cmake.out
+```
+
+Then try that against self.  The host is called ubuntu.
+
+The spiritcloud share on ubuntu allows the SPIRITCLOUD\spirit user.
+
+So, technically, this should work.  This is where we want to start
+
+```
+smbcp ./cmake.out //ubuntu.spiritcloud.app/spiritcloud/cmake.out
+```
+
+Provisioning.
+
+Offline provisioning of the server is required.  See the LINUX.md file
+for descriptions on how to do that.
+
+Configuration of the server:
+
+SMB snippet from /etc/openfiles.xml.
+Also is in openfiles/configs/linux_debug.xml
+
+Provisioning info you will get from the DC:
+- fqdn
+- bootstrap_dc
+- keytab
+
+For NTLM authentication we specify:
+- serveruser
+- serverpass
+
+Servers lists the ports to start up a server at.  Currently all ports
+share the same exports.  We can have a server support multiple vapornets.
+Each vapornet may be at a special port.  The exports could be vapornet/
+server specific.  Probably fqdn, bootstrap_dc, and keytab would be
+vapornet specific too.
+
+
+```
+    <smb>
+      <fqdn>ubuntu.spiritcloud.app</fqdn>
+      <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
+      <keytab>/home/rschmitt/samba.keytab</keytab>
+      <serveruser>rich</serveruser>
+      <serverpass>rich</serverpass>
+      <servers>
+	<port>4445</port>
+      </servers>
+      <exports>
+	<export>
+	  <share>spiritcloud</share>
+	  <comment>test share</comment>
+	  <nativefs>fat</nativefs>
+	  <path>/home/rschmitt/spiritcloud/</path>
+	  <exporttype>DISK</exporttype>
+	</export>
+      </exports>
+    </smb>
+
+
+Some historical info:
+
+There's a gssapi test in the kerberos repo that can be used to test the
+provisioning:
+
+git/krb5-1.20.1/src/appl/gss-sample
+
+```
+sudo bash
+KRB5_TRACE=/dev/stderr ./gss-server -keytab /home/rschmitt/cifs.keytab cifs/ubuntu.spiritcloud.app
+```
+
+Things to look at:
+
+1. is there a strdup in the params structure.  Or should we
+change all calls to go direct? (NO)
+2. the reason for the crashes is that first, the client crashes
+because it is expecting something in the setup reponse from
+the server which it doesn't get.  It trips.  Fix that (DONE)
+3. When it does trip, it closes the connection to the server
+prematurely which causes the server to crash.  fix that. (DONE)
+4. Then fix the server so that it sends what the client
+expects. (DONE)
+5. Remove the obsolete stuff in the android app now that
+manages multiple servers.  We really only need one for now.
+6. Remove the stuff in persistence which supports multiple
+servers.
+7. Remove the code that starts up the various servers.
+8. figure out the best way to get the server's keytab entry.
+see more below.  Need to figure this out for both samba-ad-dc
+and windows
+9. Do memory leak testing
+10. test the server with the following:
+samba ad/dc, openfiles server, openfiles client
+samba ad/dc, openfiles server, linux client
+samba ad/dc, openfiles server, windows client
+windows dc, openfiles server, openfiles client
+windows dc, openfiles server, linux client
+windows dc, openfiles server, windows client
+
+
