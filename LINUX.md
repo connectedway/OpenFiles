@@ -197,6 +197,11 @@ https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x8
 
 This will install cmake version 3.25.1 in /usr/local/bin/cmake.
 
+# Install Openssl
+
+```
+# sudo apt-get install libssl-dev
+
 # Install Mbedtls
 
 By default, the linux-smbfs build will use openssl.

@@ -19,7 +19,6 @@
     </drives>
     <smb>
       <fqdn>ubuntu</fqdn>
-      <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
     </smb>
 </of_core>
 
