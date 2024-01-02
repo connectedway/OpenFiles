@@ -176,6 +176,17 @@ private repos.
 NOTE: There is a separate readme if you wish to include the JNI support or
 the smb server support.
 
+# Installl build esentials
+
+If not previously installed, you will need to install a C development
+environment.
+
+```
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install build-essential
+```
+
 # Installing the latest version of Cmake
 
 Before building openfiles, you will need to be running a version of cmake
@@ -201,6 +212,12 @@ This will install cmake version 3.25.1 in /usr/local/bin/cmake.
 
 ```
 # sudo apt-get install libssl-dev
+
+On Ubuntu 22.04, you could also execute:
+
+```
+$ sudo snap install cmake --classic
+```
 
 # Install Mbedtls
 
@@ -250,6 +267,13 @@ this with:
 ```
 $ sudo apt install krb5-user
 $ sudo apt install libkrb5-dev
+```
+
+# Install openssl Development
+
+```
+$ sudo apt install openssl
+$ sudo apt install libssl-dev
 ```
 
 # Updating a workspace
@@ -1087,7 +1111,7 @@ In the Domain tab, when adding or edit a domain, we need to add a keytab file.
 what is the friendliest way to do this?  the DC procedure will be:
 
 samba-tool spn add cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP Spirit
-samba-tool domain exportkeytab cifs.keytab --principal cifs/ubuntu@SPIRITCLOUD.APP
+samba-tool domain exportkeytab cifs.keytab --principal=cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP
 openssl base64 -in cifs.keytab -out cifs.keyout
 
 In the domain dialog, there'll be a button to enable server.  Then you will
