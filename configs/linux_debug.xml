@@ -5,6 +5,7 @@
     <description>Open Files</description>
     <ip>
         <autoip>no</autoip>
+        <netbios>no</netbios>
         <interfaces>
             <config>auto</config>
         </interfaces>
