@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <of_core version="0.0">
+    <logging>
+      <console>yes</console>
+      <level>2</level>
+    </logging>
     <devicename>localhost</devicename>
     <uuid>00000000-0000-0000-0000-000000000000</uuid>
     <description>Open Files</description>
