@@ -85,6 +85,10 @@ linux-smbfs-build:
 
 linux-smbfs-install:
 	cmake --install build-linux-smbfs
+	cp configs/linux_production.xml /etc/openfiles.xml
+
+linux-smbfs-install-debug:
+	cmake --install build-linux-smbfs
 	cp configs/linux_debug.xml /etc/openfiles.xml
 
 linux-smbfs-uninstall:
