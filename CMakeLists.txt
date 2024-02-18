@@ -3,6 +3,8 @@ project(openfiles VERSION 5.0.1 DESCRIPTION "Multi-Platform Event-Driven Applica
 
 enable_testing()
 
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
 if (NOT DEFINED OPENFILE_CONFIG)
    set(OPENFILE_CONFIG "configs/android-smb")
    # set(JAVA_HOME "/Library/Java/JavaVirtualMachines/openlogic-openjdk-11.jdk/Contents/Home")
@@ -30,10 +32,10 @@ if(ANDROID)
 
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-  set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.0.7")
+  set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.1.0")
   set(OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include)
-  set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib)
-  set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib)
+  set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.3.dylib)
+  set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.3.dylib)
 
   set(MBEDTLS_ROOT_DIR "/opt/homebrew/Cellar/mbedtls/3.2.1")
   set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
