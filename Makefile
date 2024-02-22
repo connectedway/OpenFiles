@@ -72,6 +72,14 @@ linux-smb-test:
 	OPEN_FILES_HOME=./configs/linux_debug.xml \
             ./build-linux-smb/of_smb_fs/test/test_fs_smb
 
+linux-smb-install:
+	cmake --install build-linux-smb
+	cp configs/linux_production.xml /etc/openfiles.xml
+
+linux-smb-install-debug:
+	cmake --install build-linux-smb
+	cp configs/linux_loop.xml /etc/openfiles.xml
+
 linux-smb-clean:
 	rm -rf build-linux-smb
 
