@@ -41,7 +41,7 @@
 	  <nativefs>fat</nativefs>
 	  <path>/home/rschmitt/spiritcloud/</path>
 	  <exporttype>DISK</exporttype>
-	  <encrypted>no</encrypted>
+	  <encrypted>yes</encrypted>
 	</export>
       </exports>
       <servers>
