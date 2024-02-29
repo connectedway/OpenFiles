@@ -83,6 +83,7 @@ build-linux-smb/
 build-linux-perf/
 build-linux-smbfs/
 build-linux-smbloop/
+build-linux-smbloop-mbed/
 build-macos-smbfs/
 build-yocto-smbfs/
 out/
