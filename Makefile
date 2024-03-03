@@ -86,7 +86,7 @@ linux-smb-clean:
 linux-smbfs: linux-smbfs-config linux-smbfs-build
 
 linux-smbfs-config:
-	cmake -Bbuild-linux-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbfs -DSMB_CONFIG=./of_smb/configs/default -DMBEDTLS_ROOT_DIR=/usr/local
+	cmake -Bbuild-linux-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbfs -DSMB_CONFIG=./configs/default -DMBEDTLS_ROOT_DIR=/usr/local
 
 linux-smbfs-build:
 	cmake --build build-linux-smbfs
@@ -127,7 +127,7 @@ linux-smbfs-update:
 yocto-smbfs: yocto-smbfs-config yocto-smbfs-build
 
 yocto-smbfs-config:
-	cmake -Bbuild-yocto-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/yocto-smbfs -DSMB_CONFIG=./of_smb/configs/default -DMBEDTLS_ROOT_DIR=/usr/local
+	cmake -Bbuild-yocto-smbfs -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/yocto-smbfs -DSMB_CONFIG=./configs/default -DMBEDTLS_ROOT_DIR=/usr/local
 
 yocto-smbfs-build:
 	cmake --build build-yocto-smbfs
@@ -183,7 +183,7 @@ linux-smbloop-update:
 #
 # smbloopback using mbedtls
 #
-linux-smbloop-mbed: linux-smbloop-mbed-config linux-smbloop-build
+linux-smbloop-mbed: linux-smbloop-mbed-config linux-smbloop-mbed-build
 
 linux-smbloop-mbed-config:
 	cmake -Bbuild-linux-smbloop-mbed -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbloop-mbed -DSMB_CONFIG=./configs/ntlmauth -DMBEDTLS_ROOT_DIR=/usr/local
@@ -214,6 +214,46 @@ linux-smbloop-mbed-init:
 	of_smb_browser of_smb_server of_netbios
 
 linux-smbloop-mbed-update:
+	git submodule update of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule update of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser of_smb_server of_netbios
+
+#
+#
+# smbloopback using gnutls
+#
+linux-smbloop-gtls: linux-smbloop-gtls-config linux-smbloop-gtls-build
+
+linux-smbloop-gtls-config:
+	cmake -Bbuild-linux-smbloop-gtls -DCMAKE_BUILD_TYPE=Debug -DOPENFILE_CONFIG=./configs/linux-smbloop-gtls -DSMB_CONFIG=./configs/ntlmauth -DMBEDTLS_ROOT_DIR=/usr/local
+
+linux-smbloop-gtls-build: 
+	cmake --build build-linux-smbloop-gtls
+
+linux-smbloop-gtls-install: linux-smbloop-gtls-install
+	cmake --install build-linux-smbloop-gtls
+	cp configs/linux_loop.xml /etc/openfiles.xml
+
+linux-smbloop-gtls-uninstall:
+	rm /etc/openfiles.xml
+	@xargs rm < build-linux-smbloop-gtls/install_manifest.txt 2> /dev/null || true
+	@rmdir /usr/local/bin/openfiles 2> /dev/null || true
+
+linux-smbloop-gtls-test:
+	OPEN_FILES_HOME=./configs/linux_loop.xml \
+            ./build-linux-smbloop-gtls/of_smb_fs/test/test_fs_smb
+
+linux-smbloop-gtls-clean:
+	rm -rf build-linux-smbloop-gtls
+
+linux-smbloop-gtls-init:
+	git submodule init of_core_cheap of_core_binheap of_core Unity \
+	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
+	git submodule init of_smb of_smb_fs of_smb_client of_security \
+	of_smb_browser of_smb_server of_netbios
+
+linux-smbloop-gtls-update:
 	git submodule update of_core_cheap of_core_binheap of_core Unity \
 	of_core_fs_bookmarks of_core_fs_linux of_core_linux of_core_fs_pipe
 	git submodule update of_smb of_smb_fs of_smb_client of_security \
