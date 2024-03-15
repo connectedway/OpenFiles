@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<of_core version="0.0">
+    <logging>
+      <console>yes</console>
+      <level>2</level>
+    </logging>
+    <devicename>localhost</devicename>
+    <uuid>00000000-0000-0000-0000-000000000000</uuid>
+    <description>Open Files</description>
+    <ip>
+        <autoip>no</autoip>
+        <interfaces>
+            <config>auto</config>
+        </interfaces>
+        <dnslist></dnslist>
+    </ip>
+    <drives>
+      <map>
+        <drive>test</drive>
+        <description>Remote for test_file</description>
+        <path>//user:happy@127.0.0.1:445/spiritcloud/</path>
+      </map>
+    </drives>
+    <smb>
+      <max_events>5</max_events>
+      <time_period>30000</time_period>
+    </smb>
+</of_core>
+

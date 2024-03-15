@@ -5,12 +5,30 @@ enable_testing()
 
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
-if (NOT DEFINED OPENFILE_CONFIG)
-   set(OPENFILE_CONFIG "configs/android-smb")
-   # set(JAVA_HOME "/Library/Java/JavaVirtualMachines/openlogic-openjdk-11.jdk/Contents/Home")
+if (NOT DEFINED OPENFILE_PLATFORM)
+   set(OPENFILE_NAMING "build/naming.cfg")
+   set(OPENFILE_PLATFORM "build/android-platform.cfg")
+   set(OPENFILE_BEHAVIOR "build/android-behavior.cfg")
+   set(OPENFILE_SIZING "build/sizing.cfg")
+   set(OPENFILE_DEBUG "build/nodebug.cfg")
+   set(OPENFILE_SMB "build/smbserver.cfg")
+   set(OPENFILE_CIPHER "build/mbedtls.cfg")
+   set(OPENFILE_JNI "build/jni.cfg")
+   set(OPENFILE_DEP1 "build/deprecated.cfg")
 endif()
 
-include(${OPENFILE_CONFIG})
+
+
+include(${OPENFILE_NAMING})
+include(${OPENFILE_PLATFORM})
+include(${OPENFILE_BEHAVIOR})
+include(${OPENFILE_SIZING})
+include(${OPENFILE_DEBUG})
+include(${OPENFILE_SMB})
+include(${OPENFILE_CIPHER})
+include(${OPENFILE_JNI})
+include(${OPENFILE_DEP1})
+
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
 
@@ -42,7 +60,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  # for linux, pass in MBEDTLS_ROOT_DIR
+  set(MBEDTLS_ROOT_DIR "/usr/local")
   set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
   set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.so)
 endif()

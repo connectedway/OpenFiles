@@ -2,14 +2,13 @@
 <of_core version="0.0">
     <logging>
       <console>yes</console>
-      <level>3</level>
+      <level>2</level>
     </logging>
     <devicename>localhost</devicename>
     <uuid>00000000-0000-0000-0000-000000000000</uuid>
     <description>Open Files</description>
     <ip>
         <autoip>no</autoip>
-        <netbios>no</netbios>
         <interfaces>
             <config>auto</config>
         </interfaces>
@@ -19,11 +18,8 @@
       <map>
         <drive>test</drive>
         <description>Remote for test_file</description>
-        <path>//SPIRITCLOUD/dfs/spiritdfs/openfiles</path>
+        <path>/tmp/openfiles/</path>
       </map>
     </drives>
-    <smb>
-      <fqdn>ubuntu</fqdn>
-    </smb>
 </of_core>
 
