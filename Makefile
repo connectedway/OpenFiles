@@ -81,13 +81,8 @@ $(1)-$(2)-$(3)-$(4)-$(5)-test:
 	OPEN_FILES_HOME=./configs/$(1)-$(2)-$(3).xml \
 	ctest
 
-#
-# a true full doesn't make sense.  Can't install on more than one target
-#
 .PHONY: $(1)-full
-$(1)-full: $(1)-$(2)-$(3)-$(4)-$(5)-clean \
-	$(1)-$(2)-$(3)-$(4)-$(5)-config \
-	$(1)-$(2)-$(3)-$(4)-$(5)-build \
+$(1)-full: $(1)-$(2)-$(3)-$(4)-$(5)-full
 
 .PHONY: $(1)-config
 $(1)-config:  $(1)-$(2)-$(3)-$(4)-$(5)-config
