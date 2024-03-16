@@ -23,11 +23,15 @@
 
 #cmakedefine INIT_ON_LOAD
 #if defined(INIT_ON_LOAD)
-#define OFC_LOAD @OFC_LOAD@
-#define OFC_UNLOAD @OFC_UNLOAD@
+#define OFC_LOAD_CORE @OFC_LOAD_CORE@
+#define OFC_UNLOAD_CORE @OFC_UNLOAD_CORE@
+#define OFC_LOAD_SMB @OFC_LOAD_SMB@
+#define OFC_UNLOAD_SMB @OFC_UNLOAD_SMB@
 #else
-#define OFC_LOAD
-#define OFC_UNLOAD
+#define OFC_LOAD_CORE
+#define OFC_UNLOAD_CORE
+#define OFC_LOAD_SMB
+#define OFC_UNLOAD_SMB
 #endif
 
 #cmakedefine OFC_64BIT_INTEGER
