@@ -29,6 +29,8 @@ include(${OPENFILE_CIPHER})
 include(${OPENFILE_JNI})
 include(${OPENFILE_DEP1})
 
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
 

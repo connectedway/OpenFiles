@@ -100,7 +100,10 @@ endef
 
 # add_target os,debug,smb,cipher,jni
 $(eval $(call add_target,macos,debug,nosmb,openssl,nojni))
+$(eval $(call add_target,macos,debug,smbclient,openssl,nojni))
 $(eval $(call add_target,macos,debug,smbserver,openssl,nojni))
+# $(eval $(call add_target,macos,nodebug,smbclient,openssl,nojni))
+# $(eval $(call add_target,macos,nodebug,smbserver,openssl,nojni))
 
 $(eval $(call add_target,android,debug,smbserver,mbedtls,jni))
 $(eval $(call add_target,android,nodebug,smbserver,mbedtls,jni))
