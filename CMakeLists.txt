@@ -52,7 +52,7 @@ if(ANDROID)
 
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-  set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.1.0")
+  set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.2.1")
   set(OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include)
   set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.3.dylib)
   set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.3.dylib)

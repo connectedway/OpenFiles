@@ -1,0 +1,2 @@
+settings set platform.plugin.darwin.ignored-exceptions EXC_BAD_INSTRUCTION
+process handle SIGILL -n false -p true -s false

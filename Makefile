@@ -99,11 +99,23 @@ info:   $(1)-$(2)-$(3)-$(4)-$(5)-info
 endef
 
 # add_target os,debug,smb,cipher,jni
+$(eval $(call add_target,macos,debug,nosmb,gnutls,nojni))
+$(eval $(call add_target,macos,debug,smbclient,gnutls,nojni))
+$(eval $(call add_target,macos,debug,smbserver,gnutls,nojni))
+$(eval $(call add_target,macos,nodebug,smbclient,gnutls,nojni))
+$(eval $(call add_target,macos,nodebug,smbserver,gnutls,nojni))
+
 $(eval $(call add_target,macos,debug,nosmb,openssl,nojni))
 $(eval $(call add_target,macos,debug,smbclient,openssl,nojni))
 $(eval $(call add_target,macos,debug,smbserver,openssl,nojni))
-# $(eval $(call add_target,macos,nodebug,smbclient,openssl,nojni))
-# $(eval $(call add_target,macos,nodebug,smbserver,openssl,nojni))
+$(eval $(call add_target,macos,nodebug,smbclient,openssl,nojni))
+$(eval $(call add_target,macos,nodebug,smbserver,openssl,nojni))
+
+$(eval $(call add_target,macos,debug,nosmb,mbedtls,nojni))
+$(eval $(call add_target,macos,debug,smbclient,mbedtls,nojni))
+$(eval $(call add_target,macos,debug,smbserver,mbedtls,nojni))
+$(eval $(call add_target,macos,nodebug,smbclient,mbedtls,nojni))
+$(eval $(call add_target,macos,nodebug,smbserver,mbedtls,nojni))
 
 $(eval $(call add_target,android,debug,smbserver,mbedtls,jni))
 $(eval $(call add_target,android,nodebug,smbserver,mbedtls,jni))
@@ -121,6 +133,9 @@ $(eval $(call add_target,linux,nodebug,smbserver,openssl,nojni))
 $(eval $(call add_target,win,debug,nosmb,openssl,nojni))
 $(eval $(call add_target,win,debug,smbserver,openssl,nojni))
 
+#
+# Alias for Linux Client Production Target
+#
 linux-smb-client-info: 
 	@echo ""
 	@echo "    linux-smb-client (alias for linux-nodebug-smbclient-openssl-nojni)"
