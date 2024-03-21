@@ -2,7 +2,10 @@ macos_FLAGS=
 linux_FLAGS=
 win_FLAGS=
 # arm64-v8a/x86_64
-android_FLAGS=-DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-25 -DCMAKE_SYSTEM_VERSION=25
+android_arm64-v8a_FLAGS=-DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-25 -DCMAKE_SYSTEM_VERSION=25
+android_x86_64_FLAGS=-DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=x86_64 -DANDROID_PLATFORM=android-25 -DCMAKE_SYSTEM_VERSION=25
+android_x86_FLAGS=-DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=x86 -DANDROID_PLATFORM=android-25 -DCMAKE_SYSTEM_VERSION=25
+android_armeabi-v7a_FLAGS=-DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DANDROID_PLATFORM=android-25 -DCMAKE_SYSTEM_VERSION=25
 
 .PHONY: info-header
 info-header:
@@ -66,21 +69,36 @@ $(1)-$(2)-$(3)-$(4)-$(5)-build:
 
 .PHONY:	$(1)-$(2)-$(3)-$(4)-$(5)-install
 $(1)-$(2)-$(3)-$(4)-$(5)-install:
-	sudo cmake --install build-$(1)-$(2)-$(3)-$(4)-$(5)
-	sudo cp configs/$(1)-$(2)-$(3).xml /etc/openfiles.xml
+	if [ "$(1)" != "android_arm64-v8a" ] && \
+	[ "$(1)" != "android_armeabi-v7a" ] && \
+	[ "$(1)" != "android_x86_64" ] && \
+	[ "$(1)" != "android_x86" ]; then \
+		sudo cmake --install build-$(1)-$(2)-$(3)-$(4)-$(5); \
+		sudo cp configs/$(1)-$(2)-$(3).xml /etc/openfiles.xml; \
+	fi
 
 .PHONY:	$(1)-$(2)-$(3)-$(4)-$(5)-uninstall
 $(1)-$(2)-$(3)-$(4)-$(5)-uninstall:
-	sudo rm /etc/openfiles.xml
-	@xargs rm < build-$(1)-$(2)-$(3)-$(4)-$(5)/install_manifset.txt \
-	2> /dev/null || true
-	sudo @rmdir /usr/local/bin/openfiles 2> /dev/null || true
+	if [ "$(1)" != "android_arm64-v8a" ] && \
+	[ "$(1)" != "android_armeabi-v7a" ] && \
+	[ "$(1)" != "android_x86_64" ] && \
+	[ "$(1)" != "android_x86" ]; then \
+		sudo rm /etc/openfiles.xml; \
+		@xargs rm < build-$(1)-$(2)-$(3)-$(4)-$(5)/install_manifset.txt \
+		2> /dev/null || true; \
+		sudo @rmdir /usr/local/bin/openfiles 2> /dev/null || true; \
+	fi
 
 .PHONY:	$(1)-$(2)-$(3)-$(4)-$(5)-test
 $(1)-$(2)-$(3)-$(4)-$(5)-test:
-	cd build-$(1)-$(2)-$(3)-$(4)-$(5); \
-	OPEN_FILES_HOME=./configs/$(1)-$(2)-$(3).xml \
-	ctest
+	if [ "$(1)" != "android_arm64-v8a" ] && \
+	[ "$(1)" != "android_armeabi-v7a" ] && \
+	[ "$(1)" != "android_x86_64" ] && \
+	[ "$(1)" != "android_x86" ]; then \
+		cd build-$(1)-$(2)-$(3)-$(4)-$(5); \
+		OPEN_FILES_HOME=./configs/$(1)-$(2)-$(3).xml \
+		ctest; \
+	fi
 
 .PHONY: $(1)-full
 $(1)-full: $(1)-$(2)-$(3)-$(4)-$(5)-full
@@ -98,6 +116,13 @@ $(1)-clean:  $(1)-$(2)-$(3)-$(4)-$(5)-clean
 info:   $(1)-$(2)-$(3)-$(4)-$(5)-info
 
 endef
+
+.PHONY: android-full
+android-full:	\
+	android_arm64-v8a-full \
+	android_armeabi-v7a-full \
+	android_x86_64-full \
+	android_x86-full
 
 # add_target os,debug,smb,cipher,jni
 $(eval $(call add_target,macos,debug,nosmb,gnutls,nojni))
@@ -118,8 +143,14 @@ $(eval $(call add_target,macos,debug,smbserver,mbedtls,nojni))
 $(eval $(call add_target,macos,nodebug,smbclient,mbedtls,nojni))
 $(eval $(call add_target,macos,nodebug,smbserver,mbedtls,nojni))
 
-$(eval $(call add_target,android,debug,smbserver,mbedtls,jni))
-$(eval $(call add_target,android,nodebug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_arm64-v8a,debug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_arm64-v8a,nodebug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_armeabi-v7a,debug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_armeabi-v7a,nodebug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_x86_64,debug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_x86_64,nodebug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_x86,debug,smbserver,mbedtls,jni))
+$(eval $(call add_target,android_x86,nodebug,smbserver,mbedtls,jni))
 
 $(eval $(call add_target,linux,debug,nosmb,openssl,nojni))
 $(eval $(call add_target,linux,debug,smbclient,openssl,nojni))

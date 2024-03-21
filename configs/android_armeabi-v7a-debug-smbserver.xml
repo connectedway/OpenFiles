@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<of_core version="0.0">
+    <logging>
+      <console>yes</console>
+      <level>2</level>
+    </logging>
+    <devicename>localhost</devicename>
+    <uuid>00000000-0000-0000-0000-000000000000</uuid>
+    <description>Open Files</description>
+    <ip>
+        <autoip>no</autoip>
+        <interfaces>
+            <config>auto</config>
+        </interfaces>
+        <dnslist></dnslist>
+    </ip>
+    <smb>
+      <fqdn>openfiles.com</fqdn>
+      <serveruser>user</serveruser>
+      <serverpass>happy</serverpass>
+      <max_events>5</max_events>
+      <time_period>30000</time_period>
+      <remotes>
+	<remote>
+	  <name>android</name>
+	  <ip>127.0.0.1</ip>
+	  <port>4445</port>
+	</remote>
+      </remotes>
+      <exports>
+	<export>
+	  <share>spiritcloud</share>
+	  <comment>test share</comment>
+	  <nativefs>fat</nativefs>
+	  <path>/tmp</path>
+	  <exporttype>DISK</exporttype>
+	  <encrypted>yes</encrypted>
+	</export>
+      </exports>
+      <servers>
+	<port>4445</port>
+      </servers>
+    </smb>
+</of_core>
+
