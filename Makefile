@@ -1,7 +1,8 @@
 macos_FLAGS=
 linux_FLAGS=
 win_FLAGS=
-android_FLAGS=-DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake -DANDROID_ABI=x86_64 -DANDROID_PLATFORM=android-23 -DCMAKE_SYSTEM_VERSION=23 
+# arm64-v8a/x86_64
+android_FLAGS=-DCMAKE_TOOLCHAIN_FILE=/Users/rschmitt/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-25 -DCMAKE_SYSTEM_VERSION=25
 
 .PHONY: info-header
 info-header:
