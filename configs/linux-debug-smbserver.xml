@@ -44,7 +44,7 @@
 	  <share>spiritcloud</share>
 	  <comment>test share</comment>
 	  <nativefs>fat</nativefs>
-	  <path>/tmp</path>
+	  <path>/tmp/spiritcloud/</path>
 	  <exporttype>DISK</exporttype>
 	  <encrypted>yes</encrypted>
 	</export>

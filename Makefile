@@ -58,7 +58,6 @@ $(1)-$(2)-$(3)-$(4)-$(5)-config:
 	    -DOPENFILE_SMB=./build/$(3).cfg \
 	    -DOPENFILE_CIPHER=./build/$(4).cfg \
 	    -DOPENFILE_JNI=./build/$(5).cfg \
-	    -DOPENFILE_DEP1=./build/deprecated.cfg \
 	    -DSMB_CONFIG=./configs/default.cfg \
 	    -DSMB_CONFIG1=./configs/deprecated.cfg \
 	    $($(1)_FLAGS)
@@ -95,8 +94,8 @@ $(1)-$(2)-$(3)-$(4)-$(5)-test:
 	[ "$(1)" != "android_armeabi-v7a" ] && \
 	[ "$(1)" != "android_x86_64" ] && \
 	[ "$(1)" != "android_x86" ]; then \
+		OPEN_FILES_HOME=`pwd`/configs/$(1)-$(2)-$(3).xml; \
 		cd build-$(1)-$(2)-$(3)-$(4)-$(5); \
-		OPEN_FILES_HOME=./configs/$(1)-$(2)-$(3).xml \
 		ctest; \
 	fi
 
@@ -202,6 +201,51 @@ linux-smb-server-uninstall: linux-nodebug-smbserver-openssl-nojni-uninstall
 linux-smb-server-test: linux-nodebug-smbserver-openssl-nojni-test
 linux-smb-server-reinstall: linux-nodebug-smbserver-openssl-nojni-reinstall
 
+linux-smb-server-v2.02-test: linux-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v2.02.xml; \
+	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+linux-smb-server-v2.10-test: linux-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v2.10.xml; \
+	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+linux-smb-server-v3.02-test: linux-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v3.02.xml; \
+	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+linux-smb-server-v3.11-ccm-test: linux-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v3.11-ccm.xml; \
+	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+linux-smb-server-v3.11-gcm-test: linux-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v3.11-gcm.xml; \
+	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+linux-smb-server-session-encrypt-test: linux-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-session-encrypt.xml; \
+	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+linux-smb-server-tree-noencrypt-test: linux-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-tree-noencrypt.xml; \
+	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+linux-test-all: \
+	linux-full \
+	linux-smb-server-v2.02-test \
+	linux-smb-server-v2.10-test \
+	linux-smb-server-v3.02-test \
+	linux-smb-server-v3.11-ccm-test \
+	linux-smb-server-v3.11-gcm-test \
+	linux-smb-server-session-encrypt-test \
+	linux-smb-server-tree-noencrypt-test
+
 info:	linux-smb-client-info linux-smb-server-info
 
 #
@@ -269,7 +313,8 @@ macos-smb-server-tree-noencrypt-test: macos-debug-smbserver-openssl-nojni-build
 	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
 	ctest
 
-macos-smb-server-test-all: macos-debug-smbserver-openssl-nojni-test \
+macos-test-all: \
+	macos-full \
 	macos-smb-server-v2.02-test \
 	macos-smb-server-v2.10-test \
 	macos-smb-server-v3.02-test \

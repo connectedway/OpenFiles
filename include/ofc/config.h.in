@@ -49,8 +49,6 @@
 #cmakedefine OF_OPENSSL
 #cmakedefine OF_GNUTLS
 #cmakedefine OF_MBEDTLS
-#cmakedefine OF_ENCRYPTION
-#cmakedefine OF_ENCRYPT_AES_128_GCM
 #define OFC_LOG_CONSOLE @OFC_LOG_CONSOLE@
 #define OFC_LOG_DEFAULT @OFC_LOG_DEFAULT@
 #define OFC_MAX_HANDLE16 @OFC_MAX_HANDLE16@

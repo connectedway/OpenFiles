@@ -14,7 +14,6 @@ if (NOT DEFINED OPENFILE_PLATFORM)
    set(OPENFILE_SMB "build/smbserver.cfg")
    set(OPENFILE_CIPHER "build/mbedtls.cfg")
    set(OPENFILE_JNI "build/jni.cfg")
-   set(OPENFILE_DEP1 "build/deprecated.cfg")
 endif()
 
 
@@ -27,7 +26,6 @@ include(${OPENFILE_DEBUG})
 include(${OPENFILE_SMB})
 include(${OPENFILE_CIPHER})
 include(${OPENFILE_JNI})
-include(${OPENFILE_DEP1})
 
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 

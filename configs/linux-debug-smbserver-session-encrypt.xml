@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <of_core version="0.0">
     <logging>
-      <console>no</console>
-      <level>1</level>
+      <console>yes</console>
+      <level>2</level>
     </logging>
     <devicename>localhost</devicename>
     <uuid>00000000-0000-0000-0000-000000000000</uuid>
@@ -52,7 +52,7 @@
       <servers>
         <server>
 	  <port>4445</port>
-          <encrypt>no</encrypt>
+          <encrypt>yes</encrypt>
         </server>
       </servers>
     </smb>
