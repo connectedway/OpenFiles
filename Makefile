@@ -124,6 +124,13 @@ android-full:	\
 	android_x86_64-full \
 	android_x86-full
 
+.PHONY: android-clean
+android-clean:	\
+	android_arm64-v8a-clean \
+	android_armeabi-v7a-clean \
+	android_x86_64-clean \
+	android_x86-clean
+
 # add_target os,debug,smb,cipher,jni
 $(eval $(call add_target,macos,debug,nosmb,gnutls,nojni))
 $(eval $(call add_target,macos,debug,smbclient,gnutls,nojni))
@@ -173,13 +180,105 @@ linux-smb-client-info:
 	@echo "    linux-smb-client (alias for linux-nodebug-smbclient-openssl-nojni)"
 linux-smb-client-full: linux-nodebug-smbclient-openssl-nojni-full
 linux-smb-client-clean: linux-nodebug-smbclient-openssl-nojni-clean
+linux-smb-client-config: linux-nodebug-smbclient-openssl-nojni-config
 linux-smb-client-build: linux-nodebug-smbclient-openssl-nojni-build
 linux-smb-client-install: linux-nodebug-smbclient-openssl-nojni-install
 linux-smb-client-uninstall: linux-nodebug-smbclient-openssl-nojni-uninstall
 linux-smb-client-test: linux-nodebug-smbclient-openssl-nojni-test
 linux-smb-client-reinstall: linux-nodebug-smbclient-openssl-nojni-reinstall
 
-info:	linux-smb-client-info
+#
+# Alias for Linux Server Production Target
+#
+linux-smb-server-info: 
+	@echo ""
+	@echo "    linux-smb-server (alias for linux-nodebug-smbserver-openssl-nojni)"
+linux-smb-server-full: linux-nodebug-smbserver-openssl-nojni-full
+linux-smb-server-clean: linux-nodebug-smbserver-openssl-nojni-clean
+linux-smb-server-config: linux-nodebug-smbserver-openssl-nojni-config
+linux-smb-server-build: linux-nodebug-smbserver-openssl-nojni-build
+linux-smb-server-install: linux-nodebug-smbserver-openssl-nojni-install
+linux-smb-server-uninstall: linux-nodebug-smbserver-openssl-nojni-uninstall
+linux-smb-server-test: linux-nodebug-smbserver-openssl-nojni-test
+linux-smb-server-reinstall: linux-nodebug-smbserver-openssl-nojni-reinstall
+
+info:	linux-smb-client-info linux-smb-server-info
+
+#
+# Alias for Macos Client Production Target
+#
+macos-smb-client-info: 
+	@echo ""
+	@echo "    macos-smb-client (alias for macos-nodebug-smbclient-openssl-nojni)"
+macos-smb-client-full: macos-nodebug-smbclient-openssl-nojni-full
+macos-smb-client-clean: macos-nodebug-smbclient-openssl-nojni-clean
+macos-smb-client-config: macos-nodebug-smbclient-openssl-nojni-config
+macos-smb-client-build: macos-nodebug-smbclient-openssl-nojni-build
+macos-smb-client-install: macos-nodebug-smbclient-openssl-nojni-install
+macos-smb-client-uninstall: macos-nodebug-smbclient-openssl-nojni-uninstall
+macos-smb-client-test: macos-nodebug-smbclient-openssl-nojni-test
+macos-smb-client-reinstall: macos-nodebug-smbclient-openssl-nojni-reinstall
+
+#
+# Alias for Macos Server Production Target
+#
+macos-smb-server-info: 
+	@echo ""
+	@echo "    macos-smb-server (alias for macos-nodebug-smbserver-openssl-nojni)"
+macos-smb-server-full: macos-nodebug-smbserver-openssl-nojni-full
+macos-smb-server-clean: macos-nodebug-smbserver-openssl-nojni-clean
+macos-smb-server-config: macos-nodebug-smbserver-openssl-nojni-config
+macos-smb-server-build: macos-nodebug-smbserver-openssl-nojni-build
+macos-smb-server-install: macos-nodebug-smbserver-openssl-nojni-install
+macos-smb-server-uninstall: macos-nodebug-smbserver-openssl-nojni-uninstall
+macos-smb-server-test: macos-nodebug-smbserver-openssl-nojni-test
+macos-smb-server-reinstall: macos-nodebug-smbserver-openssl-nojni-reinstall
+
+macos-smb-server-v2.02-test: macos-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v2.02.xml; \
+	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+macos-smb-server-v2.10-test: macos-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v2.10.xml; \
+	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+macos-smb-server-v3.02-test: macos-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v3.02.xml; \
+	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+macos-smb-server-v3.11-ccm-test: macos-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v3.11-ccm.xml; \
+	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+macos-smb-server-v3.11-gcm-test: macos-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v3.11-gcm.xml; \
+	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+macos-smb-server-session-encrypt-test: macos-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-session-encrypt.xml; \
+	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+macos-smb-server-tree-noencrypt-test: macos-debug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-tree-noencrypt.xml; \
+	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
+	ctest
+
+macos-smb-server-test-all: macos-debug-smbserver-openssl-nojni-test \
+	macos-smb-server-v2.02-test \
+	macos-smb-server-v2.10-test \
+	macos-smb-server-v3.02-test \
+	macos-smb-server-v3.11-ccm-test \
+	macos-smb-server-v3.11-gcm-test \
+	macos-smb-server-session-encrypt-test \
+	macos-smb-server-tree-noencrypt-test
+
+info:	macos-smb-client-info macos-smb-server-info
 
 help:
 	@echo "make <target>-clean: Cleans the build directory"

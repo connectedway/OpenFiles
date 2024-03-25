@@ -15,10 +15,38 @@
         <dnslist></dnslist>
     </ip>
     <smb>
+      <fqdn>openfiles.com</fqdn>
+      <serveruser>user</serveruser>
+      <serverpass>happy</serverpass>
       <max_events>5</max_events>
       <time_period>30000</time_period>
+      <max_version>0311</max_version>
+      <ciphers>
+        <cipher>aes128-ccm</cipher>
+        <cipher>aes128-gcm</cipher>
+      </ciphers>
+      <remotes>
+	<remote>
+	  <name>android</name>
+	  <ip>127.0.0.1</ip>
+	  <port>4445</port>
+	</remote>
+      </remotes>
+      <exports>
+	<export>
+	  <share>spiritcloud</share>
+	  <comment>test share</comment>
+	  <nativefs>fat</nativefs>
+	  <path>/tmp</path>
+	  <exporttype>DISK</exporttype>
+	  <encrypted>yes</encrypted>
+	</export>
+      </exports>
       <servers>
-	<port>4445</port>
+        <server>
+	  <port>4445</port>
+          <encrypt>no</encrypt>
+        </server>
       </servers>
     </smb>
 </of_core>

@@ -18,7 +18,7 @@
       <map>
         <drive>test</drive>
         <description>Remote for test_file</description>
-        <path>//user:happy@127.0.0.1:4445/spiritcloud/</path>
+        <path>//user:happy@127.0.0.1:4445/spiritcloud/test/</path>
       </map>
     </drives>
     <smb>
@@ -27,14 +27,14 @@
       <serverpass>happy</serverpass>
       <max_events>5</max_events>
       <time_period>30000</time_period>
+      <time_period>30000</time_period>
       <max_version>0311</max_version>
       <ciphers>
-        <cipher>aes128-ccm</cipher>
         <cipher>aes128-gcm</cipher>
       </ciphers>
       <remotes>
 	<remote>
-	  <name>linux</name>
+	  <name>macos</name>
 	  <ip>127.0.0.1</ip>
 	  <port>4445</port>
 	</remote>
@@ -44,7 +44,7 @@
 	  <share>spiritcloud</share>
 	  <comment>test share</comment>
 	  <nativefs>fat</nativefs>
-	  <path>/tmp</path>
+	  <path>/tmp/spiritcloud/</path>
 	  <exporttype>DISK</exporttype>
 	  <encrypted>yes</encrypted>
 	</export>

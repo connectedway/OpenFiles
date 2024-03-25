@@ -24,6 +24,11 @@
     <smb>
       <max_events>5</max_events>
       <time_period>30000</time_period>
+      <max_version>0311</max_version>
+      <ciphers>
+        <cipher>aes128-ccm</cipher>
+        <cipher>aes128-gcm</cipher>
+      </ciphers>
     </smb>
 </of_core>
 
