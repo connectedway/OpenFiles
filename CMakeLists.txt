@@ -57,7 +57,8 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
   set(MBEDTLS_ROOT_DIR "/opt/homebrew/Cellar/mbedtls/3.2.1")
   set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
-  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
+  # Dynamic MbedTLS library does not work on MacOS.  Just link in static
+  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.a)
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(MBEDTLS_ROOT_DIR "/usr/local")
