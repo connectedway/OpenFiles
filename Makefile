@@ -213,39 +213,32 @@ linux-smb-server-test: linux-nodebug-smbserver-openssl-nojni-test
 linux-smb-server-reinstall: linux-nodebug-smbserver-openssl-nojni-reinstall
 
 linux-smb-server-v2.02-test: linux-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v2.02.xml; \
-	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-v2.02.xml \
+	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 linux-smb-server-v2.10-test: linux-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v2.10.xml; \
-	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-v2.10.xml \
+	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 linux-smb-server-v3.02-test: linux-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v3.02.xml; \
-	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-v3.02.xml \
+	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 linux-smb-server-v3.11-ccm-test: linux-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v3.11-ccm.xml; \
-	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-v3.11-ccm.xml \
+	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 linux-smb-server-v3.11-gcm-test: linux-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-v3.11-gcm.xml; \
-	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-v3.11-gcm.xml \
+	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 linux-smb-server-session-encrypt-test: linux-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-session-encrypt.xml; \
-	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-session-encrypt.xml \
+	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 linux-smb-server-tree-noencrypt-test: linux-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-debug-smbserver-tree-noencrypt.xml; \
-	cd build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-tree-noencrypt.xml \
+	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 linux-test-all: \
 	linux-full \
@@ -289,40 +282,33 @@ macos-smb-server-uninstall: macos-nodebug-smbserver-openssl-nojni-uninstall
 macos-smb-server-test: macos-nodebug-smbserver-openssl-nojni-test
 macos-smb-server-reinstall: macos-nodebug-smbserver-openssl-nojni-reinstall
 
-macos-smb-server-v2.02-test: macos-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v2.02.xml; \
-	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+macos-smb-server-v2.02-test: macos-nodebug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-v2.02.xml \
+	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
-macos-smb-server-v2.10-test: macos-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v2.10.xml; \
-	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+macos-smb-server-v2.10-test: macos-nodebug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-v2.10.xml \
+	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
-macos-smb-server-v3.02-test: macos-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v3.02.xml; \
-	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+macos-smb-server-v3.02-test: macos-nodebug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-v3.02.xml \
+	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
-macos-smb-server-v3.11-ccm-test: macos-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v3.11-ccm.xml; \
-	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+macos-smb-server-v3.11-ccm-test: macos-nodebug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-v3.11-ccm.xml \
+	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
-macos-smb-server-v3.11-gcm-test: macos-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-v3.11-gcm.xml; \
-	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+macos-smb-server-v3.11-gcm-test: macos-nodebug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-v3.11-gcm.xml \
+	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
-macos-smb-server-session-encrypt-test: macos-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-session-encrypt.xml; \
-	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+macos-smb-server-session-encrypt-test: macos-nodebug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-session-encrypt.xml \
+	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
-macos-smb-server-tree-noencrypt-test: macos-debug-smbserver-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/macos-debug-smbserver-tree-noencrypt.xml; \
-	cd build-macos-debug-smbserver-openssl-nojni/of_smb_fs/test; \
-	ctest
+macos-smb-server-tree-noencrypt-test: macos-nodebug-smbserver-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-tree-noencrypt.xml \
+	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 macos-test-all: \
 	macos-full \
