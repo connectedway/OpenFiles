@@ -32,13 +32,13 @@
  *
  * Currently we are at the initial release of OpenFiles 5
  */
-#define OFC_SHARE_MINOR 0
+#define OFC_SHARE_MINOR 3
 /**
  * Tag or patch level.
  *
  * May be a commit id, tag, or id.
  */
-#define OFC_SHARE_TAG "2"
+#define OFC_SHARE_TAG "0"
 
 /** \} */
 
