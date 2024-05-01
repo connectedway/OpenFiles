@@ -186,17 +186,20 @@ linux-smb-client-uninstall: linux-nodebug-smbclient-openssl-nojni-uninstall
 linux-smb-client-test: linux-nodebug-smbclient-openssl-nojni-test
 linux-smb-client-reinstall: linux-nodebug-smbclient-openssl-nojni-reinstall
 
-linux-smb-client-awsntlm1: linux-nodebug-smbclient-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-nodebug-smbclient-awsntlm.xml; \
+linux-smb-client-vaporntlm: linux-nodebug-smbclient-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-nodebug-smbclient-vaporntlm.xml; \
 	cd build-linux-nodebug-smbclient-openssl-nojni/of_smb_fs/test; \
 	ctest
 
-linux-smb-client-awsntlm2: linux-nodebug-smbclient-openssl-nojni-build
-	OPEN_FILES_HOME=`pwd`/configs/linux-nodebug-smbclient-awsntlmdfs.xml; \
+linux-smb-client-vapordfs: linux-nodebug-smbclient-openssl-nojni-build
+	OPEN_FILES_HOME=`pwd`/configs/linux-nodebug-smbclient-vapordfs.xml; \
 	cd build-linux-nodebug-smbclient-openssl-nojni/of_smb_fs/test; \
 	ctest
 
-linux-smb-client-awstest: linux-smb-client-awsntlm1 linux-smb-client-awsntlm2
+linux-smb-client-vaportest: \
+	linux-smb-client-vaporntlm \
+	linux-smb-client-vapordfs
+
 #
 # Alias for Linux Server Production Target
 #
