@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<of_core version="0.0">
+  <logging>
+    <console>yes</console>
+    <level>2</level>
+  </logging>
+  <devicename>localhost</devicename>
+  <uuid>00000000-0000-0000-0000-000000000000</uuid>
+  <description>Open Files</description>
+  <ip>
+    <autoip>no</autoip>
+    <interfaces>
+      <!-- zero or more -->
+      <interface>
+        <config>auto</config>
+        <ipaddress>192.168.1.1</ipaddress>
+        <bcast>192.168.1.255</bcast>
+        <mask>255.255.255.0</mask>
+        <mode>BMODE</mode>
+        <winslist>
+          <!-- zero or more -->
+          <wins>192.168.1.10</wins>
+        </winslist>
+        <master>192.168.2.2</master>
+      </interface>
+    </interfaces>
+    <dnslist></dnslist>
+  </ip>
+  <drives>
+    <!-- zero or more -->
+    <map>
+      <drive>test</drive>
+      <description>Remote for test_file</description>
+      <path>//user:happy@127.0.0.1:4445/spiritcloud/</path>
+    </map>
+  </drives>
+  <smb>
+    <fqdn>openfiles.com</fqdn>
+    <serveruser>user</serveruser>
+    <serverpass>happy</serverpass>
+    <max_events>5</max_events>
+    <time_period>30000</time_period>
+    <max_version>0311</max_version>
+    <ciphers>
+      <!-- zero or more -->
+      <cipher>aes128-ccm</cipher>
+      <cipher>aes128-gcm</cipher>
+    </ciphers>
+    <remotes>
+      <!-- zero or more -->
+      <remote>
+        <name>linux</name>
+        <ip>127.0.0.1</ip>
+        <port>4445</port>
+      </remote>
+    </remotes>
+    <exports>
+      <!-- zero or more -->
+      <export>
+        <share>spiritcloud</share>
+        <comment>test share</comment>
+        <nativefs>fat</nativefs>
+        <path>/tmp/spiritcloud/</path>
+        <exporttype>DISK</exporttype>
+        <encrypted>yes</encrypted>
+      </export>
+    </exports>
+    <servers>
+      <!-- zero or more -->
+      <server>
+        <port>4445</port>
+        <encrypt>no</encrypt>
+      </server>
+    </servers>
+  </smb>
+</of_core>
+

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20.0)
-project(openfiles VERSION 5.0.1 DESCRIPTION "Multi-Platform Event-Driven Application Framework")
+project(openfiles VERSION 5.3.0 DESCRIPTION "Multi-Platform Event-Driven Application Framework")
 
 enable_testing()
 
@@ -167,6 +167,7 @@ if (DOXYGEN_FOUND)
     set(DOXYGEN_PROJECT_LOGO ${CMAKE_CURRENT_SOURCE_DIR}/documentation/connected.png)
     set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
     set(DOXYGEN_EXTRACT_ALL YES)
+    set(DOXYGEN_EXTRACT_PRIVATE NO)
     set(DOXYGEN_FULL_SIDEBAR YES)
     set(DOXYGEN_GENERATE_TREEVIEW YES)
     set(DOXYGEN_HTML_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/documentation/headerFile)
@@ -193,11 +194,22 @@ if (OFC_INCLUDE_JNI)
     list(APPEND DOXYGEN_EXAMPLE_PATH ${of_core_jni_SOURCE_DIR}/test)
 endif()
 
+    list(APPEND DOXYGEN_EXAMPLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/smbcp)
+    list(APPEND DOXYGEN_EXAMPLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs)
     doxygen_add_docs(
         openfiles
 	${CMAKE_CURRENT_SOURCE_DIR}/documentation/openfiles.h
 	${CMAKE_CURRENT_SOURCE_DIR}/documentation/config.h
-        of_core
+	${of_core_SOURCE_DIR}/include/ofc/types.h
+	${of_core_SOURCE_DIR}/include/ofc/framework.h
+	${of_smb_SOURCE_DIR}/include/of_smb/framework.h
+	${of_core_SOURCE_DIR}/include/ofc/path.h
+	${of_core_SOURCE_DIR}/include/ofc/file.h
+	${of_core_SOURCE_DIR}/include/ofc/heap.h
+	${of_core_SOURCE_DIR}/include/ofc/handle.h
+	${of_core_SOURCE_DIR}/include/ofc/waitset.h
+	${of_core_SOURCE_DIR}/include/ofc/queue.h
+	${of_core_SOURCE_DIR}/include/ofc/time.h
 	${JNI_FILES}
 	)
     if (CMAKE_BUILD_TYPE STREQUAL "Release")

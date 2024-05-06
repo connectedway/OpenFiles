@@ -99,6 +99,10 @@ $(1)-$(2)-$(3)-$(4)-$(5)-test:
 		ctest; \
 	fi
 
+$(1)-$(2)-$(3)-$(4)-$(5)-docs:
+	cd build-$(1)-$(2)-$(3)-$(4)-$(5); \
+	doxygen Doxyfile.openfiles
+
 .PHONY: $(1)-full
 $(1)-full: $(1)-$(2)-$(3)-$(4)-$(5)-full
 
@@ -369,11 +373,11 @@ all-update:
 
 smb-init:
 	git submodule init of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser of_netbios
+	of_smb_browser of_netbios smbcp
 
 smb-update:
 	git submodule update of_smb of_smb_fs of_smb_client of_security \
-	of_smb_browser of_netbios
+	of_smb_browser of_netbios smbcp
 
 macos-init: all-init
 	git submodule init of_core_fs_darwin of_core_darwin
