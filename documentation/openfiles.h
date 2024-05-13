@@ -84,6 +84,12 @@ do everything any other IDE can.
 - Command Line.  Based on Make/cmake.  This is preconfigured and
 easy to use.
 
+- \subpage embedded
+A primary target for Open Files is as an Embedded SMB solution.  To 
+support this target, Connected Way provides a Yocto layer that provides
+necessary recipes for building OpenFiles into a target Embeded Linux
+deployment.
+
 - \subpage testing
 Open Files is essentially a framework or library that you can link with
 an application to generate an executable.  Open Files provides a collection
@@ -296,6 +302,212 @@ The following static and shared libraries will be installed in
 - libof_netbios_static.a
 - libof_smb_shared.so
 - libof_smb_static.a
+*/
+
+/*!
+\page embedded Building OpenFiles for Embedded Linux
+
+Openfiles provides a yocto layer called `meta-connectedway`.
+This layer provides metadata that extends the base
+poky distroy and openembedded layer with support for Connected Way's
+Open Files.
+
+This layer is qualified against the pyro, dunfell, and hardknott
+releases of Yocto.
+
+The following packages can be deployed:
+
+- openfiles: Deploys libof_smb and libof_core shared libraries along with
+/etc/openfiles.xml
+- openfiles-test: Deploys test binaries on the target.
+- openfiles-dev: Deploys files needed to build dependent recipes (smbcp)
+- openfiles-staticdev: Deploys static libraries to build dependent
+recipes (not currently used)
+- openfiles-dbg: Deploys debug sources, binaries, and libraries
+
+smbcp recipe:  This is an example application that utilizes the openfiles
+smb v2/v3 client.  It depends on the the openfiles package as well as krb5
+and openssl.  It is intended that this package will provide an example of
+how embedded linux applications can utilize openfiles to access remote
+directories using SMBv2/v3.
+
+A script in scripts/runqemu.openfiles which will bring up a qemu VM
+with the right parameters.  
+
+Configuration files in conf that will setup the build environment.
+
+=============================
+Supported Yocto Distributions
+=============================
+
+There are three supported yocto distributions of poky:
+
+- pyro
+- dunfell
+- hardknott
+
+Although other releases have been integrated with 
+the 5.1 release of OpenFiles, Dunfell is currently the only releaes
+integrated with 5.3 of OpenFiles.  Other
+branches likely need to be refreshed.  If other branches are required,
+please request support with Connected Way.
+
+============
+Dependencies
+============
+
+The `meta-connectedway` layer is set up so that it will automatically
+include any dependencies of openfiles into the sysroot and target
+file system.  These dependencies are described here:
+
+-----------------------
+OpenEmbedded Dependency
+-----------------------
+
+OpenFiles depends on the openembedded layers primarily for kerberos
+although openembedded includes python which will be integrated as part
+of our testing framework in the future.
+
+----------------
+CMake Dependency
+----------------
+
+Openfiles requires a cmake version greather than 3.20.  This tends to be
+more recent that the cmake that is integrated into the Yocto branches.
+The default cmake provided by hardknott 3.19 and dunfell is 3.16.  We
+therefore include a Cmake recipe for 3.22.3.
+
+-----------------
+Cipher Dependency
+-----------------
+
+Openfiles with SMB requires a crypto library for support of encryption 
+and message signing.  OpenFiles is preintegrated with three different
+cipher libraries: `openssl`, `gnutls` and `mbedtls`.  There are two
+versions of openssl supported: 1.1.1 and 3.3.1.  For Linux, and therefore,
+Yocto, our default cipher stack is openssl.  The Dunfell release of
+Yocto integrates with OpenSSL version 1.1.1.
+
+As an alternative to OpenSSL, the meta-connectedway layer provides support
+for mbetls as well.  The dunfell release of meta-openembedded is integrated
+with mbedtls version 2.16.6.  OpenFiles is integrated with mbedtls 3.2.1.
+Therefore, the meta-connectedway layer provides a recipe for mbedtls 3.2.1.
+
+======================================
+Integrate meta-connectedway with Yocto
+======================================
+
+Integration with Yocto is straightforward.
+
+Peform a clone of meta-connectedway:
+
+\verbatim
+$ cd poky
+$ git clone https://github.com/connectedway/meta-connectedway.git
+\endverbatim
+
+If you do not have meta-openembedded already in your environment,
+clone meta-openembedded:
+
+\verbatim
+$ git clone git://git.openembedded.org/meta-openembedded
+\endverbatim
+
+Set the branches
+
+\verbatim
+$ cd meta-connectedway
+$ git checkout dunfell
+$
+$ cd ../meta-openembedded
+$ git checkout dunfell
+\endverbatim
+
+Set up a build environment
+
+\verbatim
+$ cd ..
+$ source oe-init-build-env
+\endverbatim
+
+Update bblayers
+
+\verbatim
+$ <your editor> conf/bblayers.conf
+\endverbatim
+
+Add the following layers to your bblayers.conf.  Replace <layer-dir>
+with the path to your layer directory.
+
+\verbatim
+  <layer-dir>/meta-openembedded/meta-oe	\
+  <layer-dir>/meta-openembedded/meta-networking	\
+  <layer-dir>/meta-openembedded/meta-python		\
+  <layer-dir>/meta-connectedway			\
+\endverbatim
+
+Update your local.conf
+
+\verbatim
+$ <your editor> conf/local.conf
+\endverbatim
+
+Add the following near the end of the configuration file
+
+\verbatim
+OF_TYPE = "smb"
+\endverbatim
+
+We provide pre-integration with core-image-minimal and core-image-sato.
+If you are building one of those targets, you can skip the next step of
+specifying package installation.
+
+If you are building some other image, add the follow to your
+local.conf
+
+\verbatim
+IMAGE_INSTALL:append = " \
+    openfiles		    \
+    smbcp			    \
+\endverbatim
+
+If you have not integrated with kerberos in your own build and
+you wish to have access to kinit, you will need to also include:
+
+\verbatim
+IMAGE_INSTALL:append = " \
+    krb5-user		    \
+\endverbatim
+
+That's it.  Now you can begin a build.
+
+\verbatim
+bitbake <image>
+\endverbatim
+
+For example, to create a sato (tablet target) build, issue the
+following bitbake command:
+
+\verbatim
+$ bitbake core-image-sato
+\endverbatim
+
+\note
+The OpenFiles Recipe installs a krb5.conf file that is hard coded and
+resides in the openfiles git repo in the path `scripts/krb5.conf`.  This
+file will be installed in the root home directory on the target.  You
+will need to edit this file and install in /etc/krb5.conf before you run
+your system.  After the target has been booted the first time, edit and
+install the `/home/root/krb5.conf` file as `/etc/krb5.conf`.
+
+\note
+In order to use kerberos, you need to have your DNS name resolution
+resolving to the DNS that is used by your active directory domain.  We
+provided a `resolv.conf` in the openfiles repository in 
+`scripts/resolv.conf` This will be installed in the root home directory on 
+the target. You may have other ways to update the dns configuration on the 
+target.  You may need to edit `/home/root/resolv.conf` and install it as
+`/etc/resolv.conf` after every time the network is reconfigured.
 */
 
 /*!
