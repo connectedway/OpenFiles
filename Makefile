@@ -172,6 +172,9 @@ $(eval $(call add_target,linux,debug,smbserver,gnutls,nojni))
 $(eval $(call add_target,linux,nodebug,smbclient,openssl,nojni))
 $(eval $(call add_target,linux,nodebug,smbserver,openssl,nojni))
 
+$(eval $(call add_target,linuxman,nodebug,smbclient,openssl,nojni))
+$(eval $(call add_target,linuxman,debug,smbclient,openssl,nojni))
+
 $(eval $(call add_target,win,debug,nosmb,openssl,nojni))
 $(eval $(call add_target,win,debug,smbserver,openssl,nojni))
 
@@ -180,24 +183,24 @@ $(eval $(call add_target,win,debug,smbserver,openssl,nojni))
 #
 linux-smb-client-info: 
 	@echo ""
-	@echo "    linux-smb-client (alias for linux-nodebug-smbclient-openssl-nojni)"
-linux-smb-client-full: linux-nodebug-smbclient-openssl-nojni-full
-linux-smb-client-clean: linux-nodebug-smbclient-openssl-nojni-clean
-linux-smb-client-config: linux-nodebug-smbclient-openssl-nojni-config
-linux-smb-client-build: linux-nodebug-smbclient-openssl-nojni-build
-linux-smb-client-install: linux-nodebug-smbclient-openssl-nojni-install
-linux-smb-client-uninstall: linux-nodebug-smbclient-openssl-nojni-uninstall
-linux-smb-client-test: linux-nodebug-smbclient-openssl-nojni-test
-linux-smb-client-reinstall: linux-nodebug-smbclient-openssl-nojni-reinstall
+	@echo "    linux-smb-client (alias for linuxman-nodebug-smbclient-openssl-nojni)"
+linux-smb-client-full: linuxman-nodebug-smbclient-openssl-nojni-full
+linux-smb-client-clean: linuxman-nodebug-smbclient-openssl-nojni-clean
+linux-smb-client-config: linuxman-nodebug-smbclient-openssl-nojni-config
+linux-smb-client-build: linuxman-nodebug-smbclient-openssl-nojni-build
+linux-smb-client-install: linuxman-nodebug-smbclient-openssl-nojni-install
+linux-smb-client-uninstall: linuxman-nodebug-smbclient-openssl-nojni-uninstall
+linux-smb-client-test: linuxman-nodebug-smbclient-openssl-nojni-test
+linux-smb-client-reinstall: linuxman-nodebug-smbclient-openssl-nojni-reinstall
 
-linux-smb-client-vaporntlm: linux-nodebug-smbclient-openssl-nojni-build
+linux-smb-client-vaporntlm: linuxman-nodebug-smbclient-openssl-nojni-build
 	OPEN_FILES_HOME=`pwd`/configs/linux-nodebug-smbclient-vaporntlm.xml; \
-	cd build-linux-nodebug-smbclient-openssl-nojni/of_smb_fs/test; \
+	cd build-linuxman-nodebug-smbclient-openssl-nojni/of_smb_fs/test; \
 	ctest
 
-linux-smb-client-vapordfs: linux-nodebug-smbclient-openssl-nojni-build
+linux-smb-client-vapordfs: linuxman-nodebug-smbclient-openssl-nojni-build
 	OPEN_FILES_HOME=`pwd`/configs/linux-nodebug-smbclient-vapordfs.xml; \
-	cd build-linux-nodebug-smbclient-openssl-nojni/of_smb_fs/test; \
+	cd build-linuxman-nodebug-smbclient-openssl-nojni/of_smb_fs/test; \
 	ctest
 
 linux-smb-client-vaportest: \

@@ -28,6 +28,7 @@ include(${OPENFILE_CIPHER})
 include(${OPENFILE_JNI})
 
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror")
 
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
