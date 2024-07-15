@@ -75,16 +75,8 @@ CMakeSettings.json
 # Build output
 cmake-build-debug/
 cmake-build-release/
-build/
-build-macos-smb/
 android-build/
-build-linux/
-build-linux-smb/
-build-linux-perf/
-build-linux-smbfs/
-build-linux-smbloop/
-build-macos-smbfs/
-build-yocto-smbfs/
+build-*
 out/
 
 # Emacs artifacts

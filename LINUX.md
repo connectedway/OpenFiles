@@ -176,6 +176,17 @@ private repos.
 NOTE: There is a separate readme if you wish to include the JNI support or
 the smb server support.
 
+# Installl build esentials
+
+If not previously installed, you will need to install a C development
+environment.
+
+```
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install build-essential
+```
+
 # Installing the latest version of Cmake
 
 Before building openfiles, you will need to be running a version of cmake
@@ -196,6 +207,17 @@ and download
 https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x86_64.sh
 
 This will install cmake version 3.25.1 in /usr/local/bin/cmake.
+
+# Install Openssl
+
+```
+# sudo apt-get install libssl-dev
+
+On Ubuntu 22.04, you could also execute:
+
+```
+$ sudo snap install cmake --classic
+```
 
 # Install Mbedtls
 
@@ -245,6 +267,13 @@ this with:
 ```
 $ sudo apt install krb5-user
 $ sudo apt install libkrb5-dev
+```
+
+# Install openssl Development
+
+```
+$ sudo apt install openssl
+$ sudo apt install libssl-dev
 ```
 
 # Updating a workspace
@@ -986,3 +1015,154 @@ to be a host that has been registered within the domain.  Our configuration
 is accessing files on the domain controller itself so we specify the
 FQDN of the domain controller.
 
+To generate a keytab entry.  on the dc do:
+
+sudo samba-tool spn add host/UBUNTU@SPIRITCLOUD.APP Guest
+sudo samba-tool domain exportkeytab ubuntu.keytab -principal host/UBUNTU@SPIRITCLOUD.APP
+
+move this over to ubuntu
+
+sudo samba-tool computer add ubuntu
+sudo samba-tool computer delete ubuntu
+sudo samba-tool computer list
+
+Also can use adcli instead:
+
+adcli --preset-computer --domain=SPIRITCLOUD.APP ubuntu.spiritcloud.app -V cifs
+
+So I can adcli, export keytab
+
+on dc
+kadmin.local
+
+add_principal cifs/ubuntu@SPIRITCLOUD.APP
+ktadd cifs/ubuntu@SPIRITCLOUD.APP
+
+on member
+kdb5_util create -r SPIRITCLOUD.APP -s
+add_principal cifs/ubuntu@SPIRITCLOUD.APP
+ktadd cifs/ubuntu@SPIRITCLOUD.APP
+
+
+
+
+Add other info to krb5.conf under realms for SPIRITCLOUD
+admin_server = dc1.spiritcloud.app
+master_kdc = dc1.spiritcloud.app
+
+instead:
+
+take one that works:
+
+adcli --preset-computer --domain=SPIRITCLOUD.APP pixel6.spiritcloud.app -V cifs
+
+or brief
+
+adcli preset-computer pixel6.spiritcloud.app
+
+then
+
+samba-tool add computer doesn't seem to work.  
+
+samba-tool spn add cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP Administrator
+samba-tool domain exportkeytab cifs.keytab --principal cifs/ubuntu@SPIRITCLOUD.APP
+
+copy that over
+add to our keytab
+
+
+
+start server with:
+./gss-server cifs/ubuntu
+
+start client with
+KRB5_TRACE=/dev/stderr ./gss-client ubuntu.spiritcloud.app cifs msg
+
+get rid of any obsolete entries on dc
+
+samba-tool spn delete cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP
+
+take two
+
+
+samba-tool spn add cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP Spirit
+samba-tool domain exportkeytab cifs.keytab --principal cifs/ubuntu@SPIRITCLOUD.APP
+
+copy that over to the client
+
+on the client
+
+Then login as user
+
+kinit spirit@SPIRITCLOUD.APP
+
+start server with:
+KRB5_TRACE=/dev/stderr ./gss-server -keytab cifs.keytab cifs/ubuntu.spiritcloud.app
+
+start client with
+KRB5_TRACE=/dev/stderr ./gss-client ubuntu.spiritcloud.app cifs msg
+
+
+Works
+
+So, given this, how will we make this work?  When adding a server, we need to add a keytab entry in the app.
+
+In the Domain tab, when adding or edit a domain, we need to add a keytab file.
+what is the friendliest way to do this?  the DC procedure will be:
+
+samba-tool spn add cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP Spirit
+samba-tool domain exportkeytab cifs.keytab --principal=cifs/ubuntu.spiritcloud.app@SPIRITCLOUD.APP
+openssl base64 -in cifs.keytab -out cifs.keyout
+
+In the domain dialog, there'll be a button to enable server.  Then you will
+be able to add a server keytab.  They keytab will be stored in the files
+directory with the name of the domain.keytab.
+
+cifs.keyout should be copied/pasted into the "Server Keytab" entry in the
+domain dialog.
+
+When the user log's in, if the server is enabled and a keytab entry is
+provided, the server for that domain entry will start with that keytab entry.
+it will call krb5_acquire_server with the server_fqdn and the keytab.
+The server_fqdn needs to also be added to the domain dialog.  So what we
+have now, is:
+Domain:
+KDC:
+Enable Server:
+FQDN:
+Server Keytab:
+
+The server needs to be added to the DC using procedure above.
+The server's FQDN needs to be added to DNS
+
+When we start the app, if we have a logged in user, and there is a keytab
+we will automatically start the server.
+
+If we edit an existing domain entry, the user is automatically logged out.
+perhaps when they hit "ok", we check if the user is already logged in.  If
+so, we give a popup that says, logout user?
+
+When we log out a user, we need to shutdown the server.
+
+We can DNS query (type PTR, Class IN, "QM" question:
+_smb._tcp.local
+Returns (UBUNTU, openfile, DC1, "Richard's MacBook Air", and "Pixel 6 Pro")
+
+TO dO
+
+We need a server app.
+
+Need to verify if the keytab works on other machines
+
+See if error message is correct if we're not logged in when server comes up
+
+See if we can acquire multiple servers
+
+Need to add the actual SASL piece
+
+Need a better way to share keytabs.  Would be better if we simply entered a
+password.
+
+Need to double check the way we do core load.
+
+Need to figure out why test_smbpersist hangs on shutdown of a test.

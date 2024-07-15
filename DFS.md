@@ -104,20 +104,35 @@ which gets extended into a fqdn using the DNS search suffix.
 #### Bootstrap DC
 
 The bootstrap DC informs the OpenFiles DFS stack which DC to contact to
-optain information about the Domain.  It is required for domain based
-DFS.
+optain information about the Domain.  It is optional for domain based
+DFS.  There can be more than one bootstrap dc.  This is useful for redundant
+domain controllers.
 
 It is specified in the OpenFiles.xml file as follows:
 
 ```
     <smb>
       <fqdn>ubuntu.spiritcloud.app</fqdn>
-      <bootstrap_dc>dc1.spiritcloud.app</bootstrap_dc>
+      <bootstrap_dc>
+        <dc>dc1.spiritcloud.app</dc>
+        <dc>dc2.spiritcloud.app</dc>
+      </bootstrap_dc>
     </smb>
 ```
 
-The bootstrap_dc should be a FQDN to the DC, or it can be a shortened
+The dc should be a FQDN to the DC, or it can be a shortened
 name which will be extended into a FQDN by the DNS search suffix.
+
+If a bootstrap_dcs are not specified in the configuration file, OpenFiles will
+attempt to locate the DCs by querying for DNS SRV configuration records.
+There may be multiple SRV resolutions and can provide redundnancy as well.
+
+If using SRV DNS resolution, the following SRV records must be registered
+in the DNS servers.
+
+```
+_kerberos._dc
+```
 
 ### Dynamic Runtime Configuration
 

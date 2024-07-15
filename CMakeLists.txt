@@ -1,14 +1,35 @@
 cmake_minimum_required(VERSION 3.20.0)
-project(openfiles VERSION 5.0.1 DESCRIPTION "Multi-Platform Event-Driven Application Framework")
+project(openfiles VERSION 5.3.0 DESCRIPTION "Multi-Platform Event-Driven Application Framework")
 
 enable_testing()
 
-if (NOT DEFINED OPENFILE_CONFIG)
-   set(OPENFILE_CONFIG "configs/android-smb")
-   # set(JAVA_HOME "/Library/Java/JavaVirtualMachines/openlogic-openjdk-11.jdk/Contents/Home")
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
+if (NOT DEFINED OPENFILE_PLATFORM)
+   set(OPENFILE_NAMING "build/naming.cfg")
+   set(OPENFILE_PLATFORM "build/android_arm64-v8a-platform.cfg")
+   set(OPENFILE_BEHAVIOR "build/android_arm64-v8a-behavior.cfg")
+   set(OPENFILE_SIZING "build/sizing.cfg")
+   set(OPENFILE_DEBUG "build/nodebug.cfg")
+   set(OPENFILE_SMB "build/smbserver.cfg")
+   set(OPENFILE_CIPHER "build/mbedtls.cfg")
+   set(OPENFILE_JNI "build/jni.cfg")
 endif()
 
-include(${OPENFILE_CONFIG})
+
+
+include(${OPENFILE_NAMING})
+include(${OPENFILE_PLATFORM})
+include(${OPENFILE_BEHAVIOR})
+include(${OPENFILE_SIZING})
+include(${OPENFILE_DEBUG})
+include(${OPENFILE_SMB})
+include(${OPENFILE_CIPHER})
+include(${OPENFILE_JNI})
+
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror")
+
 configure_file(include/ofc/config.h.in ofc/config.h @ONLY)
 include_directories(${openfiles_BINARY_DIR})
 
@@ -30,19 +51,20 @@ if(ANDROID)
 
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-  set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.0.7")
+  set(OPENSSL_ROOT_DIR "/opt/homebrew/Cellar/openssl@3/3.2.1")
   set(OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include)
-  set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib)
-  set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib)
+  set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.3.dylib)
+  set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.3.dylib)
 
   set(MBEDTLS_ROOT_DIR "/opt/homebrew/Cellar/mbedtls/3.2.1")
   set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
-  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.dylib)
+  # Dynamic MbedTLS library does not work on MacOS.  Just link in static
+  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.a)
 endif()
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  # for linux, pass in MBEDTLS_ROOT_DIR
+  set(MBEDTLS_ROOT_DIR "/usr/local")
   set(MBEDTLS_INCLUDE_DIR ${MBEDTLS_ROOT_DIR}/include)
-  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib/libmbedcrypto.so)
+  set(MBEDTLS_CRYPTO_LIBRARY ${MBEDTLS_ROOT_DIR}/lib64/libmbedcrypto.so)
 endif()
 
 #
@@ -146,6 +168,7 @@ if (DOXYGEN_FOUND)
     set(DOXYGEN_PROJECT_LOGO ${CMAKE_CURRENT_SOURCE_DIR}/documentation/connected.png)
     set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
     set(DOXYGEN_EXTRACT_ALL YES)
+    set(DOXYGEN_EXTRACT_PRIVATE NO)
     set(DOXYGEN_FULL_SIDEBAR YES)
     set(DOXYGEN_GENERATE_TREEVIEW YES)
     set(DOXYGEN_HTML_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/documentation/headerFile)
@@ -172,11 +195,22 @@ if (OFC_INCLUDE_JNI)
     list(APPEND DOXYGEN_EXAMPLE_PATH ${of_core_jni_SOURCE_DIR}/test)
 endif()
 
+    list(APPEND DOXYGEN_EXAMPLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/smbcp)
+    list(APPEND DOXYGEN_EXAMPLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs)
     doxygen_add_docs(
         openfiles
 	${CMAKE_CURRENT_SOURCE_DIR}/documentation/openfiles.h
 	${CMAKE_CURRENT_SOURCE_DIR}/documentation/config.h
-        of_core
+	${of_core_SOURCE_DIR}/include/ofc/types.h
+	${of_core_SOURCE_DIR}/include/ofc/framework.h
+	${of_smb_SOURCE_DIR}/include/of_smb/framework.h
+	${of_core_SOURCE_DIR}/include/ofc/path.h
+	${of_core_SOURCE_DIR}/include/ofc/file.h
+	${of_core_SOURCE_DIR}/include/ofc/heap.h
+	${of_core_SOURCE_DIR}/include/ofc/handle.h
+	${of_core_SOURCE_DIR}/include/ofc/waitset.h
+	${of_core_SOURCE_DIR}/include/ofc/queue.h
+	${of_core_SOURCE_DIR}/include/ofc/time.h
 	${JNI_FILES}
 	)
     if (CMAKE_BUILD_TYPE STREQUAL "Release")

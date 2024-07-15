@@ -23,11 +23,15 @@
 
 #cmakedefine INIT_ON_LOAD
 #if defined(INIT_ON_LOAD)
-#define OFC_LOAD @OFC_LOAD@
-#define OFC_UNLOAD @OFC_UNLOAD@
+#define OFC_LOAD_CORE @OFC_LOAD_CORE@
+#define OFC_UNLOAD_CORE @OFC_UNLOAD_CORE@
+#define OFC_LOAD_SMB @OFC_LOAD_SMB@
+#define OFC_UNLOAD_SMB @OFC_UNLOAD_SMB@
 #else
-#define OFC_LOAD
-#define OFC_UNLOAD
+#define OFC_LOAD_CORE
+#define OFC_UNLOAD_CORE
+#define OFC_LOAD_SMB
+#define OFC_UNLOAD_SMB
 #endif
 
 #cmakedefine OFC_64BIT_INTEGER
@@ -45,7 +49,8 @@
 #cmakedefine OF_OPENSSL
 #cmakedefine OF_GNUTLS
 #cmakedefine OF_MBEDTLS
-#cmakedefine OF_ENCRYPTION
+#define OFC_LOG_CONSOLE @OFC_LOG_CONSOLE@
+#define OFC_LOG_DEFAULT @OFC_LOG_DEFAULT@
 #define OFC_MAX_HANDLE16 @OFC_MAX_HANDLE16@
 #define OFC_MAX_MAPS @OFC_MAX_MAPS@
 #define OFC_TRACE_LEN @OFC_TRACE_LEN@
@@ -81,7 +86,6 @@ typedef @OFC_PROCESS_ID@ OFC_PROCESS_ID;
 #cmakedefine OF_SMB_CLIENT
 #cmakedefine OF_SMB_SERVER
 #cmakedefine OFC_KERBEROS
-#cmakedefine OFC_NTLMV2_TARGET_TIMESTAMP
 
 #define OFC_MAX_IO @OFC_MAX_IO@
 #define OFC_TEST_FS_DARWIN_PATH "@OFC_TEST_FS_DARWIN_PATH@"
