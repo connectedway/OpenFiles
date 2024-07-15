@@ -1,13 +1,13 @@
 /*!
-\mainpage Open Files Software Framework
+\mainpage ConnectSMB (Open Files) Software Framework
 
-Open Files is both a SMB Client and Server Network stack and
+ConnectSMB (Open Files) is both a SMB Client and Server Network stack and
 a lightweight, multi-platform, real-time, event-driven, and 
 high performance, subsystem for application development.  The combination
 provides a powerful portable, commercial SMB stack for integration with
 OEMs and Value added resellers.
 
-The main advantages of Open Files are:
+The main advantages of ConnectSMB are:
 
 - It is multi-platform.  Open File applications can run on any supported
 platform including Windows, MacOS, Android, Linux, iOS, and many RTOSes.
@@ -38,42 +38,42 @@ stack with support for:
 - Message Signing
 - Robust Win32 based file system API
 - FUSE file system handlers for Linux, Windows, and MacOS
-- Java JNI for Open Files API and SMB
+- Java JNI for ConnectSMB API and SMB
 - Android Document Provider
 - NetBIOS Name Server and Name Lookup.
 - Microsoft lan manager support for Pipes, Mailslots, and DCE
 
 This document details the structure and APIs available to platform 
 integrators for initializing, configuring, starting up, and monitoring
-the Open Files stack.  This document also details the various APIs utilized
-by the Open Files stack to interface with the platform specific routines
+the ConnectSMB stack.  This document also details the various APIs utilized
+by the ConnectSMB stack to interface with the platform specific routines
 (i.e. the porting layer).
 
 This is geared towards two audiences: 
-- those wishing to integrate an Open Files package to a target system
+- those wishing to integrate an ConnectSMB package to a target system
 - those wishing to develop applications that use the functionality
- provided by Open Files.  
+ provided by ConnectSMB.  
 
 See the following sections for more info:
 
 - \subpage introduction
-Who is Open Files for?  What kind of things can I do with it?  How
+Who is ConnectSMB for?  What kind of things can I do with it?  How
 do I work with it?  What else can it do?  These questions and more
 will be answered in the introduction.
 
 - \subpage download
-Open Files is not destributed as a binary for target platforms although it
+ConnectSMB is not destributed as a binary for target platforms although it
 could be.  As such, there isn't an installation step.  That means the first
-step in using Open Files is to download or cloan the Open Files repository.
+step in using ConnectSMB is to download or cloan the ConnectSMB repository.
 
 - \subpage configuration
-Open Files comes standard with support for Windows, Linux, MacOS, Android
+ConnectSMB comes standard with support for Windows, Linux, MacOS, Android
 iOS, ThreadX, and NucleusPLUS.  Default configurations for these platforms
 are provided.  It is also possible to create configurations for new 
 platforms or to customize existing configurations.
 
 - \subpage building
-Open Files uses the cmake build system.  There are three development
+ConnectSMB uses the cmake build system.  There are three development
 environments we recommend:
 - CLion  <a href=https://www.jetbrains.com/clion/>Jetbrains CLion</a>
  as a multi-target cmake aware IDE.  This is a licensed product and 
@@ -85,18 +85,18 @@ do everything any other IDE can.
 easy to use.
 
 - \subpage embedded
-A primary target for Open Files is as an Embedded SMB solution.  To 
+A primary target for ConnectSMB is as an Embedded SMB solution.  To 
 support this target, Connected Way provides a Yocto layer that provides
-necessary recipes for building OpenFiles into a target Embeded Linux
+necessary recipes for building ConnectSMB into a target Embeded Linux
 deployment.
 
 - \subpage testing
-Open Files is essentially a framework or library that you can link with
-an application to generate an executable.  Open Files provides a collection
+ConnectSMB is essentially a framework or library that you can link with
+an application to generate an executable.  ConnectSMB provides a collection
 of test applications that are products of the build.
 
 - \subpage developing
-Open Files provides a full set of APIs that allow developers to implement
+ConnectSMB provides a full set of APIs that allow developers to implement
 robust multi-platform, asynchronous or threaded applications. The
 facilities provided are discussed in this section.
 
@@ -106,12 +106,12 @@ model.  To learn more about the async programming model, read here.
 */
 
 /*!
-\page introduction Introducing Open Files
+\page introduction Introducing ConnectSMB
 
 \section History
-There's a bit of history to Open Files.  Prior to OpenFiles, the smb
+There's a bit of history to ConnectSMB.  Prior to ConnectSMB, the smb
 stack was marketed as ConnectedNAS and ConnectedSMB.  These products
-were less module with less flexible configuration than OpenFiles.
+were less module with less flexible configuration than ConnectSMB.
 Before that, there was the Blue Share CIFS Product.  This product only
 supported an SMBv2/SMBv2 client.
 
@@ -121,26 +121,26 @@ for Windows, MacOS, Linux, Android, and select RTOSes.
 It provides a sophisticated real-time, asynchronous programming model.
 Non-blocking, state-driven applications can be easily deployed.
 
-As an SMB stack, Open Files is a SMBv2/SMBv3 Client/Server stack supporting
+As an SMB stack, ConnectSMB is a SMBv2/SMBv3 Client/Server stack supporting
 Active Directory and NTLM authentication, Distributed File System,
 security, and many other features.
 
 \section APIs
-Open Files provides it's own C
+ConnectSMB provides it's own C
 runtime, thread/process abstraction, time of day, XML, extensible 
 persistence and configuration, sockets and networking, file handling and 
 multiple plugin file handlers, buffer management, locks, 
 plugin heap managers, real-time event scheduling, and much more.  
 
 \section Asynchronous Asynchronous Real-Time Event-Driven
-Open Files async scheduling is based on the notion of single run loop 
+ConnectSMB async scheduling is based on the notion of single run loop 
 implemented as a platform thread.  All scheduling occurs within the run loop.
 There can be multiple run loops and those run loops can be assigned to 
 individual cores for a robust SMP solution.
 
 \section platform Multi-Platform
-Open Files native platform is Linux but applications built with it
-implicitly supports all platforms.  Open Files is extensible so that 
+ConnectSMB native platform is Linux but applications built with it
+implicitly supports all platforms.  ConnectSMB is extensible so that 
 new platforms, heaps, and file handlers, can easily be added.
 
 \section license Source Licenses
@@ -184,7 +184,7 @@ At the time of this documentation update, the latest release tag is
 5.3.0.  There may be more recent tags.  Contact Connected Way Support
 for the tag that we recommend for you.  
 
-Open Files is a collection of cooperating repositories allowing for flexible
+ConnectSMB is a collection of cooperating repositories allowing for flexible
 configuration and build.  Most repositories are licensed under the 
 Create Common license (see LICENSE.md).  Some repositories (eg. smb 
 related repositories) are licensed separately and may not be accessible to
@@ -205,7 +205,7 @@ openfiles main branch or release tag.
 /*!
 \page configuration Configuring a Platform Build
 
-Open Files has both runtime and build time configuration settings.
+ConnectSMB has both runtime and build time configuration settings.
 
 Static Build Settings
 ===================== 
@@ -267,7 +267,7 @@ Configuration Parameter Documentation is available here: \ref config
 */
 
 /*!
-\page building Building the Open Files Stack
+\page building Building the ConnectSMB Stack
 To build using CLion, simply run the CLion IDE and use the File Open
 item to open the directory of the openfiles repository.  Once opened,
 it will automatically generate the necessary makefiles for your platform.
@@ -305,12 +305,12 @@ The following static and shared libraries will be installed in
 */
 
 /*!
-\page embedded Building OpenFiles for Embedded Linux
+\page embedded Building ConnectSMB for Embedded Linux
 
-Openfiles provides a yocto layer called `meta-connectedway`.
+ConnectSMB provides a yocto layer called `meta-connectedway`.
 This layer provides metadata that extends the base
 poky distroy and openembedded layer with support for Connected Way's
-Open Files.
+ConnectSMB.
 
 This layer is qualified against the pyro, dunfell, and hardknott
 releases of Yocto.
@@ -325,7 +325,7 @@ The following packages can be deployed:
 recipes (not currently used)
 - openfiles-dbg: Deploys debug sources, binaries, and libraries
 
-smbcp recipe:  This is an example application that utilizes the openfiles
+smbcp recipe:  This is an example application that utilizes the ConnectSMB
 smb v2/v3 client.  It depends on the the openfiles package as well as krb5
 and openssl.  It is intended that this package will provide an example of
 how embedded linux applications can utilize openfiles to access remote
@@ -347,8 +347,8 @@ There are three supported yocto distributions of poky:
 - hardknott
 
 Although other releases have been integrated with 
-the 5.1 release of OpenFiles, Dunfell is currently the only releaes
-integrated with 5.3 of OpenFiles.  Other
+the 5.1 release of ConnectSMB, Dunfell is currently the only releaes
+integrated with 5.3 of ConnectSMB.  Other
 branches likely need to be refreshed.  If other branches are required,
 please request support with Connected Way.
 
@@ -364,7 +364,7 @@ file system.  These dependencies are described here:
 OpenEmbedded Dependency
 -----------------------
 
-OpenFiles depends on the openembedded layers primarily for kerberos
+ConnectSMB depends on the openembedded layers primarily for kerberos
 although openembedded includes python which will be integrated as part
 of our testing framework in the future.
 
@@ -372,7 +372,7 @@ of our testing framework in the future.
 CMake Dependency
 ----------------
 
-Openfiles requires a cmake version greather than 3.20.  This tends to be
+ConnectSMB requires a cmake version greather than 3.20.  This tends to be
 more recent that the cmake that is integrated into the Yocto branches.
 The default cmake provided by hardknott 3.19 and dunfell is 3.16.  We
 therefore include a Cmake recipe for 3.22.3.
@@ -381,8 +381,8 @@ therefore include a Cmake recipe for 3.22.3.
 Cipher Dependency
 -----------------
 
-Openfiles with SMB requires a crypto library for support of encryption 
-and message signing.  OpenFiles is preintegrated with three different
+ConnectSMB with SMB requires a crypto library for support of encryption 
+and message signing.  ConnectSMB is preintegrated with three different
 cipher libraries: `openssl`, `gnutls` and `mbedtls`.  There are two
 versions of openssl supported: 1.1.1 and 3.3.1.  For Linux, and therefore,
 Yocto, our default cipher stack is openssl.  The Dunfell release of
@@ -390,7 +390,7 @@ Yocto integrates with OpenSSL version 1.1.1.
 
 As an alternative to OpenSSL, the meta-connectedway layer provides support
 for mbetls as well.  The dunfell release of meta-openembedded is integrated
-with mbedtls version 2.16.6.  OpenFiles is integrated with mbedtls 3.2.1.
+with mbedtls version 2.16.6.  ConnectSMB is integrated with mbedtls 3.2.1.
 Therefore, the meta-connectedway layer provides a recipe for mbedtls 3.2.1.
 
 ======================================
@@ -513,7 +513,7 @@ target.  You may need to edit `/home/root/resolv.conf` and install it as
 /*!
 \page testing Running Generated Test Applications
 
-The Open Files build will generate the following test applications 
+The ConnectSMB build will generate the following test applications 
 and install them at `/usr/local/bin/openfiles`:
 
 - of_core/test/test_stream
@@ -537,9 +537,9 @@ of another package `smbcp`.  See \ref smbcp.
 
 test_all will run tests contained within the other test applications.
 The individual test applications (other than test_all) are designed to test
-specific functionality provided by Open Files.  
+specific functionality provided by ConnectSMB.  
 
-By default, Open Files will use a persistent runtime configuration.
+By default, ConnectSMB will use a persistent runtime configuration.
 There are preconfigured runtime templates in the config subdirectory.
 There are default configurations based on the first three components
 of the build tuple.  For instance, for the build tuple
@@ -547,13 +547,13 @@ linux-nodebug-smbclient-openssl-nojni, the default runtime configuration
 is linux-nodebug-smbclient.  When the product is installed
 the default runtime configuration is installed as /etc/openfiles.xml.
 
-When the Open Files library is initialzed, it will look at the
+When the ConnectSMB library is initialzed, it will look at the
 OPEN_FILES_HOME environment variable.  If set, it will look at that
 path for the runtime configuration.  If not set it will look at
 /etc/openfiles.xml.
 
 To set the runtime configuration, execute the following prior to 
-running the program that has linked with the Open Files stack:
+running the program that has linked with the ConnectSMB stack:
 
 \verbatim
 export OPEN_FILES_HOME=./configs/darwin_debug.xml
@@ -561,15 +561,15 @@ export OPEN_FILES_HOME=./configs/darwin_debug.xml
 */
 
 /*!
-\page developing Developing with Open Files
+\page developing Developing with ConnectSMB
 
-Open Files provides a very robust set of platform independent functions
+ConnectSMB provides a very robust set of platform independent functions
 that allow a developer to accelerate implementation of multi-platform 
 applications.  If your only focus is to integrate with the SMB APIs, 
 this section can be skipped.
 
 Applications can be traditional thread based or can utilize
-the event-driven application framework provided by Open Files.  The 
+the event-driven application framework provided by ConnectSMB.  The 
 event-driven model allows for scheduling any number of non-blocking
 applications scheduling threads.  There can be one scheduling thread per
 application, or multiple scheduling threads can be deployed either by
@@ -579,7 +579,7 @@ The framework supports two application concurrency models: Async and
 Threading.  The async model is where a single run loop dispatches to 
 registered event handlers while the threading model is where multiple
 threads are used to repeatedly process and then block within some 
-application structure.  Open Files supports both models and provides our
+application structure.  ConnectSMB supports both models and provides our
 own Async model.  The threading model doesn't require much discussion.  It
 essentially just follows a 'main' or 'pthread' type structure where APIs
 either block or provide events that can be tested or waited on later on.
@@ -591,7 +591,7 @@ The various facilities/components available to an application developer are:
 - Versioning
 - Event Driven Applications
 - Console I/O
-- Initialization
+- Initialization \ref framework
 - DOM Parser
 - Environment Variables
 - Events (semaphores)
@@ -619,15 +619,15 @@ The various facilities/components available to an application developer are:
 */
 
 /*!
-\page async Open Files Asynchronous Programming Model
+\page async ConnectSMB Asynchronous Programming Model
 
-This section is intended for those contributing to the Open Files stack,
+This section is intended for those contributing to the ConnectSMB stack,
 or developing applications that leverage the internal APIs of the 
-Open Files stack.  If you are simply integrating the stack with an
+ConnectSMB stack.  If you are simply integrating the stack with an
 application, you need not be concerned with this section.
 
 The two main components that provide the async programming model are the
-Open Files Scheduler and the Open Files Application Manager.  These two
+ConnectSMB Scheduler and the ConnectSMB Application Manager.  These two
 components utilize a collection of eventing APIs available to the Treading
 model as well.
 
@@ -717,21 +717,26 @@ This is an example of using timers in an async application
 \example test_waitq.c
 This is an example of using wait queues in an async application
 
+\example smbinit.c
+This is a common initialization module for the smbcp class of 
+commands.  It will perform a manual initialization, configuration,
+and startup of the stack if needed.
+
 \example smbcp.c
 This is an example of a application level file copy using the
-OpenFiles Libraries
+ConnectSMB Libraries
 
 \example smbls.c
 This is an example of a application level directory list using the
-OpenFiles Libraries
+ConnectSMB Libraries
 
 \example smbfree.c
 This is an example of a application level disk free space command using the
-OpenFiles Libraries
+ConnectSMB Libraries
 
 \example smbrm.c
 This is an example of a application level file remove using the
-OpenFiles Libraries
+ConnectSMB Libraries
 
 \example template.xml
 This is a template for runtime configuration
@@ -741,7 +746,7 @@ This is a template for runtime configuration
 /*!
 \page smbcp SMB Applications
 
-Openfiles also comes with a set of SMB Applications that can either be
+ConnectSMB also comes with a set of SMB Applications that can either be
 used as examples on how to integrate the SMB APIs into customer
 applications or they can be used as binaries that can be integrated
 as system calls into a deployed system.
@@ -752,7 +757,7 @@ The SMBCP applications are maintained as a separate <a href=https://github.com/c
 https://github.com/connectedway/smbcp.git
 \endverbatim
 
-The smbcp applications require OpenFiles SMB client libraries to be
+The smbcp applications require ConnectSMB SMB client libraries to be
 installed first.  There are 4 applications:
 
 - smbcp: Copy a file - \ref smbcp.c
@@ -761,14 +766,14 @@ installed first.  There are 4 applications:
 - smbls: List a directory - \ref smbls.c
 
 The smbcp applications are dynamically linked.  The applications themselves
-are built seperately from the openfiles framework and they are simply linked
+are built seperately from the ConnectSMB framework and they are simply linked
 with the framework on the target system.
 
 ================
 Command Overview
 ================
 
-The syntax and decription of the OpenFiles SMB commands are describe
+The syntax and decription of the ConnectSMB SMB commands are describe
 here.
 
 -----
@@ -791,7 +796,7 @@ The target file must be fully specified.  In other words, you must provide
 the target file name.  Simply specifying the target directory is not
 sufficient.
 
-Openfiles can operate in one of two authentication mode: Active Directory 
+ConnectSMB can operate in one of two authentication mode: Active Directory 
 and NTLM.  Active Directory authentication requires a kerberos stack 
 preinstalled on your target system and active domain controllers with
 users and target computers.  Before running any of the smbcp applications
@@ -886,7 +891,7 @@ If you are building a yocto based distribution using the of_manifests
 repo configuration, the smbcp application will be built and included in
 your distribution.
 
-If you are deploying openfiles in a Linux environment, you will need to
+If you are deploying ConnectSMB in a Linux environment, you will need to
 clone, build, and install smbcp on your Linux machine.
 
 ----------------------------
@@ -905,7 +910,7 @@ Building the smbcp Application
 ------------------------------
 
 Note that if you wish to build the smbcp application, you will have had to
-successfully build and installed the Open Files Framework.  You can find
+successfully build and installed the ConnectSMB Framework.  You can find
 more <a href=https://github.com/connectedway/openfiles/blob/main/README.md>
 here</a> and 
 <a href=https://github.com/connectedway/openfiles/blob/main/LINUX.md>here</a>.
@@ -976,7 +981,7 @@ smbcp Implementation
 ====================
 
 The implementatoin of the smbcp application is relevant for
-integrating customer applications with the Linux based openfiles framework.
+integrating customer applications with the Linux based ConnectSMB framework.
 
 --------------
 smbcp Makefile
@@ -986,7 +991,7 @@ The makefile is a basic make.  The smbcp application consists of one
 object file for each utility: smbcp.o, smbfree.o, smbls.o and smbrm.o.
 The object file is compiled using default CFLAGS which
 includes a specification of the sysroot which will contain the
-necessary openfiles header files.  The executable is linked with five
+necessary ConnectSMB header files.  The executable is linked with five
 shared libraries: 
 
 - libof_smb_shared 
@@ -1018,42 +1023,42 @@ are not described here.
 This readme will not go through line by line within the smbcp.c source file.
 Rather, we'll call out relevant sections.
 
-An openfiles application can use standard C libraries and with respect to
+An ConnectSMB application can use standard C libraries and with respect to
 smbcp, we use five.  The wchar.h file is included so we can convert ASCII
-characters to wide characters used as part of the openfiles API.  NOTE that
-openfiles exposes an ascii API as well but wide characters is recommended.
+characters to wide characters used as part of the ConnectSMB API.  NOTE that
+ConnectSMB exposes an ascii API as well but wide characters is recommended.
 
-There are seven openfiles header files used by this application.
-Openfiles provides a robust set of APIs for many services.  We
+There are seven ConnectSMB header files used by this application.
+ConnectSMB provides a robust set of APIs for many services.  We
 recommend viewing the /ref openiles documentation for more detail.
-The Openfiles recipe and makefiles installs a subset of the available
+The ConnectSMB recipe and makefiles installs a subset of the available
 APIs into the yocto sysroot.  If you find that particular headers are
 not available in your sysroot, Connected Way support will be glad to
 export them for you.
 
 A brief description of the headers used:
 
-- ofc/config.h - This provides constants that the openfiles framework was
+- ofc/config.h - This provides constants that the ConnectSMB framework was
 built with.  This will have defines for the maximum buffer size, whether
 smb I/O is supported and more.
 - ofc/handle.h - This defines a generic handle type used to refer to
-openfile objects.  Handles are used throughout openfiles and can refer to
+openfile objects.  Handles are used throughout ConnectSMB and can refer to
 files, queues, events, sockets and more.
-- ofc/types.h - This defines the basic types used by openfiles.
-- ofc/file.h - The API used by the openfiles file system.
+- ofc/types.h - This defines the basic types used by ConnectSMB.
+- ofc/file.h - The API used by the ConnectSMB file system.
 - ofc/waitset.h - This allows aggregation of waitable objects.  This is used
 by the asynchronous file copy to manage asynchronous completion of multiple
 buffers.
 - ofc/queue.h - This is a robust abstraction of a doubly linked list.  It
-is purely a convenience facility but is heavily used throughout the openfiles
+is purely a convenience facility but is heavily used throughout the ConnectSMB
 framework and within the smbcp application to maintain lists of buffers.
 - of_smb/framework.h - This is generally not needed.  For smbcp, we include
 it to expose the API for setting DFS bootstrap DCs.  This should not
 be necesary but is provided or example only.
 
 In the simple case, this is the full set of APIs needed to interact with
-the openfiles framework.  The main set of APIs is contained in the header
-`file.h`.  For the most part, the file API of Open Files is based on the
+the ConnectSMB framework.  The main set of APIs is contained in the header
+`file.h`.  For the most part, the file API of ConnectSMB is based on the
 Windows File APIs.
 
 The smbcp.c source file contains code for both the asynchronous file copy
@@ -1094,8 +1099,8 @@ queue depth of arbitrary buffer size (up to a max of OFC_MAX_IO).  If you
 have questions on the operation of the asynchrous copy, please contact
 Connected Way support.  The buffer management of the asynchronous copy
 is where most of the complication to this utility lies.  The buffer
-management utilizes the OpenFiles framework, thus the need for the 
-OpenFiles headers.
+management utilizes the ConnectSMB framework, thus the need for the 
+ConnectSMB headers.
 
 The entry point to the asynchronous file copy is
 
@@ -1147,10 +1152,10 @@ file copy that the asynchronous mode is more complex but it can offer
 considerable performance improvements
 
 This is the full list of APIs required for either mode.  This should help in
-understanding the level of effort in integrating openfiles with a customer
+understanding the level of effort in integrating ConnectSMB with a customer
 application.
 
-There are a few features of Open Files which allow this simple set of APIs:
+There are a few features of ConnectSMB which allow this simple set of APIs:
 
 - Implicit Framework Initialization and Destruction.  No explicit
 initialization required although explicit and static initialization is

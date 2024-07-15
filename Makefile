@@ -1,4 +1,4 @@
-macos_FLAGS=
+ocumentmacos_FLAGS=
 linux_FLAGS=
 win_FLAGS=
 # arm64-v8a/x86_64
@@ -192,6 +192,7 @@ linux-smb-client-install: linuxman-nodebug-smbclient-openssl-nojni-install
 linux-smb-client-uninstall: linuxman-nodebug-smbclient-openssl-nojni-uninstall
 linux-smb-client-test: linuxman-nodebug-smbclient-openssl-nojni-test
 linux-smb-client-reinstall: linuxman-nodebug-smbclient-openssl-nojni-reinstall
+linux-smb-client-docs: linuxman-nodebug-smbclient-openssl-nojni-docs
 
 linux-smb-client-vaporntlm: linuxman-nodebug-smbclient-openssl-nojni-build
 	OPEN_FILES_HOME=`pwd`/configs/linux-nodebug-smbclient-vaporntlm.xml; \
