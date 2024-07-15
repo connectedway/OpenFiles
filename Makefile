@@ -1,4 +1,4 @@
-ocumentmacos_FLAGS=
+macos_FLAGS=
 linux_FLAGS=
 win_FLAGS=
 # arm64-v8a/x86_64
