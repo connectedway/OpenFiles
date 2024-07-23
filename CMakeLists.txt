@@ -27,6 +27,15 @@ include(${OPENFILE_SMB})
 include(${OPENFILE_CIPHER})
 include(${OPENFILE_JNI})
 
+if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+  option(OFC_64BIT_POINTER "Compiler supports 64 bit pointers" ON)
+else()
+  option(OFC_64BIT_POINTER "Compiler supports 64 bit pointers" OFF)
+endif()  
+if(DEFINED OFC_64BIT_POINTER AND NOT DEFINED OFC_64BIT_INTEGER)
+    message(FATAL_ERROR "Must support 64 bit integers if 64 bit pointers defined")
+endif()
+
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror")
 
