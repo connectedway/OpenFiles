@@ -278,9 +278,22 @@ macos-smb-client-uninstall: macos-nodebug-smbclient-openssl-nojni-uninstall
 macos-smb-client-test: macos-nodebug-smbclient-openssl-nojni-test
 macos-smb-client-reinstall: macos-nodebug-smbclient-openssl-nojni-reinstall
 
-macos-smb-clientlb-test: macos-debug-smbclient-mbedtls-nojni-build
+macos-smb-clientlb-test: macos-debug-smbclient-gnutls-nojni-build
 	OPEN_FILES_HOME=$(CURDIR)/configs/macos-debug-smbclient.xml \
-	$(CURDIR)/build-macos-debug-smbclient-mbedtls-nojni/of_smb_fs/test/test_fs_smb
+	$(CURDIR)/build-macos-debug-smbclient-gnutls-nojni/of_smb_fs/test/test_fs_smb
+
+macos-smb-server:
+	-killall smbserver
+	DYLD_LIBRARY_PATH=/usr/local/lib \
+	PATH=$PATH:/usr/local/bin/openfiles \
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-debug-smbserver.xml \
+	$(CURDIR)/smbcp/smbserver&
+
+macos-smb-serverlb-test: macos-debug-smbclient-gnutls-nojni-build \
+	macos-smb-server
+	sleep 5
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-debug-smbserver.xml \
+	$(CURDIR)/build-macos-debug-smbclient-gnutls-nojni/of_smb_fs/test/test_fs_smb
 
 #
 # Alias for Macos Server Production Target

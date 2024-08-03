@@ -18,12 +18,12 @@
       <map>
         <drive>test</drive>
         <description>Remote for test_file</description>
-        <path>//user:happy@127.0.0.1:4445/spiritcloud/test/</path>
+        <path>//rschmitt:happy@127.0.0.1:4445/spiritcloud/test/</path>
       </map>
     </drives>
     <smb>
       <fqdn>openfiles.com</fqdn>
-      <serveruser>user</serveruser>
+      <serveruser>blue</serveruser>
       <serverpass>happy</serverpass>
       <max_events>5</max_events>
       <time_period>30000</time_period>
@@ -45,9 +45,9 @@
 	  <share>spiritcloud</share>
 	  <comment>test share</comment>
 	  <nativefs>fat</nativefs>
-	  <path>/tmp/spiritcloud/</path>
+	  <path>/Users/rschmitt/spiritcloud/</path>
 	  <exporttype>DISK</exporttype>
-	  <encrypted>yes</encrypted>
+	  <encrypted>no</encrypted>
 	</export>
       </exports>
       <servers>
