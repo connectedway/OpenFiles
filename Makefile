@@ -208,6 +208,18 @@ linux-smb-client-vaportest: \
 	linux-smb-client-vaporntlm \
 	linux-smb-client-vapordfs
 
+linux-smb-server:
+	-killall smbserver
+	LD_LIBRARY_PATH=/usr/local/lib64 \
+	PATH=$(PATH):/usr/local/bin/openfiles \
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver.xml \
+	$(CURDIR)/smbcp/smbserver&
+
+linux-smb-serverlb-test: linux-debug-smbclient-openssl-nojni-build \
+	linux-smb-server
+	sleep 5
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver.xml \
+	$(CURDIR)/build-linux-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
 #
 # Alias for Linux Server Production Target
 #
