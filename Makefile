@@ -211,7 +211,6 @@ linux-smb-client-vaportest: \
 linux-smb-server:
 	-killall smbserver
 	LD_LIBRARY_PATH=/usr/local/lib64 \
-	PATH=$(PATH):/usr/local/bin/openfiles \
 	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver.xml \
 	$(CURDIR)/smbcp/smbserver&
 
