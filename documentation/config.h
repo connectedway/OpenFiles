@@ -158,7 +158,7 @@ Configuration Item | Example | Description
 OFC_MAX_HANDLE16 | 100 | Max 16-bit handles (eg. 100)
 OFC_MAX_MAPS | 20 | Max file system maps (eg. 20)
 OFC_MAX_SCHED_WAIT | 4000 | Maximum scheduler sleep (eg. 4000)
-OFC_MAX_IO | 64436 | Maximum IO Buffer Size for Streaming (eg. 65536)
+OFC_MAX_IO | 65536 | Maximum IO Buffer Size for Streaming (eg. 65536)
 OFC_CALL_STACK_SIZE | 32768 | Maximum Buffer To Map for I/O (eg. 32768)
 
 =================
