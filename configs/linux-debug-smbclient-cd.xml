@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<of_core version="0.0">
+    <logging>
+      <console>yes</console>
+      <level>2</level>
+    </logging>
+    <devicename>localhost</devicename>
+    <uuid>00000000-0000-0000-0000-000000000000</uuid>
+    <description>Open Files</description>
+    <ip>
+        <autoip>no</autoip>
+        <interfaces>
+            <config>auto</config>
+        </interfaces>
+        <dnslist></dnslist>
+    </ip>
+    <drives>
+    </drives>
+    <smb>
+      <max_events>5</max_events>
+      <time_period>30000</time_period>
+      <max_version>0311</max_version>
+      <ciphers>
+        <cipher>aes128-ccm</cipher>
+        <cipher>aes128-gcm</cipher>
+      </ciphers>
+    </smb>
+</of_core>
+

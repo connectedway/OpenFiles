@@ -219,6 +219,11 @@ linux-smb-serverlb-test: linux-debug-smbclient-openssl-nojni-build \
 	sleep 5
 	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver.xml \
 	$(CURDIR)/build-linux-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
+
+linux-smbclient-cd-test: linux-debug-smbclient-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbclient-cd.xml \
+	$(CURDIR)/build-linux-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
+
 #
 # Alias for Linux Server Production Target
 #
