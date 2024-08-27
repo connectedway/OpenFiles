@@ -213,7 +213,7 @@ linux-smb-server:
 	LD_LIBRARY_PATH=/usr/local/lib64 \
 	PATH=$(PATH):/usr/local/bin/openfiles \
 	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver.xml \
-	$(CURDIR)/smbcp/smbserver&
+	$(CURDIR)/smbcp/smbserver
 
 linux-smb-serverlb-test: linux-debug-smbclient-openssl-nojni-build \
 	linux-smb-server
