@@ -251,6 +251,10 @@ linux-smb-server-tree-noencrypt-test: linux-debug-smbserver-openssl-nojni-build
 	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver-tree-noencrypt.xml \
 	$(CURDIR)/build-linux-debug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
+linux-smbclient-cd-test: linux-debug-smbclient-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbclient-cd.xml \
+	$(CURDIR)/build-linux-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
+
 linux-test-all: \
 	linux-full \
 	linux-smb-server-v2.02-test \
