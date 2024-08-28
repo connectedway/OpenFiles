@@ -329,6 +329,10 @@ macos-smb-server-tree-noencrypt-test: macos-nodebug-smbserver-openssl-nojni-buil
 	OPEN_FILES_HOME=$(CURDIR)/configs/macos-nodebug-smbserver-tree-noencrypt.xml \
 	$(CURDIR)/build-macos-nodebug-smbserver-openssl-nojni/of_smb_fs/test/test_fs_smb
 
+macos-smbclient-cd-test: macos-debug-smbclient-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-debug-smbclient-cd.xml \
+	$(CURDIR)/build-macos-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
+
 macos-test-all: \
 	macos-full \
 	macos-smb-server-v2.02-test \
