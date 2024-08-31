@@ -46,7 +46,15 @@
 	  <nativefs>fat</nativefs>
 	  <path>/tmp/spiritcloud/</path>
 	  <exporttype>DISK</exporttype>
-	  <encrypted>yes</encrypted>
+	  <encrypted>no</encrypted>
+	</export>
+	<export>
+	  <share>IPC$</share>
+	  <comment>IPC Share</comment>
+	  <nativefs>IPC</nativefs>
+	  <path>IPC:</path>
+	  <exporttype>PIPE</exporttype>
+	  <encrypted>no</encrypted>
 	</export>
       </exports>
       <servers>

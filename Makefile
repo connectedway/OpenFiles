@@ -211,15 +211,19 @@ linux-smb-client-vaportest: \
 linux-smb-server:
 	-killall smbserver
 	LD_LIBRARY_PATH=/usr/local/lib64 \
-	PATH=$(PATH):/usr/local/bin/openfiles \
 	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver.xml \
-	$(CURDIR)/smbcp/smbserver
+	$(CURDIR)/smbcp/smbserver&
 
 linux-smb-serverlb-test: linux-debug-smbclient-openssl-nojni-build \
 	linux-smb-server
 	sleep 5
 	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbserver.xml \
 	$(CURDIR)/build-linux-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
+
+linux-smbclient-cd-test: linux-debug-smbclient-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/linux-debug-smbclient-cd.xml \
+	$(CURDIR)/build-linux-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
+
 #
 # Alias for Linux Server Production Target
 #
@@ -290,9 +294,13 @@ macos-smb-client-uninstall: macos-nodebug-smbclient-openssl-nojni-uninstall
 macos-smb-client-test: macos-nodebug-smbclient-openssl-nojni-test
 macos-smb-client-reinstall: macos-nodebug-smbclient-openssl-nojni-reinstall
 
-macos-smb-clientlb-test: macos-debug-smbclient-gnutls-nojni-build
+macos-smb-clientlb-test: macos-debug-smbclient-openssl-nojni-build
 	OPEN_FILES_HOME=$(CURDIR)/configs/macos-debug-smbclient.xml \
-	$(CURDIR)/build-macos-debug-smbclient-gnutls-nojni/of_smb_fs/test/test_fs_smb
+	$(CURDIR)/build-macos-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
+
+macos-smbclient-cd-test: macos-debug-smbclient-openssl-nojni-build
+	OPEN_FILES_HOME=$(CURDIR)/configs/macos-debug-smbclient-cd.xml \
+	$(CURDIR)/build-macos-debug-smbclient-openssl-nojni/of_smb_fs/test/test_fs_smb
 
 macos-smb-server:
 	-killall smbserver
