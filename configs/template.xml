@@ -6,6 +6,7 @@
   </logging>
   <devicename>localhost</devicename>
   <uuid>00000000-0000-0000-0000-000000000000</uuid>
+  <realm>DOUBLEDOUBLEU.COM</realm>
   <description>Open Files</description>
   <ip>
     <autoip>no</autoip>
