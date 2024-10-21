@@ -537,6 +537,7 @@ create-mirrors:
 	$(call create-mirror,smbcp.git)
 	$(call create-mirror,of_core_fs_linux.git)
 	$(call create-mirror,of_core_linux.git)
+	$(call create-mirror,meta-connectedway.git)
 
 core-mirror:
 	$(call mirror-repo,$(HTTPS_URL_PREFIX),openfiles.git)
@@ -546,6 +547,7 @@ core-mirror:
 	$(call mirror-repo,$(HTTPS_URL_PREFIX),Unity.git)
 	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_fs_bookmarks.git)
 	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_fs_pipe.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),meta-connectedway)
 
 smb-mirror:
 	$(call mirror-repo,$(SSH_URL_PREFIX),of_smb.git)
