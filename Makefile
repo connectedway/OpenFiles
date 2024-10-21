@@ -438,7 +438,7 @@ win-smb-update: win-update smb-update
 #    git URL prefix of mirror is:
 #        The URL to the git directory for all openfiles repository mirrors
 #
-#   temporary mirror directory path is optional and is:
+#   temporary mirror directory path is:
 #       The optional path to a directory on your local machine that will
 #       hold the bare repository contents while mirroring.  If not
 #       specified, the path '/tmp/connectsmb-mirror' will be used.
@@ -451,11 +451,15 @@ win-smb-update: win-update smb-update
 #        win-mirror
 #        win-smb-mirror
 #
-# The git URL prefix for your mirror should be the prefix for the URL
-# and reflects the git directory of the openfiles repositories.  Prior
-# to makeing the mirroring targets, the repositories should be created on
-# the git server.  Otherwise, the mirroring operations will fail.  See
-# the note below for the list of repositories to create.
+# Example:
+#     $ make MIRROR_URL_PREFIX=ssh://git@git.example.com/connectsmb \
+#         linux-smb-mirror
+#
+# The MIRROR_URL_PREFIX should be the prefix for the URL to the connectsmb
+# repositories on the mirrored git server.  Prior to making the mirrors,
+# the repositories must be created on the specified git server.
+# Otherwise, the mirroring operations will fail.  See the note below for
+# the list of repositories to create.
 #
 # Typically a deployment only needs to mirror their intended platform and
 # flavor.  For example, a linux smb deployment would choose the mirror
@@ -464,9 +468,14 @@ win-smb-update: win-update smb-update
 #
 # NOTE: Repositories to pre-create on the local git server:
 #
-# Pick a repository directory on your git server.  As an example, we
-# could use "git.example.com/connectsmb".  Within that git server
-# directory, the following repositories must be created:
+# When creating the repositories on your mirrored git server, all
+# openfiles repositories should be created as siblings of one another.
+# We suggest they all exist within a git subdirectory on the server.
+#
+# For example, all repositories could be created in:
+#     git.example.com/connectsmb
+#
+# Within that git server directory, the following repositories must be created:
 #
 # Core Repositories.  These should be created regardless of deployment
 #    openfiles.git
@@ -476,6 +485,7 @@ win-smb-update: win-update smb-update
 #    of_core_fs_bookmarks.git
 #    of_core_fs_pipe.git
 #    Unity.git
+#    meta-connectedway.git
 #
 # SMB Repositories.  These should be created if you are mirroring an SMB
 # deployment.
