@@ -425,3 +425,152 @@ win-smb-init: win-init smb-init
 
 win-smb-update: win-update smb-update
 
+#
+# Mirroring Rules
+#
+# Issue make command as:
+#
+# $ make MIRROR_URL_PREFIX=<git URL prefix of mirror> \
+#    [ MIRROR_PATH=<temporary mirror directory path> ] \
+#    <mirror-target>
+#
+# Where:
+#    git URL prefix of mirror is:
+#        The URL to the git directory for all openfiles repository mirrors
+#
+#   temporary mirror directory path is optional and is:
+#       The optional path to a directory on your local machine that will
+#       hold the bare repository contents while mirroring.  If not
+#       specified, the path '/tmp/connectsmb-mirror' will be used.
+#
+#    mirror-target is one of:
+#        linux-mirror
+#        linux-smb-mirror
+#        macos-mirror
+#        macos-smb-mirror
+#        win-mirror
+#        win-smb-mirror
+#
+# The git URL prefix for your mirror should be the prefix for the URL
+# and reflects the git directory of the openfiles repositories.  Prior
+# to makeing the mirroring targets, the repositories should be created on
+# the git server.  Otherwise, the mirroring operations will fail.  See
+# the note below for the list of repositories to create.
+#
+# Typically a deployment only needs to mirror their intended platform and
+# flavor.  For example, a linux smb deployment would choose the mirror
+# target 'linux-smb-mirror' while a windows core deployment would choose
+# to mirror 'win-mirror'.
+#
+# NOTE: Repositories to pre-create on the local git server:
+#
+# Pick a repository directory on your git server.  As an example, we
+# could use "git.example.com/connectsmb".  Within that git server
+# directory, the following repositories must be created:
+#
+# Core Repositories.  These should be created regardless of deployment
+#    openfiles.git
+#    of_core.git
+#    of_core_cheap.git
+#    of_core_binheap.git
+#    of_core_fs_bookmarks.git
+#    of_core_fs_pipe.git
+#    Unity.git
+#
+# SMB Repositories.  These should be created if you are mirroring an SMB
+# deployment.
+#    of_smb.git
+#    of_smb_fs.git
+#    of_smb_client.git
+#    of_smb_browser.git
+#    of_security.git
+#    of_netbios.git
+#    smbcp.git
+#
+# Linux Platform Repositories.  These should be created if you are mirroring
+# a Linux deployment.
+#    of_core_linux.git
+#    of_core_fs_linux.git
+#
+# MacOS Platform Repositories.  These should be created if you are mirroring
+# a MacOS deployment.
+#    of_core_macos.git
+#    of_core_fs_macos.git
+#
+# Windowss Platform Repositories.  These should be created if you are mirroring
+# a Windows deployment.
+#    of_core_windows.git
+#    of_core_fs_windows.git
+
+HTTPS_URL_PREFIX := "https://github.com/connectedway"
+SSH_URL_PREFIX := "ssh://git@github.com/connectedway"
+MIRROR_PATH ?= "/tmp/connectsmb-mirror"
+
+define create-mirror
+	mkdir /tmp/connectsmb/$(1)
+	cd /tmp/connectsmb/$(1); \
+	git init --bare -q -b main
+endef
+
+define mirror-repo
+	git clone -n --bare $(1)/$(2) $(MIRROR_PATH)
+	cd $(MIRROR_PATH); \
+	git push --mirror $(MIRROR_URL_PREFIX)/$(2); \
+	rm -rf $(MIRROR_PATH)
+endef
+
+create-mirrors:
+	mkdir -p /tmp/connectsmb
+	$(call create-mirror,openfiles.git)
+	$(call create-mirror,of_core_cheap.git)
+	$(call create-mirror,of_core_binheap.git)
+	$(call create-mirror,of_core.git)
+	$(call create-mirror,Unity.git)
+	$(call create-mirror,of_core_fs_bookmarks.git)
+	$(call create-mirror,of_core_fs_pipe.git)
+	$(call create-mirror,of_smb.git)
+	$(call create-mirror,of_smb_fs.git)
+	$(call create-mirror,of_smb_client.git)
+	$(call create-mirror,of_security.git)
+	$(call create-mirror,of_smb_browser.git)
+	$(call create-mirror,of_netbios.git)
+	$(call create-mirror,smbcp.git)
+	$(call create-mirror,of_core_fs_linux.git)
+	$(call create-mirror,of_core_linux.git)
+
+core-mirror:
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),openfiles.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_cheap.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_binheap.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),Unity.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_fs_bookmarks.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_fs_pipe.git)
+
+smb-mirror:
+	$(call mirror-repo,$(SSH_URL_PREFIX),of_smb.git)
+	$(call mirror-repo,$(SSH_URL_PREFIX),of_smb_fs.git)
+	$(call mirror-repo,$(SSH_URL_PREFIX),of_smb_client.git)
+	$(call mirror-repo,$(SSH_URL_PREFIX),of_security.git)
+	$(call mirror-repo,$(SSH_URL_PREFIX),of_smb_browser.git)
+	$(call mirror-repo,$(SSH_URL_PREFIX),of_netbios.git)
+	$(call mirror-repo,$(SSH_URL_PREFIX),smbcp.git)
+
+macos-mirror: core-mirror
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_fs_darwin.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_darwin.git)
+
+macos-smb-mirror: macos-miror smb-mirror
+
+linux-mirror: core-mirror
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_fs_linux.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_linux.git)
+
+linux-smb-mirror: linux-mirror smb-mirror
+
+win-mirror: core-mirror
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_fs_windows.git)
+	$(call mirror-repo,$(HTTPS_URL_PREFIX),of_core_windows.git)
+
+win-smb-mirror: win-mirror smb-mirror
+
